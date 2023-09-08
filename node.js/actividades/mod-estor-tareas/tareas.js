@@ -1,20 +1,22 @@
 const listaTareas = [];
 
 function agregarTarea(tarea) {
-    return listaTareas.push(tarea);
+    listaTareas.push(tarea);
 }
 
 function listarTareas() {
-    return listaTareas;
+    listaTareas.forEach(function(tarea, indice) {
+      console.log("Tarea " + (indice + 1) + ": " + tarea);
+      });
+      return;
 }
 
 function eliminarTarea(indice) {
     return listaTareas.splice(indice, 1);
 }
 
-export {
+export default {
     agregarTarea,
     listarTareas,
     eliminarTarea
 }
-console.log(listaTareas);
