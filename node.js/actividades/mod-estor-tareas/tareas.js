@@ -6,7 +6,7 @@ function agregarTarea(tarea) {
 
 function listarTareas() {
     listaTareas.forEach(function(tarea, indice) {
-      console.log("Tarea " + (indice + 1) + ": " + tarea);
+      console.log(`Tarea ${indice + 1}: ${tarea}`);
       });
       return;
 }
