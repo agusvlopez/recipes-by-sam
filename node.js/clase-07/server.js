@@ -1,5 +1,7 @@
 import express from 'express';
 const app = express();
+app.use(express.json()); //interpreta el body cuando viene un JSON.
+
 
 //URI /products -- urlencode //aca identificamos el recurso que en este caso son los productos(products).
 
@@ -73,6 +75,44 @@ app.get('/products/:idProduct', function(req,res){
     }
 })
 
+//POST
+
+app.post('/products', function(req,res){
+
+    const product = {
+        id: products.length + 1,
+        name: req.body.name,
+        description: req.body.description,
+    }
+
+    products.push(product);
+    // status 201 es el creado
+    res.status(201).json(product);
+
+})
+
+//PUT
+
+app.put('/products/:idProduct', function(req,res){
+    
+    //obtengo el id del producto
+    const {idProduct} = req.params;
+    
+    // Busca el producto en el arreglo de productos por su ID
+     const productToUpdate = products.find((product) => product.id == idProduct);
+
+    // Verifica si el producto existe
+    if (!productToUpdate) {
+        return res.status(404).json({ msg: 'Producto no encontrado' });
+    }
+
+    // Actualiza las propiedades del producto con los valores proporcionados en el cuerpo de la solicitud
+    productToUpdate.name = req.body.name || productToUpdate.name;
+    productToUpdate.description = req.body.description || productToUpdate.description;
+
+    // Devuelve el producto actualizado
+    res.status(200).json(productToUpdate);
+})
 
 
 app.listen(2023, function() {
