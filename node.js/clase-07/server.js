@@ -114,6 +114,7 @@ app.put('/products/:idProduct', function(req,res){
     res.status(200).json(productToUpdate);
 })
 
+//DELETE... (me falta hacer)
 
 app.listen(2023, function() {
     console.log("El servidor esta levantado! http://localhost:2023");
