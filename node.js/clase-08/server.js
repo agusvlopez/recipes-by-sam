@@ -127,6 +127,44 @@ app.put('/products/:idProduct', function(req,res){
 
 //patch (actualiza)
 
+app.patch('/products/:idProduct', function(req,res){
+    
+    //obtengo el id del producto
+    const {idProduct} = req.params;
+
+    //preparo el objeto
+    const product = {};
+
+    if(req.body.name){
+        product.name = req.body.name;
+    }
+
+    if(req.body.description){
+        product.description = req.body.description;
+    }
+    //busco el objeto
+    let indexProduct = -1;
+
+    for(let i = 0; i < products.length; i++){
+        if(products[i].id == idProduct){
+            indexProduct = i;
+        }
+    }
+    
+    if(indexProduct != -1) {
+        //reemplazo el objeto
+        products[indexProduct] = {
+            ...products[indexProduct], //va aescribir todo lo que tiene el producto(nombre y descripcion)
+            ...product, //reemplaza el nombre o descripcion en caso de que haya para reemplazar 
+            id: products[indexProduct].id //forzar el id que tiene originalmente para que no se reemplace
+
+        }
+
+        res.status(200).json(products[indexProduct]);
+    }else{
+        res.status(404).json({msg: `El producto #${idProduct} no existe`});
+    }
+})
 
 
 
