@@ -44,8 +44,18 @@ const products = [
 
 //consulta a la API de un array
 app.get('/products', function(req,res){
+
+    //para filtrar los productos que estan eliminados al llamar con get hacemos lo siguiente:
+
+    const productsFilter = []
+
+    for(let i = 0; i < products.length; i++){
+        if(products[i].deleted != true){
+            productsFilter.push(products[i])
+        }
+    }
     //quiero devolver el 200 (todo ok)
-    res.status(200).json(products); //le digo que me envia en formato json el array 'products'
+    res.status(200).json(productsFilter); //le digo que me envia en formato json el array 'products'
 })
 
 //consulta a la api de un objeto en particular
@@ -167,8 +177,33 @@ app.patch('/products/:idProduct', function(req,res){
 })
 
 
+//DELETE... (eliminar)
+// eliminacion logica (la mas normal de usar)
+// eliminacion fisica (definitiva)
 
-//DELETE... (me falta hacer)
+app.delete('/products/:idProduct', function(req,res){
+    
+    //obtengo el id del producto
+    const {idProduct} = req.params;
+
+    //busco el objeto
+    let indexProduct = -1;
+
+    for(let i = 0; i < products.length; i++){
+        if(products[i].id == idProduct){
+            indexProduct = i;
+        }
+    }
+    
+    if(indexProduct != -1) {
+        // creamos una propiedad llamada deleted para indicar que el objeto esta eliminado 
+        products[indexProduct].deleted = true; 
+
+        res.status(200).json(products[indexProduct]);
+    }else{
+        res.status(404).json({msg: `El producto #${idProduct} no existe`});
+    }
+})
 
 
 app.listen(2023, function() {
