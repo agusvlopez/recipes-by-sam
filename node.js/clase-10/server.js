@@ -6,72 +6,111 @@ import express from 'express';
 const app = express();
 app.use(express.json()); //interpreta el body cuando viene un JSON.
 
-//consulta a la API de un array
-app.get('/products', function(req,res){
-    //leemos de forma asincronica el archivo:
-    //en vez de utilizar callback utiliza las promesas en este caso
-    //para decirle al file system que es un texto lo que quiero leer, le paso el parametro {encoding: 'utf-8'}
 
-    fs.readFile("data/products.json", {encoding: 'utf-8'})
+
+function notIgnored(product){
+    return product.deleted != true;
+}
+
+function filterDeleted(products){
+    const productsFilter = [];
+
+    for(let i = 0; i < products.length; i++){
+    if(notIgnored(products[i])){
+            productsFilter.push(products[i]);
+        }
+    }
+
+    return productsFilter;
+}
+
+async function getProductFile(){
+    
+    return fs.readFile("data/products.json", {encoding: 'utf-8'})
     .then(function(data){
+
         //transformo el texto en un objeto
         const products = JSON.parse(data);
 
         //para filtrar los productos que estan eliminados al llamar con get hacemos lo siguiente:
-        const productsFilter = [];
-
-        for(let i = 0; i < products.length; i++){
-        if(products[i].deleted != true){
-            productsFilter.push(products[i])
-        }
-    }
-        //quiero devolver el 200 (todo ok) 
-        //le digo que me envia en formato json el array 'productsFilter'
-        res.status(200).json(productsFilter); 
-
+        return products;
     })
-    .catch(function(err){
+}
+
+async function getProducts(){
+    //leemos de forma asincronica el archivo:
+    //en vez de utilizar callback utiliza las promesas en este caso
+    //para decirle al file system que es un texto lo que quiero leer, le paso el parametro {encoding: 'utf-8'}
+
+    return getProductFile()
+    .then(function(products){
+        //para filtrar los productos que estan eliminados al llamar con get hacemos lo siguiente:
+        return filterDeleted(products);
+    })
+}
+
+//consulta a la API de un array
+app.get('/products', function(req,res){
+
+        getProducts()
+        .then(function(products){
+            //quiero devolver el 200 (todo ok) 
+            //le digo que me envia en formato json el array 'productsFilter'
+            res.status(200).json(products); 
+        })
+        .catch(function(err){
         res.status(500).json({msg: "No se encuentra el archivo"});
     })
 
 })
 
-//consulta a la api de un objeto en particular
-//Le tengo que pasar una variable para que sea dinamico, para eso uso el ":"
-// query -> ? --filtrar
-//params -> URI -- id recurso
-//body -> cuerpo del mensaje -- recurso
+function findProduct(id, products){
+    let product = null;
+
+    for (let i = 0; i<products.length; i++){
+    if(products[i].id == id){
+        product = products[i];
+    }
+    }
+
+    return product;
+}
+
+async function getProductByID(id){
+    return getProducts()
+    .then(function(products){
+
+        let product = findProduct(id, products);
+        
+        if(product){
+            return product;
+        } 
+        else {
+           throw { code: 404, msg: "El producto no se encuentra en el sistema."}
+        }
+    })
+}
+
 
 app.get('/products/:idProduct', function(req,res){
     //obtengo el valor a traves de los params, puede ser de las dos siguientes formas:
     //const idProduct = req.params.idProduct;
     const {idProduct} = req.params;
     
-    fs.readFile("data/products.json", {encoding: 'utf-8'})
-    .then(function(data){
-
-        const products = JSON.parse(data);
-
-        let product = null;
-
-        for (let i = 0; i<products.length; i++){
-        if(products[i].id == idProduct){
-            product = products[i];
-        }
-        }
-        //si existe lo devuelvo, sino devuelvo un estado 404 con un mensaje
-        if(product){
-            res.status(200).json(product);
-        }else{
-            res.status(404).json({msg: `No se encuentra el producto #${idProduct}`});
-    }
+    getProductByID(idProduct)
+    .then(function(product){
+        return res.status(200).json(product)
     })
     .catch(function(err){
-        res.status(500).json({msg: "No se encuentra el archivo"});
-    })
+        if(err?.code){
+            res.status(err.code).json({msg: err.msg});
+        }
+        else {
+            res.status(500).json({msg: "No se pudo obtener el archivo"});
+        }
 
-   
-})
+    })
+});
 
 //POST
 
@@ -103,12 +142,12 @@ app.post('/products', function(req,res){
 
     //aca se ejecuta mientras esta aún leyendo
 
+
 })
 
 //PUT (reemplaza)
 
 app.put('/products/:idProduct', function(req,res){
-    
     //obtengo el id del producto
     const {idProduct} = req.params;
     //preparo el objeto
@@ -116,27 +155,49 @@ app.put('/products/:idProduct', function(req,res){
         name: req.body.name,
         description: req.body.description
     }
-    //busco el objeto
-    let indexProduct = -1;
 
-    for(let i = 0; i < products.length; i++){
-        if(products[i].id == idProduct){
-            indexProduct = i;
-        }
-    }
     
-    if(indexProduct != -1) {
-        //reemplazo el objeto
-        products[indexProduct] = {
-            ...product, //spread operator: se usa cuando no sabes cuantos parametros va a tener, entonces le decis aca va haber parametros(sin especificar cuantos)
-            id: products[indexProduct].id
+    fs.readFile("data/products.json", {encoding: "utf-8"})
+    .then(function(data){
+ 
+        const products = JSON.parse(data);
+        
+        //busco el objeto
+        let indexProduct = -1;
 
+        //busco el indice del objeto que estoy buscando en el array
+        for(let i = 0; i < products.length; i++){
+        if(products[i].id ==    idProduct){
+                indexProduct = i;
+            }
         }
 
-        res.status(200).json(products[indexProduct]);
-    }else{
-        res.status(404).json({msg: `El producto #${idProduct} no existe`});
-    }
+        if(indexProduct != -1) {
+            //reemplazo el objeto
+            products[indexProduct] = {
+                ...product, //spread operator: se usa cuando no sabes cuantos parametros va a tener, entonces le decis aca va haber parametros(sin especificar cuantos)
+                id: products[indexProduct].id
+    
+            }
+           //guardo en disco:
+            return fs.writeFile("data/products.json", JSON.stringify(products), {encoding: "utf-8"});
+        }else{
+            //todo lo que mande por el throw va a ir al catch
+            throw {code: 404, msg: "No se encuentra este producto"}
+        }
+        
+    })
+    .then(function(){
+        // status 201 es el creado
+        res.status(201).json(product);
+    })
+    .catch(function(err){
+        if(err?.code){
+            res.status(err.code).json({msg: err.msg});
+        }
+        res.status(500).json({msg: "No se pudo guardar el archivo"});
+    })
+   
 })
 
 //patch (actualiza)
