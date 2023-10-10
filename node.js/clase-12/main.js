@@ -5,7 +5,7 @@ import { MongoClient, ObjectId } from 'mongodb';
 //en el parametro pongo la URI o connection string(sin poner localhost)
 const client = new MongoClient('mongodb://127.0.0.1:27017');
 
-//funcion asincronica:
+//connect() es una funcion asincronica:
 client.connect()
 .then(async function(){
     console.log("Conectado al servidor");
@@ -23,15 +23,17 @@ client.connect()
     // console.log(doc);
 
 
-    const cursor = db.collection("Users").find();
+    //  const cursor = db.collection("Users").find();
 
+    //recorre todo el cursor, genera un array y lo devuelve
     const docs = await db.collection("Users").find({type: "Alumno"}).toArray();
-    
-    const update = await db.collection("Users").updateOne({_id: new ObjectId('651ca3b72574213f2e6d4cef')}, {
-        $set: {
-            name: "Usuario nuevo"
-        }
-    })
+    console.log(docs);
+
+     const update = await db.collection("Users").updateOne({_id: new ObjectId('651ca3b72574213f2e6d4cef')}, {
+         $set: {
+             name: "Nuevo usuario"
+         }
+     })
 
 })
 .catch(function(err){
