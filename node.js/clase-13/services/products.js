@@ -10,11 +10,35 @@ const ProductCollection = db.collection('products');
 function filterQueryToMongo(filter){
     const filterMongo = {};
     
-    if(filter.id){
-        filterMongo.id = parseInt(filter.id);
+    for(const filed in filter){
+        if(isNaN(filter[filed])){
+            filterMongo[filed] = filter[filed];
+        }
+        else {
+            const [field, op] = filed.split('_');
 
-        return filterMongo;
-    }
+            if(!op){
+                filterMongo[filed] = parseInt(filter[filed]);
+            }
+            else {
+                if(op === 'min'){
+                    filterMongo[field] = {
+                        $gte: parseInt(filter[filed])
+                    }
+                }
+                else if(op === 'max'){
+                    filterMongo[field] = {
+                        $lte: parseInt(filter[filed])
+                    }
+                }
+            }
+          
+        }
+        
+    }    
+
+    return filterMongo;
+   
 }
 
 async function getProducts(filter = {}) {
