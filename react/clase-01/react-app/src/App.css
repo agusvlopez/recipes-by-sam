@@ -1,0 +1,21 @@
+.nav-principal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.nav-principal--dark {
+  background-color: black;
+  color: whitesmoke;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav-principal li {
+list-style: none;
+}
+
+.nav-principal__item {
+
+}

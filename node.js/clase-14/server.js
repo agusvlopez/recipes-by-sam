@@ -1,11 +1,12 @@
 import express from 'express';
-import ProductsRoute from './routes/products.js'
+import ProductsRoute from './routes/products.js';
+import ProductsReviews from './routes/productsReviews.js';
 
 const app = express();
 app.use(express.json()); //interpreta el body cuando viene un JSON.
 
 app.use(ProductsRoute);
-
+app.use(ProductsReviews);
 
 //POST
 

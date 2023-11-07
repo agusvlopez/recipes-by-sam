@@ -3,7 +3,7 @@ import ProductsReviewController from '../controllers/productsReview.js';
 
 const route = express.Router();
 
-route.route('/:idProduct/reviews')
+route.route('/products/:idProduct/reviews')
 .get(ProductsReviewController.getReviews)
 .post(ProductsReviewController.createReview)
 
