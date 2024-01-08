@@ -1,44 +1,96 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css' //esto lo resuelve vite
 //componente
+import ProductsList from '../ProductsList';
+import { createBrowserRouter, Link, Outlet, Router, RouterProvider } from 'react-router-dom';
+import AboutPage from "./pages/AboutPage";
+import Contact from './pages/Contact';
+import NotFoundPage from './pages/NotFoundPage';
+import ProductViewPage from './pages/ProductViewPage';
 
 
-const Navbar = ({dark, links}) => {
+const route = createBrowserRouter([
+  {
+    path: '/',
+    element: <AppMain />,
+    errorElement: <NotFoundPage />,
+    children: [
+      {
+        path: 'products',
+        element: <Outlet />,
+        children: [
+          {
+            path: '',
+            element: <ProductsList />
+          },
+          {
+            path: ':idProduct',
+            element: <ProductViewPage />
+          }
+        ],
+      },
+      {
+        path: 'about',
+        element: <AboutPage />
+      },
+      {
+        path: 'contact',
+        element: <Contact />
+      },
+    ]
+  },
+]);
+
+function App() {
+  return (
+    <RouterProvider router={route} />
+  )
+}
+
+const Navbar = ({ dark, links }) => {
 
   // const { dark } = props;
   let className = 'nav-principal';
 
-  if(dark){
+  if (dark) {
     className += ' nav-principal--dark'
   }
 
   const liLinks = [];
 
-    return (
-      <nav>
+  return (
+    <nav>
       <ul className={className}>
-        {links.map((element, index) =><li key={index}><a className="nav-principal__item" href={element.url}>{element.texto}</a></li>)}
+        {links.map((element, index) => <li key={index}><Link to={element.url} className="nav-principal__item" >{element.texto}</Link></li>)}
+        <p>{links.length}</p>
+        {links.length > 6 &&
+          <Mensaje show={links.length === 7}
+          >
+            Hay muchos links ...
+          </Mensaje>
+        }
       </ul>
-      </nav>
-    )
+    </nav>
+  )
 }
 
-const Titulo = ({children}) => {
+const Titulo = ({ children }) => {
   return (<h1>{children}</h1>)
 }
 
 const Header = () => {
   const [links, setLinks] = useState([
-    {url: '#', texto: 'Home'},
-    {url: '#', texto: 'Nosotros'},
-    {url: '#', texto: 'Contacto'},
-    {url: '#', texto: 'FAQ'}
+    { url: '/', texto: 'Home' },
+    { url: '/about', texto: 'Nosotros' },
+    { url: '/products', texto: 'Productos' },
+    { url: '/contact', texto: 'Contacto' },
+    { url: '/faq', texto: 'FAQ' }
   ]);
-  
+
   const handleClick = () => {
 
-  setLinks([...links, {
-    url: '#', texto: 'Nuevo',
+    setLinks([...links, {
+      url: '#', texto: 'Nuevo',
     }]);
 
   }
@@ -48,26 +100,49 @@ const Header = () => {
       <Titulo>
         <span>Titulo de mi web!</span>
       </Titulo>
-      <p>{links.length}</p>
       <Navbar dark={true} links={links} />
-      <button onClick={handleClick}>Agregar</button>
+
     </header>
   )
 }
+//Render(estados):
+// Monto el componente y se ejecuta el render
 
+//cambia el estado
+//cambia el contexto(hooks)
+//cambian las propiedades
 
+// se destruye
 
-function App() {
+function Mensaje({ show = false, children }) {
+
+  useEffect(() => {
+    console.log("Se ejecuta cuando se monta el componente");
+
+    return () => {
+      console.log("Se ejecuta cuando se desmonta el componente");
+    }
+  }, []);
+
+  if (show) {
+    return <p>{children}</p>
+  }
+
+  return null;
+}
+
+function AppMain() {
 
   return (
     <>
-    <Header></Header>
-    <h1>Hola mundo!</h1>
+      <Header />
+      <h1>App Main</h1>
+      <Outlet />
     </>
   )
 }
 export {
-  App,
+  AppMain,
   Header,
   Navbar
 }

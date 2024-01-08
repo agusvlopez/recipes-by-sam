@@ -19,3 +19,7 @@ list-style: none;
 .nav-principal__item {
 
 }
+
+.product-list {
+  display: flex;
+}
