@@ -6,6 +6,7 @@ import ProductsController from '../controllers/products.js'
 import ProductsReviewRoute from './productsReviews.js';
 import { accedio, isAdmin } from '../middleware/acceso.js';
 import { validateCreateProduct } from '../middleware/products.js';
+import { verifySession } from '../middleware/account.js';
 
 //aca creamos una ruta
 const route = express.Router();
@@ -18,7 +19,7 @@ const route = express.Router();
 // }
 
 //aca decidimos que queremos hacer:
-route.get('/products', ProductsController.getProducts);
+route.get('/products', [verifySession], ProductsController.getProducts);
 route.post('/products', [validateCreateProduct], ProductsController.createProduct);
 route.get('/products/:idProduct', ProductsController.getProductByID);
 

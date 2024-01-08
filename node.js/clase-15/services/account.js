@@ -7,9 +7,10 @@ import jwt from "jsonwebtoken";
 const client = new MongoClient('mongodb://127.0.0.1:27017');
 const db = client.db("test");
 const AccountsCollection = db.collection('accounts');
+const TokensCollection = db.collection('tokens');
 
 
-async function createAccount(account){
+async function createAccount(account) {
     await client.connect();
     const newAccount = {
         ...account
@@ -22,34 +23,58 @@ async function createAccount(account){
     await AccountsCollection.insertOne(newAccount);
 }
 
-async function verifyAccount(account){
-
-}
-
-async function createSession(account){
+async function verifyAccount(account) {
     await client.connect();
 
-    let accountData = await AccountsCollection.findOne({email: account.email});
+    let accountData = await AccountsCollection.findOne({ email: account.email });
 
-    if(!accountData){  
-        throw {msg: "No se encontró el email en la base de datos"}
+    if (!accountData) {
+        throw { msg: "No se encontró el email en la base de datos" }
     }
 
-    if(!await (bcrypt.compare(account.password, accountData.password))){
+    if (!await (bcrypt.compare(account.password, accountData.password))) {
         throw { msg: "El password es incorrecto" }
     };
 
-    return {account: {...account, password: undefined}, token: jwt.sign({email: account.email,
-        user_id: null
-    }, "CLAVE SECRETA") };
+    return { ...account, password: undefined };
 }
 
-async function verifyToken(token){
-    return jwt.verify(token, "CLAVE SECRETA");
+async function createToken(payload) {
+    const token = jwt.sign(payload, "CLAVE SECRETA");
+
+    TokensCollection.insertOne({ token, email: payload.email });
+
+    return token;
 }
 
+async function createSession(account) {
+
+    return {
+        account: await verifyAccount(account),
+        token: await createToken({ ...account, password: undefined })
+    };
+}
+
+async function verifyToken(token) {
+    await client.connect();
+
+    const payload = jwt.verify(token, "CLAVE SECRETA");
+    if (!await TokensCollection.findOne({ token })) {
+        throw { msg: "El token no está en la base de datos." }
+    }
+
+    return payload;
+}
+
+async function deleteSession(token) {
+    await client.connect();
+
+    TokensCollection.deleteOne({ token });
+}
 export default {
     createAccount,
     createSession,
-    verifyToken
+    createSession,
+    verifyToken,
+    deleteSession,
 }
