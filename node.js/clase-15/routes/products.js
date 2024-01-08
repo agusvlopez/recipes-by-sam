@@ -11,6 +11,10 @@ import { verifySession } from '../middleware/account.js';
 //aca creamos una ruta
 const route = express.Router();
 
+route.use('/products', [verifySession]);
+
+//route.all('/products', [verifySession]);
+
 // function userData(req, res, next){
 //     req.user = {
 //         name: "Ana Diaz"
@@ -19,10 +23,11 @@ const route = express.Router();
 // }
 
 //aca decidimos que queremos hacer:
-route.get('/products', [verifySession], ProductsController.getProducts);
+route.get('/products', ProductsController.getProducts);
 route.post('/products', [validateCreateProduct], ProductsController.createProduct);
 route.get('/products/:idProduct', ProductsController.getProductByID);
 
-route.use('/products/', ProductsReviewRoute);
+route.use('/products', ProductsReviewRoute);
+
 //exportamos la ruta
 export default route;

@@ -7,7 +7,8 @@ import AboutPage from "./pages/AboutPage";
 import Contact from './pages/Contact';
 import NotFoundPage from './pages/NotFoundPage';
 import ProductViewPage from './pages/ProductViewPage';
-
+import LoginPage from './pages/LoginPage';
+import RoutePrivate from './components/RoutePrivate';
 
 const route = createBrowserRouter([
   {
@@ -17,7 +18,7 @@ const route = createBrowserRouter([
     children: [
       {
         path: 'products',
-        element: <Outlet />,
+        element: <RoutePrivate><Outlet /></RoutePrivate>,
         children: [
           {
             path: '',
@@ -39,6 +40,10 @@ const route = createBrowserRouter([
       },
     ]
   },
+  {
+    path: '/login',
+    element: <LoginPage />
+  }
 ]);
 
 function App() {
@@ -61,7 +66,15 @@ const Navbar = ({ dark, links }) => {
   return (
     <nav>
       <ul className={className}>
-        {links.map((element, index) => <li key={index}><Link to={element.url} className="nav-principal__item" >{element.texto}</Link></li>)}
+        {links.map((element, index) => {
+          if (element.private && !localStorage.getItem('token')) {
+            return null;
+          }
+          return <li key={index}>
+            <Link to={element.url} className="nav-principal__item" >{element.texto}</Link>
+          </li>
+        }
+        )}
         <p>{links.length}</p>
         {links.length > 6 &&
           <Mensaje show={links.length === 7}
@@ -82,7 +95,7 @@ const Header = () => {
   const [links, setLinks] = useState([
     { url: '/', texto: 'Home' },
     { url: '/about', texto: 'Nosotros' },
-    { url: '/products', texto: 'Productos' },
+    { url: '/products', texto: 'Productos', private: true },
     { url: '/contact', texto: 'Contacto' },
     { url: '/faq', texto: 'FAQ' }
   ]);
