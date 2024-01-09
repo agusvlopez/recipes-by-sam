@@ -1,4 +1,4 @@
-import './App.css' //esto lo resuelve vite
+import './App.css'; //esto lo resuelve vite
 //componente
 import ProductsList from '../ProductsList';
 import { createBrowserRouter, Link, Outlet, Router, RouterProvider, useNavigate } from 'react-router-dom';

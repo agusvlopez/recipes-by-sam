@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .nav-principal {
   display: flex;
   justify-content: space-between;
@@ -13,12 +17,10 @@
 }
 
 .nav-principal li {
-list-style: none;
+  list-style: none;
 }
 
-.nav-principal__item {
-
-}
+.nav-principal__item {}
 
 .product-list {
   display: flex;
