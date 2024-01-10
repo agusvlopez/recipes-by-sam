@@ -6,7 +6,6 @@ function AppMain() {
     return (
         <>
             <Header />
-            <h1>App Main</h1>
             <Outlet />
         </>
     );

@@ -1,6 +1,6 @@
 import './App.css'; //esto lo resuelve vite
 //componente
-import ProductsList from '../ProductsList';
+import ProductsList from './components/ProductsList';
 import { createBrowserRouter, Link, Outlet, Router, RouterProvider, useNavigate } from 'react-router-dom';
 import AboutPage from "./pages/AboutPage";
 import Contact from './pages/Contact';
@@ -9,6 +9,8 @@ import ProductViewPage from './pages/ProductViewPage';
 import LoginPage from './pages/LoginPage';
 import RoutePrivate from './components/RoutePrivate';
 import { AppMain } from './components/AppMain';
+import HomePage from './pages/HomePage';
+import RegisterPage from './pages/RegisterPage';
 
 const route = createBrowserRouter([
   {
@@ -38,12 +40,20 @@ const route = createBrowserRouter([
         path: 'contact',
         element: <Contact />
       },
+      {
+        path: '/',
+        element: <HomePage />
+      }
     ]
   },
   {
     path: '/login',
     element: <LoginPage />
-  }
+  },
+  {
+    path: '/register',
+    element: <RegisterPage />
+  },
 ]);
 
 function App() {

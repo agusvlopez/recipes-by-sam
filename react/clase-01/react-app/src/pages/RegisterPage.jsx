@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
+function RegisterPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -18,7 +18,7 @@ function LoginPage() {
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        fetch('http://localhost:2023/api/session', {
+        fetch('http://localhost:2023/api/account', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -28,8 +28,8 @@ function LoginPage() {
             .then((res) => res.json())
             .then((result) => {
                 console.log(result);
-                localStorage.setItem('token', result.session.token);
-                localStorage.setItem('email', result.session.account.email);
+                localStorage.setItem('token', result.account.token);
+                localStorage.setItem('email', email);
                 navigate('/', { replace: true });
                 console.log(result);
             });
@@ -39,7 +39,7 @@ function LoginPage() {
         <>
             <div className="min-h-screen flex items-center justify-center bg-gray-100">
                 <form onSubmit={handleFormSubmit} className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
-                    <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Iniciar sesión</h2>
+                    <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Register</h2>
 
                     <label htmlFor="email" className="block text-gray-700">Email:</label>
                     <input
@@ -51,7 +51,7 @@ function LoginPage() {
                         className="mt-1 p-2 w-full border rounded-md"
                     />
 
-                    <label htmlFor="pass" className="block mt-4 text-gray-700">Contraseña:</label>
+                    <label htmlFor="pass" className="block mt-4 text-gray-700">Password:</label>
                     <input
                         id="pass"
                         type="password"
@@ -65,7 +65,7 @@ function LoginPage() {
                         type="submit"
                         className="mt-6 bg-indigo-600 p-2 rounded-md text-white w-full hover:bg-indigo-700 focus:outline-none focus:ring focus:border-indigo-700"
                     >
-                        Iniciar sesión
+                        Register
                     </button>
                 </form>
             </div>
@@ -73,4 +73,4 @@ function LoginPage() {
     )
 }
 
-export default LoginPage;
+export default RegisterPage;

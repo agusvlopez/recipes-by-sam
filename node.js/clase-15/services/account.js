@@ -9,11 +9,11 @@ const db = client.db("test");
 const AccountsCollection = db.collection('accounts');
 const TokensCollection = db.collection('tokens');
 
-
 async function createAccount(account) {
     await client.connect();
     const newAccount = {
-        ...account
+        ...account,
+        role: 'client'
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -21,6 +21,10 @@ async function createAccount(account) {
     newAccount.password = await bcrypt.hash(account.password, salt);
 
     await AccountsCollection.insertOne(newAccount);
+
+    return {
+        token: await createToken({ ...account, password: undefined })
+    };
 }
 
 async function verifyAccount(account) {

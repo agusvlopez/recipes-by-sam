@@ -5,9 +5,9 @@ import { Title } from './Title';
 function Header() {
     const [links, setLinks] = useState([
         { url: '/', texto: 'Home' },
-        { url: '/about', texto: 'Nosotros' },
-        { url: '/products', texto: 'Productos', private: true },
-        { url: '/contact', texto: 'Contacto' },
+        { url: '/about', texto: 'About' },
+        { url: '/products', texto: 'Products', private: true },
+        { url: '/contact', texto: 'Contact' },
         { url: '/faq', texto: 'FAQ' }
     ]);
 
@@ -18,9 +18,6 @@ function Header() {
     return (
         <header>
             <Navbar dark={true} links={links} />
-            <Title>
-                <span>Titulo de mi web!</span>
-            </Title>
         </header>
     );
 }

@@ -2,8 +2,8 @@ import accountService from '../services/account.js';
 
 function createAccount(req, res) {
     accountService.createAccount(req.body)
-        .then(() => {
-            res.status(201).json({ msg: "Cuenta creada con éxito" });
+        .then((account) => {
+            res.status(201).json({ msg: "Cuenta creada con éxito", account });
         })
         .catch(() => {
             res.status(500).json({ msg: "Fallo al crear la cuenta" })

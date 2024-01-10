@@ -14,9 +14,14 @@ function Navbar({ dark, links }) {
         navigate('/login');
     };
 
+    const handleRegister = () => {
+        navigate('/register');
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('token');
-        navigate('/');
+        localStorage.removeItem('email');
+        navigate('/login');
     };
 
     return (
@@ -42,11 +47,18 @@ function Navbar({ dark, links }) {
                         </button>
                     </li>
                 ) : (
-                    <li>
-                        <button onClick={handleLogin} className="nav-principal__item">
-                            Login
-                        </button>
-                    </li>
+                    <>
+                        <li>
+                            <button onClick={handleLogin} className="nav-principal__item">
+                                Login
+                            </button>
+                        </li>
+                        <li>
+                            <button onClick={handleRegister} className="nav-principal__item">
+                                Register
+                            </button>
+                        </li>
+                    </>
                 )}
             </ul>
         </nav>
