@@ -11,6 +11,8 @@ import RoutePrivate from './components/RoutePrivate';
 import { AppMain } from './components/AppMain';
 import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
+import AdminPage from './pages/AdminPage';
+import RouteAdminPrivate from './components/RouteAdminPrivate';
 
 const route = createBrowserRouter([
   {
@@ -43,7 +45,11 @@ const route = createBrowserRouter([
       {
         path: '/',
         element: <HomePage />
-      }
+      },
+      {
+        path: '/admin',
+        element: <RouteAdminPrivate><AdminPage /></RouteAdminPrivate>
+      },
     ]
   },
   {

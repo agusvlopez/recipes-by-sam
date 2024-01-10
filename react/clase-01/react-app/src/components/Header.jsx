@@ -8,7 +8,7 @@ function Header() {
         { url: '/about', texto: 'About' },
         { url: '/products', texto: 'Products', private: true },
         { url: '/contact', texto: 'Contact' },
-        { url: '/faq', texto: 'FAQ' }
+        // { url: '/faq', texto: 'FAQ' }
     ]);
 
     const handleClick = () => {

@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  color: #876445;
+}
+
+button {
+  background-color: #789395;
+}
+
 .nav-principal {
   display: flex;
   justify-content: space-between;
@@ -10,10 +18,11 @@
 }
 
 .nav-principal--dark {
-  background-color: black;
+  background-color: #876445;
   color: whitesmoke;
   display: flex;
   flex-wrap: wrap;
+  font-weight: 600;
 }
 
 .nav-principal li {

@@ -35,14 +35,6 @@ function ProductsList({ }) {
     }, []); //el array vacio significa que se ejecuta solamente cuando se monta el componente.
     //con el useEffect() controlamos los cambios de estados y las actualizaciones..
 
-    useEffect(() => {
-        console.log("Cambiar la variable");
-    }, [products]);
-
-    const handleError = () => {
-        setError("Error forzado");
-    }
-
     return (
         <>
             <div className="container mx-auto pt-6 mt-6">
@@ -54,6 +46,9 @@ function ProductsList({ }) {
                                 <Link to={`/products/${product._id}`} className="text-xl font-bold mb-2 text-indigo-600 hover:underline">{product.name}</Link>
                                 <p className="text-gray-500 mb-4">{product.description}</p>
                                 <img src={product.imageUrl} alt={product.name} className="w-full h-48 object-cover mb-4" />
+                                <div className="flex items-center justify-between">
+                                    <p className="text-gray-600">Price: ${product.price}</p>
+                                </div>
                             </div>
                         </Link>
                     ))}

@@ -21,9 +21,13 @@ function Navbar({ dark, links }) {
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('email');
+        localStorage.removeItem('role');
         navigate('/login');
     };
 
+    const handleAdmin = () => {
+        navigate('/admin');
+    }
     return (
         <nav>
             <ul className={className}>
@@ -60,6 +64,13 @@ function Navbar({ dark, links }) {
                         </li>
                     </>
                 )}
+                {localStorage.getItem('role') == 'admin' &&
+                    <li>
+                        <button onClick={handleAdmin} className="nav-principal__item">
+                            Admin
+                        </button>
+                    </li>
+                }
             </ul>
         </nav>
     );

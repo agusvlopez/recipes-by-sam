@@ -30,6 +30,7 @@ function LoginPage() {
                 console.log(result);
                 localStorage.setItem('token', result.session.token);
                 localStorage.setItem('email', result.session.account.email);
+                localStorage.setItem('role', result.session.account.role);
                 navigate('/', { replace: true });
                 console.log(result);
             });
@@ -37,7 +38,7 @@ function LoginPage() {
 
     return (
         <>
-            <div className="min-h-screen flex items-center justify-center bg-gray-100">
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <form onSubmit={handleFormSubmit} className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
                     <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Iniciar sesión</h2>
 
@@ -63,7 +64,7 @@ function LoginPage() {
 
                     <button
                         type="submit"
-                        className="mt-6 bg-indigo-600 p-2 rounded-md text-white w-full hover:bg-indigo-700 focus:outline-none focus:ring focus:border-indigo-700"
+                        className="mt-6 bg-indigo-500 p-2 rounded-md text-white w-full hover:bg-indigo-700 focus:outline-none focus:ring focus:border-indigo-700"
                     >
                         Iniciar sesión
                     </button>

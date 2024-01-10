@@ -80,7 +80,7 @@ function ProductViewPage({ }) {
     return (
         <>
             <div className="container mx-auto pt-6 mt-6">
-                <Title>Detalle del producto</Title>
+                <Title>Product Detail</Title>
                 {product ? (
                     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
                         <h2 className="text-2xl font-bold mb-4">{product.name}</h2>
@@ -88,17 +88,16 @@ function ProductViewPage({ }) {
 
                         {/* Puedes agregar más detalles del producto según sea necesario */}
                         <div className="flex items-center justify-between">
-                            <p className="text-gray-600">Precio: ${product.price}</p>
+                            <p className="text-gray-600">Price: ${product.price}</p>
                         </div>
 
-                        {/* Sección de comentarios */}
                         <div className="mt-8">
-                            <h4 className="text-xl font-bold mb-4">Comentarios de Usuarios</h4>
+                            <h4 className="text-xl font-bold mb-4">Comments</h4>
                             <div className="mb-4">
                                 <textarea
                                     rows="4"
                                     cols="50"
-                                    placeholder="Añadir un comentario..."
+                                    placeholder="Add a comment..."
                                     value={newComment}
                                     onChange={handleNewComment}
                                     className="p-2 border rounded-md w-full"
@@ -107,7 +106,7 @@ function ProductViewPage({ }) {
                                     onClick={handleCommentSubmit}
                                     className="mt-2 bg-indigo-500 text-white p-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:border-indigo-700"
                                 >
-                                    Enviar Comentario
+                                    Send Comment
                                 </button>
                             </div>
 
@@ -120,7 +119,7 @@ function ProductViewPage({ }) {
                         </div>
                     </div>
                 ) : (
-                    <p>Cargando...</p>
+                    <p>Loading...</p>
                 )}
             </div>
         </>

@@ -37,15 +37,23 @@ export default function HomePage() {
                             <h3 className="text-lg font-semibold mb-2">Nombre de la Receta</h3>
                             {/* Otras detalles de la receta */}
                         </div>
-
                         {/* Receta destacada 2 */}
                         <div className="bg-white p-4 rounded-md shadow-md">
                             {/* Contenido de la receta destacada 2 */}
                             <h3 className="text-lg font-semibold mb-2">Nombre de la Receta</h3>
                             {/* Otras detalles de la receta */}
                         </div>
+                        <div className="bg-white p-4 rounded-md shadow-md">
+                            {/* Contenido de la receta destacada 2 */}
+                            <h3 className="text-lg font-semibold mb-2">Nombre de la Receta</h3>
+                            {/* Otras detalles de la receta */}
+                        </div>
+                        <div className="bg-white p-4 rounded-md shadow-md">
+                            {/* Contenido de la receta destacada 2 */}
+                            <h3 className="text-lg font-semibold mb-2">Nombre de la Receta</h3>
+                            {/* Otras detalles de la receta */}
+                        </div>
 
-                        {/* ... Más recetas destacadas ... */}
                     </div>
                 </div>
             </section>

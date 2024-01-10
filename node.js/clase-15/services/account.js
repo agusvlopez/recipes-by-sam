@@ -23,7 +23,7 @@ async function createAccount(account) {
     await AccountsCollection.insertOne(newAccount);
 
     return {
-        token: await createToken({ ...account, password: undefined })
+        token: await createToken({ ...account, password: undefined, role: account.role })
     };
 }
 
@@ -40,22 +40,23 @@ async function verifyAccount(account) {
         throw { msg: "El password es incorrecto" }
     };
 
-    return { ...account, password: undefined };
+    return { ...account, password: undefined, role: accountData.role };
 }
 
 async function createToken(payload) {
     const token = jwt.sign(payload, "CLAVE SECRETA");
 
-    TokensCollection.insertOne({ token, email: payload.email });
+    TokensCollection.insertOne({ token, email: payload.email, role: payload.role });
 
     return token;
 }
 
 async function createSession(account) {
+    let accountData = await AccountsCollection.findOne({ email: account.email });
 
     return {
         account: await verifyAccount(account),
-        token: await createToken({ ...account, password: undefined })
+        token: await createToken({ ...account, password: undefined, role: accountData.role })
     };
 }
 
