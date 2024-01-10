@@ -79,7 +79,7 @@ function ProductViewPage({ }) {
 
     return (
         <>
-            <div className="container mx-auto pt-6">
+            <div className="container mx-auto pt-6 mt-6">
                 <Title>Detalle del producto</Title>
                 {product ? (
                     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
