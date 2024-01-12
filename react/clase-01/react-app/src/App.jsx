@@ -11,8 +11,11 @@ import RoutePrivate from './components/RoutePrivate';
 import { AppMain } from './components/AppMain';
 import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
-import AdminPage from './pages/AdminPage';
+import DashboardPage from './pages/admin/DashboardPage';
 import RouteAdminPrivate from './components/RouteAdminPrivate';
+import AllProductsPage from './pages/admin/AllProductsPage';
+import DetailProductPage from './pages/admin/DetailProductPage';
+import NewProductPage from './pages/admin/NewProductPage';
 
 const route = createBrowserRouter([
   {
@@ -46,9 +49,40 @@ const route = createBrowserRouter([
         path: '/',
         element: <HomePage />
       },
+    ]
+  },
+  {
+    path: '/',
+    element: <RouteAdminPrivate><DashboardPage /></RouteAdminPrivate>,
+    errorElement: <NotFoundPage />,
+    children: [
       {
-        path: '/admin',
-        element: <RouteAdminPrivate><AdminPage /></RouteAdminPrivate>
+        path: 'admin',
+        element: <Outlet />,
+        children: [
+          {
+            path: 'products',
+            element: <Outlet />,
+            children: [
+              {
+                path: '',
+                element: <AllProductsPage />,
+              },
+              {
+                path: ':idProduct',
+                element: <DetailProductPage />,
+              },
+              {
+                path: 'newProduct',
+                element: <NewProductPage />,
+              }
+            ],
+          },
+          {
+            path: 'accounts',
+            element: <ProductViewPage />
+          }
+        ],
       },
     ]
   },

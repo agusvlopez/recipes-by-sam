@@ -1,5 +1,6 @@
 //Nos brinda toda la info que tiene que ver con la carga o datos de un producto
 import { MongoClient, ObjectId } from "mongodb";
+import fs from 'fs-extra';
 
 const client = new MongoClient('mongodb://127.0.0.1:27017');
 const db = client.db("test");
@@ -7,38 +8,38 @@ const ProductCollection = db.collection('products');
 
 //en el momento que hacemos algo con la coleccion(en este caso utilizando la constante ProductCollection), recién ahi se conecta a la bbdd
 
-function filterQueryToMongo(filter){
+function filterQueryToMongo(filter) {
     const filterMongo = {};
-    
-    for(const filed in filter){
-        if(isNaN(filter[filed])){
+
+    for (const filed in filter) {
+        if (isNaN(filter[filed])) {
             filterMongo[filed] = filter[filed];
         }
         else {
             const [field, op] = filed.split('_');
 
-            if(!op){
+            if (!op) {
                 filterMongo[filed] = parseInt(filter[filed]);
             }
             else {
-                if(op === 'min'){
+                if (op === 'min') {
                     filterMongo[field] = {
                         $gte: parseInt(filter[filed])
                     }
                 }
-                else if(op === 'max'){
+                else if (op === 'max') {
                     filterMongo[field] = {
                         $lte: parseInt(filter[filed])
                     }
                 }
             }
-          
+
         }
-        
-    }    
+
+    }
 
     return filterMongo;
-   
+
 }
 
 async function getProducts(filter = {}) {
@@ -67,7 +68,7 @@ async function getProducts(filter = {}) {
 // }
 
 // async function getProductFile(){
-    
+
 //     return fs.readFile("data/products.json", {encoding: 'utf-8'})
 //     .then(function(data){
 
@@ -103,19 +104,33 @@ async function getProducts(filter = {}) {
 //     return product;
 // }
 
-async function getProductByID(id){
+async function getProductByID(id) {
     await client.connect();
-    return ProductCollection.findOne({_id: new ObjectId(id)});
+    return ProductCollection.findOne({ _id: new ObjectId(id) });
 }
 
-async function createProduct(product){
+async function createProduct(product, imagePath, filename) {
 
     await client.connect();
-    const newProduct = { ...product};
+
+    const newProduct = {
+        ...product,
+        file: {
+            path: imagePath,
+            filename,
+        },
+    };
 
     await ProductCollection.insertOne(newProduct);
 
-    return product;
+    const sourcePath = './uploads';
+    const destinationPath = '../../react/clase-01/react-app/public/uploads';
+
+    // Copiar la carpeta uploads
+    fs.copySync(sourcePath, destinationPath);
+    console.log('Carpeta uploads copiada exitosamente.');
+
+    return newProduct;
 }
 
 export {
@@ -126,5 +141,5 @@ export {
 
 // export default {
 //     getProducts,
-//     getProductByID 
+//     getProductByID
 // }
