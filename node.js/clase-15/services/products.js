@@ -6,6 +6,9 @@ const client = new MongoClient('mongodb://127.0.0.1:27017');
 const db = client.db("test");
 const ProductCollection = db.collection('products');
 
+const sourcePath = './uploads';
+const destinationPath = '../../react/clase-01/react-app/public/uploads';
+
 //en el momento que hacemos algo con la coleccion(en este caso utilizando la constante ProductCollection), recién ahi se conecta a la bbdd
 
 function filterQueryToMongo(filter) {
@@ -122,10 +125,6 @@ async function createProduct(product, imagePath, filename) {
     };
 
     await ProductCollection.insertOne(newProduct);
-
-    const sourcePath = './uploads';
-    const destinationPath = '../../react/clase-01/react-app/public/uploads';
-
     // Copiar la carpeta uploads
     fs.copySync(sourcePath, destinationPath);
     console.log('Carpeta uploads copiada exitosamente.');
@@ -143,38 +142,49 @@ async function createProduct(product, imagePath, filename) {
 
 
 async function deleteProduct(idProduct) {
-    await client.connect();
+    try {
+        // Obtener la información del producto antes de eliminarlo
+        const product = await getProductByID(idProduct);
 
-    // Obtener la información del producto antes de eliminarlo
-    const product = await ProductCollection.findOne({ _id: new ObjectId(idProduct) });
+        // Eliminar el producto de la base de datos
+        const result = await deleteProductFromDatabase(idProduct);
 
-    // Eliminar el producto de la base de datos
-    const result = await ProductCollection.deleteOne({ _id: new ObjectId(idProduct) });
-
-    if (result.deletedCount === 0) {
-        // Si no se eliminó ningún producto, puedes enviar un mensaje de error
-        return { success: false, error: 'Product not found' };
-    }
-
-    // Eliminar el archivo asociado a la imagen desde la carpeta de uploads
-    const imagePath = product.file.path;
-    if (imagePath) {
-        try {
-            fs.unlinkSync(imagePath);
-            console.log('Image file deleted successfully.');
-            // Rutas de origen y destino
-            const sourcePath = './uploads';
-            const destinationPath = '../../react/clase-01/react-app/public/uploads';
-
-            // Borrar el contenido de la carpeta uploads en ambas ubicaciones
-            fs.emptyDirSync(sourcePath);
-            fs.emptyDirSync(destinationPath);
-        } catch (err) {
-            console.error('Error deleting image file:', err);
+        if (result.deletedCount === 0) {
+            // Si no se eliminó ningún producto, puedes enviar un mensaje de error
+            return { success: false, error: 'Product not found' };
         }
-    }
 
-    return { success: true, message: 'Product deleted successfully' };
+        // Eliminar el archivo asociado a la imagen desde la carpeta de uploads
+        const imagePath = product.file.path;
+        if (imagePath) {
+            deleteImageFile(imagePath);
+        }
+
+        // Eliminar el archivo asociado a la imagen desde la otra carpeta
+        const reactImagePath = `../../react/clase-01/react-app/public/uploads/${product.file.filename}`;
+        if (reactImagePath) {
+            deleteImageFile(reactImagePath);
+        }
+
+        return { success: true, message: 'Product deleted successfully' };
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        return { success: false, error: 'Internal Server Error' };
+    }
+}
+
+async function deleteProductFromDatabase(idProduct) {
+    return await ProductCollection.deleteOne({ _id: new ObjectId(idProduct) });
+}
+
+function deleteImageFile(imagePath) {
+    try {
+        fs.unlinkSync(imagePath);
+        fs.copyFileSync(sourcePath, destinationPath);
+        console.log('Image file deleted successfully.');
+    } catch (err) {
+        console.error('Error deleting image file:', err);
+    }
 }
 
 export {
