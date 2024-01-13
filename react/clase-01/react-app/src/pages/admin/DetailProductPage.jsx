@@ -4,6 +4,7 @@ import { Title } from "../../components/Title";
 
 function DetailProductPage() {
     const [product, setProduct] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
     const { idProduct } = useParams();
 
     const navigate = useNavigate();
@@ -30,27 +31,28 @@ function DetailProductPage() {
     }, [idProduct])
 
 
-    const handleCommentSubmit = () => {
-        // Enviar el nuevo comentario al servidor
-        fetch(`http://localhost:2023/products/${idProduct}/reviews`, {
-            method: 'POST',
+    const handleDeleteProduct = (idProduct) => {
+        // Envía la solicitud DELETE al servidor
+        fetch(`http://localhost:2023/products/${idProduct}`, {
+            method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json',
                 'auth-token': localStorage.getItem('token')
-            },
-            body: JSON.stringify({ comment: newComment, user: localStorage.getItem('email') })
+            }
         })
             .then((response) => {
                 if (response.ok) {
                     return response.json();
                 } else {
-                    throw ('Error al enviar el comentario');
+                    throw new Error('Error deleting product');
                 }
             })
             .then((data) => {
                 console.log(data);
-                setComments(prevComments => [...prevComments, data.comment]);
-                setNewComment("");// Limpiar el campo de comentario después de enviar
+                setAlertMessage("Product deleted successfully");
+                // Puedes realizar acciones adicionales después de la eliminación, como navegar a otra página
+                setTimeout(() => {
+                    navigate('/admin/products');
+                }, 2000); // Redirige a /admin/products después de 2 segundos
             })
             .catch((error) => {
                 console.error(error.message);
@@ -61,6 +63,11 @@ function DetailProductPage() {
         <>
             <div className="container mx-auto pt-6 mt-6">
                 <Title>Product Detail</Title>
+                {alertMessage && (
+                    <div className="bg-red-500 text-white p-4 mt-4">
+                        {alertMessage}
+                    </div>
+                )}
                 {product ? (
                     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
                         <h2 className="text-2xl font-bold mb-4">{product.name}</h2>
@@ -70,6 +77,12 @@ function DetailProductPage() {
                         <div className="flex items-center justify-between">
                             <p className="text-gray-600">Price: ${product.price}</p>
                         </div>
+                        <button
+                            onClick={() => handleDeleteProduct(product._id)}
+                            className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:border-red-700"
+                        >
+                            Delete Product
+                        </button>
                     </div>
                 ) : (
                     <p>Loading...</p>

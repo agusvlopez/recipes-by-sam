@@ -3,10 +3,10 @@ import ProductsRoute from './routes/products.js';
 import ProductsReviews from './routes/productsReviews.js';
 import cors from 'cors';
 import AccountRoute from './routes/account.js'
-import path from 'path';
+//import path from 'path';
 
 const app = express();
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+//const __dirname = path.dirname(new URL(import.meta.url).pathname);
 app.use(cors()); //cualquiera puede acceder a la API(lo ideal es limitarlo, dice como en la documentacion de cors)
 app.use(express.json()); //interpreta el body cuando viene un JSON.
 
@@ -14,7 +14,7 @@ app.use(ProductsRoute);
 app.use(ProductsReviews);
 app.use('/api', AccountRoute);
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+//app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 //app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

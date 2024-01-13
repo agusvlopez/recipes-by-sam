@@ -38,7 +38,8 @@ route.use('/products', [verifySession]);
 route.get('/products', ProductsController.getProducts);
 route.post('/products', fileUpload, ProductsController.createProduct);
 
-route.get('/products/:idProduct', [validateCreateProduct], ProductsController.getProductByID);
+route.get('/products/:idProduct', ProductsController.getProductByID);
+route.delete('/products/:idProduct', ProductsController.deleteProduct);
 
 route.use('/products', ProductsReviewRoute);
 

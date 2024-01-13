@@ -45,6 +45,7 @@ function getProductByID(req, res) {
 
         })
 }
+
 async function createProduct(req, res) {
     try {
         // Extract product data and file information from the request
@@ -66,14 +67,35 @@ async function createProduct(req, res) {
     }
 }
 
+async function deleteProduct(req, res) {
+    try {
+        const { idProduct } = req.params;
+
+        // Lógica para eliminar el producto con el productId
+        const result = await ProductsService.deleteProduct(idProduct);
+
+        if (result.deletedCount == 0) {
+            // Si no se eliminó ningún producto, puedes enviar un mensaje de error
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        res.status(200).json({ message: 'Product deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 export {
     getProducts,
     getProductByID,
-    createProduct
+    createProduct,
+    deleteProduct
 }
 
 export default {
     getProducts,
     getProductByID,
     createProduct,
+    deleteProduct
 }

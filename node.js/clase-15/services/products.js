@@ -133,10 +133,55 @@ async function createProduct(product, imagePath, filename) {
     return newProduct;
 }
 
+// async function deleteProduct(idProduct) {
+//     await client.connect();
+
+//     const result = await ProductCollection.deleteOne({ _id: new ObjectId(idProduct) });
+
+//     return result;
+// }
+
+
+async function deleteProduct(idProduct) {
+    await client.connect();
+
+    // Obtener la información del producto antes de eliminarlo
+    const product = await ProductCollection.findOne({ _id: new ObjectId(idProduct) });
+
+    // Eliminar el producto de la base de datos
+    const result = await ProductCollection.deleteOne({ _id: new ObjectId(idProduct) });
+
+    if (result.deletedCount === 0) {
+        // Si no se eliminó ningún producto, puedes enviar un mensaje de error
+        return { success: false, error: 'Product not found' };
+    }
+
+    // Eliminar el archivo asociado a la imagen desde la carpeta de uploads
+    const imagePath = product.file.path;
+    if (imagePath) {
+        try {
+            fs.unlinkSync(imagePath);
+            console.log('Image file deleted successfully.');
+            // Rutas de origen y destino
+            const sourcePath = './uploads';
+            const destinationPath = '../../react/clase-01/react-app/public/uploads';
+
+            // Borrar el contenido de la carpeta uploads en ambas ubicaciones
+            fs.emptyDirSync(sourcePath);
+            fs.emptyDirSync(destinationPath);
+        } catch (err) {
+            console.error('Error deleting image file:', err);
+        }
+    }
+
+    return { success: true, message: 'Product deleted successfully' };
+}
+
 export {
     getProducts,
     getProductByID,
     createProduct,
+    deleteProduct
 }
 
 // export default {
