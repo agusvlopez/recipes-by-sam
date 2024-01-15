@@ -8,7 +8,8 @@ const ProductPage = () => {
         description: "",
         name: "",
     });
-    const [file, setFile] = useState(null);
+    console.log(productData);
+    const [file, setFile] = useState(productData.file);
     const [keepImage, setKeepImage] = useState(true);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -49,6 +50,7 @@ const ProductPage = () => {
                 .then((data) => {
                     setProductData(data);
                     setFile(data.file);
+                    console.log(data.file);
                 })
                 .catch((error) => {
                     console.error(error.message);
@@ -68,10 +70,12 @@ const ProductPage = () => {
         if (isEditMode) {
             const fileInput = e.target;
             const file = fileInput.files[0];
+            console.log("Selected file:", file);
             setFile(file);
             setKeepImage(false); // Set to false when a new image is selected in edit mode
         } else {
             const file = e.target.files[0];
+            console.log("Selected file:", file);
             setFile(file);
         }
     };
@@ -84,7 +88,15 @@ const ProductPage = () => {
         formData.append('description', productData.description);
         formData.append('name', productData.name);
 
-        formData.append('file', file);
+        // Agrega la imagen actual si se mantiene
+        if (keepImage && productData.file) {
+            formData.append('currentImage', productData.file.filename);
+        }
+
+        // Agrega la nueva imagen si se selecciona y no se mantiene la actual
+        if (!keepImage && file) {
+            formData.append('file', file);
+        }
 
         const url = isEditMode
             ? `http://localhost:2023/products/${idProduct}`
@@ -184,7 +196,7 @@ const ProductPage = () => {
                             <>
                                 <div className="mb-4">
                                     <p>Current Image</p>
-                                    <img src={file?.filename} alt="" />
+                                    <img src={`http://localhost:2023/uploads/${file?.filename}`} alt="" />
                                 </div>
                                 <div className="mb-4">
                                     <label htmlFor="keepImage" className="block text-gray-700 font-bold mb-2">

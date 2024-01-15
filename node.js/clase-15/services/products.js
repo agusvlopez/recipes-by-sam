@@ -140,7 +140,7 @@ async function updateProduct(idProduct, productData, imagePath, filename) {
         await client.connect();
 
         const oldProduct = await getProductByID(idProduct);
-        const oldImagePath = oldProduct.file.path;
+        const oldImagePath = `./${oldProduct.file.path}`;
 
         // Elimina el archivo antiguo antes de realizar la actualización
         if (oldImagePath) {
