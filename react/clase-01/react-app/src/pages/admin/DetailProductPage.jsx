@@ -59,6 +59,11 @@ function DetailProductPage() {
             });
     };
 
+    const handleEditProduct = (idProduct) => {
+        // Redirige a la página de edición del producto
+        navigate(`/admin/products/${idProduct}/edit`);
+    };
+
     return (
         <>
             <div className="container mx-auto pt-6 mt-6">
@@ -77,6 +82,12 @@ function DetailProductPage() {
                         <div className="flex items-center justify-between">
                             <p className="text-gray-600">Price: ${product.price}</p>
                         </div>
+                        <button
+                            onClick={() => handleEditProduct(product._id)}
+                            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700 mr-2"
+                        >
+                            Edit Product
+                        </button>
                         <button
                             onClick={() => handleDeleteProduct(product._id)}
                             className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:border-red-700"

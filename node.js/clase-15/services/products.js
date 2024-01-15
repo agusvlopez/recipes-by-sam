@@ -7,7 +7,7 @@ const db = client.db("test");
 const ProductCollection = db.collection('products');
 
 const sourcePath = './uploads';
-const destinationPath = '../../react/clase-01/react-app/public/uploads';
+//const destinationPath = '../../react/clase-01/react-app/public/uploads';
 
 //en el momento que hacemos algo con la coleccion(en este caso utilizando la constante ProductCollection), recién ahi se conecta a la bbdd
 
@@ -113,24 +113,82 @@ async function getProductByID(id) {
 }
 
 async function createProduct(product, imagePath, filename) {
+    try {
+        await client.connect();
 
-    await client.connect();
+        const newProduct = {
+            ...product,
+            file: {
+                path: imagePath,
+                filename,
+            },
+        };
 
-    const newProduct = {
-        ...product,
-        file: {
-            path: imagePath,
-            filename,
-        },
-    };
+        // Insertar el nuevo producto en la base de datos
+        await ProductCollection.insertOne(newProduct);
+        console.log('Producto creado exitosamente.');
 
-    await ProductCollection.insertOne(newProduct);
-    // Copiar la carpeta uploads
-    fs.copySync(sourcePath, destinationPath);
-    console.log('Carpeta uploads copiada exitosamente.');
-
-    return newProduct;
+        return newProduct;
+    } catch (error) {
+        console.error('Error creando producto:', error);
+        throw { code: 500, msg: 'Internal Server Error' };
+    }
 }
+
+async function updateProduct(idProduct, productData, imagePath, filename) {
+    try {
+        await client.connect();
+
+        const oldProduct = await getProductByID(idProduct);
+        const oldImagePath = oldProduct.file.path;
+
+        // Elimina el archivo antiguo antes de realizar la actualización
+        if (oldImagePath) {
+            deleteImageFile(oldImagePath);
+        }
+
+        const updatedProduct = {
+            ...productData,
+            file: {
+                path: imagePath,
+                filename,
+            },
+        };
+
+        // Actualizar el producto en la base de datos
+        const result = await ProductCollection.updateOne(
+            { _id: new ObjectId(idProduct) },
+            { $set: updatedProduct }
+        );
+
+        if (result.matchedCount === 1) {
+            return ProductCollection.findOne({ _id: new ObjectId(idProduct) });
+        }
+    } catch (error) {
+        console.error('Error actualizando producto:', error);
+        throw { code: 500, msg: 'Internal Server Error' };
+    }
+}
+
+// async function createProduct(product, imagePath, filename) {
+
+//     await client.connect();
+
+//     const newProduct = {
+//         ...product,
+//         file: {
+//             path: imagePath,
+//             filename,
+//         },
+//     };
+
+//     await ProductCollection.insertOne(newProduct);
+//     // Copiar la carpeta uploads
+//     fs.copySync(sourcePath, destinationPath);
+//     console.log('Carpeta uploads copiada exitosamente.');
+
+//     return newProduct;
+// }
 
 // async function deleteProduct(idProduct) {
 //     await client.connect();
@@ -160,11 +218,11 @@ async function deleteProduct(idProduct) {
             deleteImageFile(imagePath);
         }
 
-        // Eliminar el archivo asociado a la imagen desde la otra carpeta
-        const reactImagePath = `../../react/clase-01/react-app/public/uploads/${product.file.filename}`;
-        if (reactImagePath) {
-            deleteImageFile(reactImagePath);
-        }
+        // // Eliminar el archivo asociado a la imagen desde la otra carpeta
+        // const reactImagePath = `../../react/clase-01/react-app/public/uploads/${product.file.filename}`;
+        // if (reactImagePath) {
+        //     deleteImageFile(reactImagePath);
+        // }
 
         return { success: true, message: 'Product deleted successfully' };
     } catch (error) {
@@ -180,18 +238,57 @@ async function deleteProductFromDatabase(idProduct) {
 function deleteImageFile(imagePath) {
     try {
         fs.unlinkSync(imagePath);
-        fs.copyFileSync(sourcePath, destinationPath);
         console.log('Image file deleted successfully.');
     } catch (err) {
         console.error('Error deleting image file:', err);
     }
 }
 
+// async function updateProduct(idProduct, productData, imagePath, filename) {
+//     try {
+//         await client.connect();
+
+//         const updatedProduct = {
+//             ...productData,
+//             file: {
+//                 path: imagePath,
+//                 filename,
+//             },
+//         };
+
+//         // Actualiza el producto en la base de datos
+//         const result = await ProductCollection.updateOne(
+//             { _id: new ObjectId(idProduct) },
+//             { $set: updatedProduct }
+//         );
+
+//         if (result.modifiedCount === 0) {
+//             // Si no se modificó ningún producto, puedes enviar un mensaje de error
+//             throw { code: 404, msg: 'Product not found' };
+//         }
+
+//         // Elimina el archivo antiguo si se proporcionó uno nuevo
+//         if (imagePath) {
+//             const oldProduct = await getProductByID(idProduct);
+//             const oldImagePath = oldProduct.file.path;
+//             if (oldImagePath) {
+//                 deleteImageFile(oldImagePath);
+//             }
+//         }
+
+//         return updatedProduct;
+//     } catch (error) {
+//         console.error('Error updating product in database:', error);
+//         throw { code: 500, msg: 'Internal Server Error' };
+//     }
+// }
+
 export {
     getProducts,
     getProductByID,
     createProduct,
-    deleteProduct
+    deleteProduct,
+    updateProduct
 }
 
 // export default {

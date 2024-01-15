@@ -3,7 +3,8 @@ import ProductsRoute from './routes/products.js';
 import ProductsReviews from './routes/productsReviews.js';
 import cors from 'cors';
 import AccountRoute from './routes/account.js'
-//import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
 //const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -14,6 +15,9 @@ app.use(ProductsRoute);
 app.use(ProductsReviews);
 app.use('/api', AccountRoute);
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 //app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

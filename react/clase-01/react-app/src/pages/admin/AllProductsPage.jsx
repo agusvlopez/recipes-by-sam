@@ -45,8 +45,8 @@ function AdminProductsPage({ }) {
                     {products.map((product) => (
                         <Link to={`./${product._id}`} key={product._id}>
                             <div key={product._id} className="bg-white p-4 rounded-md shadow-md">
-                                <p>http://localhost:2023/uploads/{product.file.filename}</p>
-                                <img src={`../../../public/uploads/${product.file.filename}`} alt="" />
+                                <img src={`http://localhost:2023/uploads/${product.file.filename}`} alt="" />
+                                {/* <img src={`../../../public/uploads/${product.file.filename}`} alt="" /> */}
                                 <h3 className="text-xl font-bold mb-2">{product.name}</h3>
                                 <p>{product.description}</p>
                                 <p className="text-gray-700">${product.price}</p>

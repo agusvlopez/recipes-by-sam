@@ -16,6 +16,7 @@ import RouteAdminPrivate from './components/RouteAdminPrivate';
 import AllProductsPage from './pages/admin/AllProductsPage';
 import DetailProductPage from './pages/admin/DetailProductPage';
 import NewProductPage from './pages/admin/NewProductPage';
+import EditProductPage from './pages/admin/EditProductPage';
 
 const route = createBrowserRouter([
   {
@@ -70,7 +71,17 @@ const route = createBrowserRouter([
               },
               {
                 path: ':idProduct',
-                element: <DetailProductPage />,
+                element: <Outlet />,
+                children: [
+                  {
+                    path: '',
+                    element: <DetailProductPage />
+                  },
+                  {
+                    path: 'edit',
+                    element: <EditProductPage />,
+                  }
+                ]
               },
               {
                 path: 'newProduct',

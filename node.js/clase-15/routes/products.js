@@ -17,8 +17,13 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const ext = file.originalname.split('.').pop();
-        cb(null, `${Date.now()}.${ext}`);
-    }
+        const filename = `${Date.now()}.${ext}`;
+        console.log('Generated filename:', filename); // Agrega este log
+        cb(null, filename);
+    },
+    limits: {
+        fileSize: 10 * 1024 * 1024, // Ajusta el límite de tamaño aquí (10 MB en este ejemplo)
+    },
 });
 
 const fileUpload = multer({ storage }).single('file');
@@ -40,6 +45,7 @@ route.post('/products', fileUpload, ProductsController.createProduct);
 
 route.get('/products/:idProduct', ProductsController.getProductByID);
 route.delete('/products/:idProduct', ProductsController.deleteProduct);
+route.put('/products/:idProduct', fileUpload, ProductsController.updateProduct);
 
 route.use('/products', ProductsReviewRoute);
 

@@ -41,9 +41,9 @@ function ProductsList({ }) {
                 <Title>All Recipes</Title>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {products.map((product) => (
-                        <Link to={`/products/${product._id}`}>
-                            <div key={product._id} className="bg-white p-6 rounded-md shadow-md">
-                                <Link to={`/products/${product._id}`} className="text-xl font-bold mb-2 text-indigo-600 hover:underline">{product.name}</Link>
+                        <Link to={`/products/${product._id}`} key={product._id}>
+                            <div className="bg-white p-6 rounded-md shadow-md">
+                                <h2 className="text-xl font-bold mb-2 text-gray-600">{product.name}</h2>
                                 <p className="text-gray-500 mb-4">{product.description}</p>
                                 <img src={product.imageUrl} alt={product.name} className="w-full h-48 object-cover mb-4" />
                                 <div className="flex items-center justify-between">

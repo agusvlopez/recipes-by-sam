@@ -86,16 +86,38 @@ async function deleteProduct(req, res) {
     }
 }
 
+async function updateProduct(req, res) {
+    try {
+        const { idProduct } = req.params;
+        const { body, file } = req;
+
+        // Verifica si se proporcionó un archivo de imagen
+        const imagePath = file ? file.path : null;
+        const filename = file ? file.filename : null;
+
+        // Llama al servicio para actualizar el producto
+        const updatedProduct = await ProductsService.updateProduct(idProduct, body, imagePath, filename);
+
+        // Devuelve la respuesta con el producto actualizado
+        res.status(200).json(updatedProduct);
+    } catch (error) {
+        console.error('Error updating product:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 export {
     getProducts,
     getProductByID,
     createProduct,
-    deleteProduct
+    deleteProduct,
+    updateProduct
 }
 
 export default {
     getProducts,
     getProductByID,
     createProduct,
-    deleteProduct
+    deleteProduct,
+    updateProduct
 }
