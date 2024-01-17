@@ -89,10 +89,6 @@ const route = createBrowserRouter([
               }
             ],
           },
-          {
-            path: 'accounts',
-            element: <ProductViewPage />
-          }
         ],
       },
     ]

@@ -89,14 +89,10 @@ async function deleteProduct(req, res) {
 async function updateProduct(req, res) {
     try {
         const { idProduct } = req.params;
-        const { body, file } = req;
-
-        // Verifica si se proporcionó un archivo de imagen
-        const imagePath = file ? file.path : null;
-        const filename = file ? file.filename : null;
+        const { body } = req;
 
         // Llama al servicio para actualizar el producto
-        const updatedProduct = await ProductsService.updateProduct(idProduct, body, imagePath, filename);
+        const updatedProduct = await ProductsService.updateProduct(idProduct, body);
 
         // Devuelve la respuesta con el producto actualizado
         res.status(200).json(updatedProduct);
@@ -106,12 +102,32 @@ async function updateProduct(req, res) {
     }
 }
 
+async function updateProductImage(req, res) {
+    try {
+        const { idProduct } = req.params;
+        const { file } = req;
+
+        // Verifica si se proporcionó un archivo de imagen
+        const imagePath = file ? file.path : null;
+
+        // Llama al servicio para actualizar la imagen del producto
+        await ProductsService.updateProductImage(idProduct, imagePath);
+
+        // Devuelve la respuesta con un mensaje de éxito
+        res.status(200).json({ success: true, message: 'Product image updated successfully' });
+    } catch (error) {
+        console.error('Error updating product image:', error);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+}
+
 export {
     getProducts,
     getProductByID,
     createProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    updateProductImage
 }
 
 export default {
@@ -119,5 +135,6 @@ export default {
     getProductByID,
     createProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    updateProductImage
 }

@@ -1,15 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
-function SidebarItem({ to, icon, text, active }) {
+function SidebarItem({ to, text, active, onTabClick }) {
+    const handleClick = () => {
+        onTabClick(text); // Pasa el nombre de la pestaña al padre cuando se hace clic
+    };
+
     return (
-        <Link
+        <NavLink
             to={to}
-            className={`flex items-center py-2 px-4 cursor-pointer text-gray-600 hover:text-gray-800 ${active ? 'bg-gray-200' : ''
-                }`}
+            className={`p-4 hover:bg-gray-300 ${active ? 'bg-gray-300' : ''}`}
+            activeclassname="bg-gray-300"
+            onClick={handleClick}
         >
-            {icon && <span className="mr-3">{icon}</span>}
-            <span className="flex-1">{text}</span>
-        </Link>
+            {text}
+        </NavLink>
     );
 }
 

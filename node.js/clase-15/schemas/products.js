@@ -6,6 +6,7 @@ export const productCreateSchema = yup.object({
     description: yup.string().min(5, 'La descripción debe contener mas de 5 caracteres').required("Descripción es un campo requerido"),
     stock: yup.number().max(2500, 'La cantidad máxima es de 2500').required(),
     file: yup.mixed(),
+    price: yup.number().required()
 });
 
 export const productUpdateSchema = yup.object({
@@ -13,5 +14,6 @@ export const productUpdateSchema = yup.object({
     description: yup.string().min(5, 'La descripción debe contener mas de 5 caracteres'),
     stock: yup.number().max(2500, 'La cantidad máxima es de 2500'),
     file: yup.mixed(),
+    price: yup.number()
 });
 

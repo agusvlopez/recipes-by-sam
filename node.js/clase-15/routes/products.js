@@ -46,6 +46,7 @@ route.post('/products', fileUpload, ProductsController.createProduct);
 route.get('/products/:idProduct', ProductsController.getProductByID);
 route.delete('/products/:idProduct', ProductsController.deleteProduct);
 route.put('/products/:idProduct', fileUpload, ProductsController.updateProduct);
+route.put('/products/:idProduct/image', fileUpload, ProductsController.updateProductImage);
 
 route.use('/products', ProductsReviewRoute);
 

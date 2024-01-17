@@ -46,19 +46,19 @@ function Navbar({ dark, links }) {
 
                 {localStorage.getItem('token') ? (
                     <li>
-                        <button onClick={handleLogout} className="nav-principal__item">
+                        <button onClick={handleLogout} className="nav-principal__item bg-transparent">
                             Logout
                         </button>
                     </li>
                 ) : (
                     <>
                         <li>
-                            <button onClick={handleLogin} className="nav-principal__item">
+                            <button onClick={handleLogin} className="nav-principal__item bg-transparent">
                                 Login
                             </button>
                         </li>
                         <li>
-                            <button onClick={handleRegister} className="nav-principal__item">
+                            <button onClick={handleRegister} className="nav-principal__item bg-transparent">
                                 Register
                             </button>
                         </li>
@@ -66,7 +66,7 @@ function Navbar({ dark, links }) {
                 )}
                 {localStorage.getItem('role') == 'admin' &&
                     <li>
-                        <button onClick={handleAdmin} className="nav-principal__item">
+                        <button onClick={handleAdmin} className="nav-principal__item bg-transparent">
                             Admin
                         </button>
                     </li>

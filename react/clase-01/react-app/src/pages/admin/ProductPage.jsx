@@ -3,13 +3,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../../components/Title";
 
 const ProductPage = () => {
+    const [file, setFile] = useState("");
     const [productData, setProductData] = useState({
         stock: "",
         description: "",
         name: "",
+        price: "",
+        file: {
+            path: "",
+            filename: "",
+        }
     });
-    console.log(productData);
-    const [file, setFile] = useState(productData.file);
     const [keepImage, setKeepImage] = useState(true);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -50,7 +54,8 @@ const ProductPage = () => {
                 .then((data) => {
                     setProductData(data);
                     setFile(data.file);
-                    console.log(data.file);
+                    setKeepImage(true);
+                    console.log(data);
                 })
                 .catch((error) => {
                     console.error(error.message);
@@ -67,34 +72,29 @@ const ProductPage = () => {
     };
 
     const handleImageChange = (e) => {
-        if (isEditMode) {
-            const fileInput = e.target;
-            const file = fileInput.files[0];
-            console.log("Selected file:", file);
-            setFile(file);
-            setKeepImage(false); // Set to false when a new image is selected in edit mode
-        } else {
-            const file = e.target.files[0];
-            console.log("Selected file:", file);
-            setFile(file);
+        const fileInput = e.target;
+        const newFile = fileInput.files[0];
+
+        console.log("New File:", newFile);
+
+        if (isEditMode && newFile) {
+            setFile(newFile);
+        }
+        else {
+            setFile(newFile);
+            // Handle other scenarios as needed
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleDataFormSubmit = (e) => {
         e.preventDefault();
 
         const formData = new FormData();
         formData.append('stock', productData.stock);
         formData.append('description', productData.description);
         formData.append('name', productData.name);
-
-        // Agrega la imagen actual si se mantiene
-        if (keepImage && productData.file) {
-            formData.append('currentImage', productData.file.filename);
-        }
-
-        // Agrega la nueva imagen si se selecciona y no se mantiene la actual
-        if (!keepImage && file) {
+        formData.append('price', productData.price);
+        if (!isEditMode) {
             formData.append('file', file);
         }
 
@@ -114,21 +114,55 @@ const ProductPage = () => {
             .then((response) => {
                 if (response.ok) {
                     setSuccessMessage(isEditMode ? "Product updated successfully!" : "Product added successfully!");
+
+                    // Redirigir a otra página después de 2 segundos
+                    setTimeout(() => {
+                        navigate('/admin/products');
+                    }, 2000);
+
                     setProductData({
                         stock: "",
                         description: "",
                         name: "",
+                        price: ""
                     });
+                    setFile(null);  // Reset file field
                 } else {
                     throw new Error('Error');
                 }
             })
-            .then((data) => {
-                console.log(data);
-                // Handle success, e.g., navigate to a different page
-            })
             .catch((error) => {
                 setErrorMessage(`Error ${isEditMode ? 'updating' : 'adding'} product. Please try again.`);
+                console.error(error);
+            });
+    };
+
+    const handleImageFormSubmit = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        fetch(`http://localhost:2023/products/${idProduct}/image`, {
+            method: 'PUT',
+            headers: {
+                'auth-token': localStorage.getItem('token'),
+            },
+            body: formData,
+        })
+            .then((response) => {
+                if (response.ok) {
+                    setSuccessMessage("Product image updated successfully!");
+                    // Redirigir a otra página después de 2 segundos
+                    setTimeout(() => {
+                        navigate('/admin/products');
+                    }, 2000);
+                } else {
+                    throw new Error('Error updating product image');
+                }
+            })
+            .catch((error) => {
+                setErrorMessage('Error updating product image. Please try again.');
                 console.error(error);
             });
     };
@@ -149,7 +183,7 @@ const ProductPage = () => {
                 )}
                 <div className="p-6">
                     <Title>{isEditMode ? 'Edit Product' : 'Add New Product'}</Title>
-                    <form onSubmit={handleSubmit} encType="multipart/form-data">
+                    <form onSubmit={handleDataFormSubmit} encType="multipart/form-data">
                         <div className="mb-4">
                             <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
                                 Product Name:
@@ -192,45 +226,89 @@ const ProductPage = () => {
                                 required
                             />
                         </div>
-                        {isEditMode &&
-                            <>
-                                <div className="mb-4">
-                                    <p>Current Image</p>
-                                    <img src={`http://localhost:2023/uploads/${file?.filename}`} alt="" />
-                                </div>
-                                <div className="mb-4">
-                                    <label htmlFor="keepImage" className="block text-gray-700 font-bold mb-2">
-                                        Keep Current Image:
-                                    </label>
-                                    <input
-                                        type="checkbox"
-                                        id="keepImage"
-                                        name="keepImage"
-                                        checked={keepImage}
-                                        onChange={() => setKeepImage(!keepImage)}
-                                    />
-                                </div>
-                            </>
-                        }
                         <div className="mb-4">
-                            <label htmlFor="file" className="block text-gray-700 font-bold mb-2">
-                                Image:
+                            <label htmlFor="price" className="block text-gray-700 font-bold mb-2">
+                                Price: $
                             </label>
                             <input
-                                type="file"
-                                id="file"
-                                name="file"
-                                onChange={handleImageChange}
-                                required={!keepImage} // No se requiere si se mantiene la imagen actual
+                                type="number"
+                                id="price"
+                                name="price"
+                                value={productData.price}
+                                onChange={handleInputChange}
+                                required
                             />
                         </div>
-                        <button
-                            type="submit"
-                            className="bg-indigo-500 text-white p-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:border-indigo-700"
-                        >
-                            {isEditMode ? 'Update Product' : 'Add Product'}
-                        </button>
+                        {/* Mostrar la sección de imagen incluso al agregar un nuevo producto */}
+                        {!isEditMode && (
+                            <div className="mb-4">
+                                <label htmlFor="file" className="block text-gray-700 font-bold mb-2">
+                                    Image:
+                                </label>
+                                <input
+                                    type="file"
+                                    id="file"
+                                    name="file"
+                                    onChange={handleImageChange}
+                                    required={!keepImage}
+                                />
+                            </div>
+                        )}
+                        <div className="mb-4">
+                            <button
+                                type="submit"
+                                className="bg-indigo-500 text-white p-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:border-indigo-700"
+                            >
+                                {isEditMode ? 'Update Product Data' : 'Add Product Data'}
+                            </button>
+                        </div>
                     </form>
+
+                    {/* Formulario solo para la imagen */}
+                    {isEditMode &&
+                        <>
+                            <div className="mb-4">
+                                <p>Current Image</p>
+                                <div className="w-1/4">
+                                    <img src={`http://localhost:2023/${file?.path}`} alt="" />
+                                </div>
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="keepImage" className="block text-gray-700 font-bold mb-2">
+                                    Keep Current Image:
+                                </label>
+                                <input
+                                    type="checkbox"
+                                    id="keepImage"
+                                    name="keepImage"
+                                    checked={keepImage}
+                                    onChange={() => setKeepImage(!keepImage)}
+                                />
+                            </div>
+                            <form onSubmit={handleImageFormSubmit} encType="multipart/form-data">
+                                <div className="mb-4">
+                                    <label htmlFor="file" className="block text-gray-700 font-bold mb-2">
+                                        Image:
+                                    </label>
+                                    <input
+                                        type="file"
+                                        id="file"
+                                        name="file"
+                                        onChange={handleImageChange}
+                                        required={!keepImage} // No se requiere si se mantiene la imagen actual
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <button
+                                        type="submit"
+                                        className="bg-indigo-500 text-white p-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:border-indigo-700"
+                                    >
+                                        Update Product Image
+                                    </button>
+                                </div>
+                            </form>
+                        </>
+                    }
                 </div>
             </div>
         </>

@@ -135,27 +135,18 @@ async function createProduct(product, imagePath, filename) {
     }
 }
 
-async function updateProduct(idProduct, productData, imagePath, filename) {
+async function updateProductImageInDatabase(idProduct, imagePath, filename) {
     try {
         await client.connect();
 
-        const oldProduct = await getProductByID(idProduct);
-        const oldImagePath = `./${oldProduct.file.path}`;
-
-        // Elimina el archivo antiguo antes de realizar la actualización
-        if (oldImagePath) {
-            deleteImageFile(oldImagePath);
-        }
-
         const updatedProduct = {
-            ...productData,
             file: {
                 path: imagePath,
-                filename,
+                filename
             },
         };
 
-        // Actualizar el producto en la base de datos
+        // Actualizar solo la imagen del producto en la base de datos
         const result = await ProductCollection.updateOne(
             { _id: new ObjectId(idProduct) },
             { $set: updatedProduct }
@@ -165,7 +156,51 @@ async function updateProduct(idProduct, productData, imagePath, filename) {
             return ProductCollection.findOne({ _id: new ObjectId(idProduct) });
         }
     } catch (error) {
+        console.error('Error updating product image in database:', error);
+        throw { code: 500, msg: 'Internal Server Error' };
+    }
+}
+async function updateProduct(idProduct, productData) {
+    try {
+        await client.connect();
+
+        const oldProduct = await getProductByID(idProduct);
+
+        const updatedProduct = {
+            ...productData,
+        };
+
+        // Actualizar el producto en la base de datos
+        const result = await ProductCollection.updateOne(
+            { _id: new ObjectId(idProduct) },
+            { $set: updatedProduct }
+        );
+
+        if (result.matchedCount === 1) {
+
+            return ProductCollection.findOne({ _id: new ObjectId(idProduct) });
+        }
+    } catch (error) {
         console.error('Error actualizando producto:', error);
+        throw { code: 500, msg: 'Internal Server Error' };
+    }
+}
+
+async function updateProductImage(idProduct, imagePath, filename) {
+    try {
+        // Obtener la información del producto antes de la actualización
+        const oldProduct = await getProductByID(idProduct);
+        const oldImagePath = oldProduct.file.path;
+
+        // Actualizar solo la imagen del producto en la base de datos
+        await updateProductImageInDatabase(idProduct, imagePath, filename);
+
+        // Elimina el archivo antiguo
+        if (oldImagePath) {
+            deleteImageFile(oldImagePath);
+        }
+    } catch (error) {
+        console.error('Error updating product image:', error);
         throw { code: 500, msg: 'Internal Server Error' };
     }
 }
@@ -288,7 +323,8 @@ export {
     getProductByID,
     createProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    updateProductImage
 }
 
 // export default {

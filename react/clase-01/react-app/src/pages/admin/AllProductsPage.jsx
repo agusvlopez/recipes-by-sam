@@ -45,11 +45,11 @@ function AdminProductsPage({ }) {
                     {products.map((product) => (
                         <Link to={`./${product._id}`} key={product._id}>
                             <div key={product._id} className="bg-white p-4 rounded-md shadow-md">
-                                <img src={`http://localhost:2023/uploads/${product.file.filename}`} alt="" />
+                                <img src={`http://localhost:2023/${product.file?.path}`} alt="" />
                                 {/* <img src={`../../../public/uploads/${product.file.filename}`} alt="" /> */}
-                                <h3 className="text-xl font-bold mb-2">{product.name}</h3>
+                                <h3 className="text-xl font-bold mb-2 mt-2">{product.name}</h3>
                                 <p>{product.description}</p>
-                                <p className="text-gray-700">${product.price}</p>
+                                <p className="text-gray-700 mt-2">${product.price}</p>
                                 {/* Add more product details or actions if needed */}
                             </div>
                         </Link>
