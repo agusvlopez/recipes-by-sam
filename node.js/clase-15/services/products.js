@@ -1,6 +1,7 @@
 //Nos brinda toda la info que tiene que ver con la carga o datos de un producto
 import { MongoClient, ObjectId } from "mongodb";
 import fs from 'fs-extra';
+import dotenv from 'dotenv'; // Agrega esta línea
 
 // Cargar variables de entorno desde .env
 dotenv.config();
