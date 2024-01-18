@@ -13,6 +13,7 @@ export function validateAccount(req, res, next) {
         })
         .catch(function (err) {
             res.status(400).json(err);
+            return;
         })
 }
 

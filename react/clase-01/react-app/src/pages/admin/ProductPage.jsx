@@ -271,7 +271,7 @@ const ProductPage = () => {
                             <div className="mb-4">
                                 <p>Current Image</p>
                                 <div className="w-1/4">
-                                    <img src={`http://localhost:2023/${file?.path}`} alt="" />
+                                    <img src={`${URL}/${file?.path}`} alt="" />
                                 </div>
                             </div>
                             <div className="mb-4">
