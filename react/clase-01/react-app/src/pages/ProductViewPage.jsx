@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../components/Title";
 
 function ProductViewPage({ }) {
+    const URL = "https://vercel-api-beta-coral.vercel.app";
     const [product, setProduct] = useState("");
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
@@ -11,7 +12,7 @@ function ProductViewPage({ }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:2023/products/${idProduct}`, {
+        fetch(`${URL}/products/${idProduct}`, {
             method: 'GET',
             headers: {
                 'auth-token': localStorage.getItem('token')
@@ -30,7 +31,7 @@ function ProductViewPage({ }) {
                 setProduct(data)
             })
 
-        fetch(`http://localhost:2023/products/${idProduct}/reviews`, {
+        fetch(`${URL}/products/${idProduct}/reviews`, {
             method: 'GET',
             headers: {
                 'auth-token': localStorage.getItem('token')
@@ -48,7 +49,7 @@ function ProductViewPage({ }) {
 
     const handleCommentSubmit = () => {
         // Enviar el nuevo comentario al servidor
-        fetch(`http://localhost:2023/products/${idProduct}/reviews`, {
+        fetch(`${URL}/products/${idProduct}/reviews`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

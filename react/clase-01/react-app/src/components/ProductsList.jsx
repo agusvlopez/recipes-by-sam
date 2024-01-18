@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Title } from "./Title";
 
 function ProductsList({ }) {
+    const URL = "https://vercel-api-beta-coral.vercel.app";
     const [products, setProducts] = useState([]);
     const [error, setError] = useState("");
     const [product_id, setProductId] = useState(0);
@@ -10,7 +11,7 @@ function ProductsList({ }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost:2023/products', {
+        fetch(`${URL}/products`, {
             method: 'GET',
             headers: {
                 'auth-token': localStorage.getItem('token')
@@ -45,9 +46,10 @@ function ProductsList({ }) {
                             <div className="bg-white p-6 rounded-md shadow-md">
                                 <h2 className="text-xl font-bold mb-2 text-gray-600">{product.name}</h2>
                                 <p className="text-gray-500 mb-4">{product.description}</p>
-                                <img src={`http://localhost:2023/${product.file?.path}`} alt={product.name} className="w-full h-48 object-cover mb-4" />
+                                <img src={`${URL}/${product.file?.path}`} alt={product.name} className="w-full h-48 object-cover mb-4" />
                                 <div className="flex items-center justify-between">
                                     <p className="text-gray-600">Price: ${product.price}</p>
+                                    <p>imagen : {`${URL}/${product.file?.path}`}</p>
                                 </div>
                             </div>
                         </Link>

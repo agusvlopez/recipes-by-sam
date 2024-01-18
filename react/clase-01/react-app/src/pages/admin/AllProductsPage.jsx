@@ -4,13 +4,14 @@ import { Title } from "../../components/Title";
 
 
 function AdminProductsPage({ }) {
+    const URL = "https://vercel-api-beta-coral.vercel.app";
     const [products, setProducts] = useState([]);
     const [error, setError] = useState("");
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost:2023/products', {
+        fetch(`${URL}/products`, {
             method: 'GET',
             headers: {
                 'auth-token': localStorage.getItem('token')
@@ -45,7 +46,7 @@ function AdminProductsPage({ }) {
                     {products.map((product) => (
                         <Link to={`./${product._id}`} key={product._id}>
                             <div key={product._id} className="bg-white p-4 rounded-md shadow-md">
-                                <img src={`http://localhost:2023/${product.file?.path}`} alt="" />
+                                <img src={`${URL}${product.file?.path}`} alt="" />
                                 {/* <img src={`../../../public/uploads/${product.file.filename}`} alt="" /> */}
                                 <h3 className="text-xl font-bold mb-2 mt-2">{product.name}</h3>
                                 <p>{product.description}</p>

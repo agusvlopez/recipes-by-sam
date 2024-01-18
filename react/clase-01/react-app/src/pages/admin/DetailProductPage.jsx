@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../../components/Title";
 
 function DetailProductPage() {
+    const URL = "https://vercel-api-beta-coral.vercel.app";
+
     const [product, setProduct] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
     const { idProduct } = useParams();
@@ -10,7 +12,7 @@ function DetailProductPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:2023/products/${idProduct}`, {
+        fetch(`${URL}/products/${idProduct}`, {
             method: 'GET',
             headers: {
                 'auth-token': localStorage.getItem('token')
@@ -33,7 +35,7 @@ function DetailProductPage() {
 
     const handleDeleteProduct = (idProduct) => {
         // Envía la solicitud DELETE al servidor
-        fetch(`http://localhost:2023/products/${idProduct}`, {
+        fetch(`${URL}/products/${idProduct}`, {
             method: 'DELETE',
             headers: {
                 'auth-token': localStorage.getItem('token')

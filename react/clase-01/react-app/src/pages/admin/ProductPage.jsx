@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../../components/Title";
 
 const ProductPage = () => {
+    const URL = "https://vercel-api-beta-coral.vercel.app";
     const [file, setFile] = useState("");
     const [productData, setProductData] = useState({
         stock: "",
@@ -35,7 +36,7 @@ const ProductPage = () => {
     useEffect(() => {
         // Si está en modo de edición, cargar detalles del producto
         if (isEditMode) {
-            fetch(`http://localhost:2023/products/${idProduct}`, {
+            fetch(`${URL}/products/${idProduct}`, {
                 method: 'GET',
                 headers: {
                     'auth-token': localStorage.getItem('token'),
@@ -99,8 +100,8 @@ const ProductPage = () => {
         }
 
         const url = isEditMode
-            ? `http://localhost:2023/products/${idProduct}`
-            : 'http://localhost:2023/products';
+            ? `${URL}/products/${idProduct}`
+            : `${URL}/products`;
 
         const method = isEditMode ? 'PUT' : 'POST';
 
@@ -143,7 +144,7 @@ const ProductPage = () => {
         const formData = new FormData();
         formData.append('file', file);
 
-        fetch(`http://localhost:2023/products/${idProduct}/image`, {
+        fetch(`${URL}/products/${idProduct}/image`, {
             method: 'PUT',
             headers: {
                 'auth-token': localStorage.getItem('token'),

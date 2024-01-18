@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const URL = "https://vercel-api-beta-coral.vercel.app";
+
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,7 +20,7 @@ function LoginPage() {
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        fetch('http://localhost:2023/api/session', {
+        fetch(`${URL}/api/session`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
