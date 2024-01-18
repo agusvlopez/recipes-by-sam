@@ -37,6 +37,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // app.post('/upload', upload.single('file'), (req, res) => {
 //     res.send({ data: 'Imagen cargada' });
 // })
-app.listen(2023, function () {
-    console.log("El servidor esta levantado! http://localhost:2023");
+const port = process.env.PORT || 2023;
+
+app.listen(port, function () {
+    console.log(`El servidor está levantado! http://localhost:${port}`);
 });
