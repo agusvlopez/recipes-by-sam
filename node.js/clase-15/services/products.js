@@ -2,7 +2,14 @@
 import { MongoClient, ObjectId } from "mongodb";
 import fs from 'fs-extra';
 
-const client = new MongoClient('mongodb://127.0.0.1:27017');
+// Cargar variables de entorno desde .env
+dotenv.config();
+
+// Obtener la URL de la base de datos desde las variables de entorno
+const mongoURI = process.env.MONGODB_URI;
+
+//const client = new MongoClient('mongodb://127.0.0.1:27017');
+const client = new MongoClient(mongoURI);
 const db = client.db("test");
 const ProductCollection = db.collection('products');
 
