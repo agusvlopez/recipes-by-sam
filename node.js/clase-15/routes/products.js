@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
 
 const fileUpload = multer({ storage }).single('file');
 
-route.use('/products', [verifySession]);
+//route.use('/products', [verifySession]);
 
 //route.all('/products', [verifySession]);
 
@@ -41,12 +41,12 @@ route.use('/products', [verifySession]);
 
 //aca decidimos que queremos hacer:
 route.get('/products', ProductsController.getProducts);
-route.post('/products', fileUpload, ProductsController.createProduct);
+route.post('/products', fileUpload, [verifySession], ProductsController.createProduct);
 
 route.get('/products/:idProduct', ProductsController.getProductByID);
-route.delete('/products/:idProduct', ProductsController.deleteProduct);
-route.put('/products/:idProduct', fileUpload, ProductsController.updateProduct);
-route.put('/products/:idProduct/image', fileUpload, ProductsController.updateProductImage);
+route.delete('/products/:idProduct', [verifySession], ProductsController.deleteProduct);
+route.put('/products/:idProduct', fileUpload, [verifySession], ProductsController.updateProduct);
+route.put('/products/:idProduct/image', fileUpload, [verifySession], ProductsController.updateProductImage);
 
 route.use('/products', ProductsReviewRoute);
 

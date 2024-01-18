@@ -13,7 +13,6 @@ export function validateAccount(req, res, next) {
         })
         .catch(function (err) {
             res.status(400).json(err);
-            return;
         })
 }
 
@@ -23,7 +22,7 @@ export function verifySession(req, res, next) {
     const token = req.headers['auth-token'];
 
     if (!token) {
-        res.status(401).json({ msg: "No se encuentra el token" });
+        return res.status(401).json({ msg: "No se encuentra el token" });
     }
 
     accountServices.verifyToken(token)
