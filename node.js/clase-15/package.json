@@ -4,9 +4,9 @@
   "type": "module",
   "main": "main.js",
   "scripts": {
-    "server": "cls && nodemon server.js",
+    "server": "cls && nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
