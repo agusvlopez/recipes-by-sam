@@ -5,7 +5,7 @@ export const productCreateSchema = yup.object({
     name: yup.string().min(5, 'El nombre debe contener mas de 5 caracteres').required("El nombre es un campo requerido"),
     description: yup.string().min(5, 'La descripción debe contener mas de 5 caracteres').required("Descripción es un campo requerido"),
     stock: yup.number().max(2500, 'La cantidad máxima es de 2500').required(),
-    file: yup.mixed(),
+    file: yup.mixed().test('file', 'Debe ser un archivo de imagen', value => value && value.mimetype.startsWith('image/')),
     price: yup.number().required()
 });
 
@@ -13,7 +13,7 @@ export const productUpdateSchema = yup.object({
     name: yup.string().min(5, 'El nombre debe contener mas de 5 caracteres'),
     description: yup.string().min(5, 'La descripción debe contener mas de 5 caracteres'),
     stock: yup.number().max(2500, 'La cantidad máxima es de 2500'),
-    file: yup.mixed(),
+    file: yup.mixed().test('file', 'Debe ser un archivo de imagen', value => !value || value.mimetype.startsWith('image/')),
     price: yup.number()
 });
 

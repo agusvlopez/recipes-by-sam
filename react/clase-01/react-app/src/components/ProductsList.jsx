@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Title } from "./Title";
 
 function ProductsList({ }) {
-    const URL = "https://vercel-api-beta-coral.vercel.app";
+    const URL = "https://vercel-api-taupe-mu.vercel.app";
     const [products, setProducts] = useState([]);
     const [error, setError] = useState("");
     const [product_id, setProductId] = useState(0);

@@ -73,12 +73,11 @@ async function createProduct(product, imagePath, filename) {
         const newProduct = {
             ...product,
             file: {
-                path: imagePath,
-                filename,
+                data: fileBuffer, // Guardar el búfer del archivo como datos binarios
+                contentType: fileContentType,
             },
         };
 
-        // Insertar el nuevo producto en la base de datos
         await ProductCollection.insertOne(newProduct);
         console.log('Producto creado exitosamente.');
 

@@ -48,18 +48,20 @@ function getProductByID(req, res) {
 
 async function createProduct(req, res) {
     try {
-        // Extract product data and file information from the request
         const { body, file } = req;
 
-        // Check if an image file was uploaded
+        // Verificar si se cargó un archivo de imagen
         if (!file) {
             return res.status(400).json({ error: 'No image file provided' });
         }
 
-        // Call the service to create the product with the image
-        const product = await ProductsService.createProduct(body, file.path, file.filename);
-        console.log(file);
-        // Send the response with the created product
+        // Obtener el búfer de la imagen y su tipo de contenido
+        const fileBuffer = file.buffer;
+        const fileContentType = file.mimetype;
+
+        // Llamar al servicio para crear el producto con el búfer de la imagen
+        const product = await ProductsService.createProduct(body, fileBuffer, fileContentType);
+
         res.status(201).json(product);
     } catch (error) {
         console.error('Error creating product:', error);

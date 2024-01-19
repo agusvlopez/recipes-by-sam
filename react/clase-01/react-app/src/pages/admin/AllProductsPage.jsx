@@ -4,7 +4,7 @@ import { Title } from "../../components/Title";
 
 
 function AdminProductsPage({ }) {
-    const URL = "https://vercel-api-beta-coral.vercel.app";
+    const URL = "https://vercel-api-taupe-mu.vercel.app";
     const [products, setProducts] = useState([]);
     const [error, setError] = useState("");
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
+    const URL = "https://vercel-api-taupe-mu.vercel.app";
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ function RegisterPage() {
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        fetch('http://localhost:2023/api/account', {
+        fetch(`${URL}/api/account`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
