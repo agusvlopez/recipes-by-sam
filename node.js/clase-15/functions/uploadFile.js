@@ -3,7 +3,7 @@ import { storage } from '../firebase/firebase.js';
 import fs from 'fs/promises';
 
 export async function uploadFile(file) {
-    const fileRef = ref(storage, `files/${Date.now()}`);
+    const fileRef = ref(storage, `files/${Date.now()}/${Date.now()}`);
 
     const fileMetadata = {
         contentType: file.mimetype
