@@ -2,7 +2,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 import fs from 'fs-extra';
 import dotenv from 'dotenv'; // Agrega esta línea
-import { uploadFile } from "../functions/uploadFile";
+import { uploadFile } from "../functions/uploadFile.js";
 
 // Cargar variables de entorno desde .env
 dotenv.config();
