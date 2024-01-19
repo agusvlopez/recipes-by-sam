@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const URL = "https://vercel-api-taupe-mu.vercel.app";
+const URL = "https://vercel-api-ten-tau.vercel.app";
 
 function LoginPage() {
     const [email, setEmail] = useState('');
