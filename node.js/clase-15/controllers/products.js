@@ -55,12 +55,8 @@ async function createProduct(req, res) {
             return res.status(400).json({ error: 'No image file provided' });
         }
 
-        // Obtener el búfer de la imagen y su tipo de contenido
-        const fileBuffer = file.buffer;
-        const fileContentType = file.mimetype;
-
-        // Llamar al servicio para crear el producto con el búfer de la imagen
-        const product = await ProductsService.createProduct(body, fileBuffer, fileContentType);
+        // Llamar al servicio para crear el producto con el archivo
+        const product = await ProductsService.createProduct(body, file);
 
         res.status(201).json(product);
     } catch (error) {

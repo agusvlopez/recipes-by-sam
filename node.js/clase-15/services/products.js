@@ -2,6 +2,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 import fs from 'fs-extra';
 import dotenv from 'dotenv'; // Agrega esta línea
+import { uploadFile } from "../functions/uploadFile";
 
 // Cargar variables de entorno desde .env
 dotenv.config();
@@ -66,18 +67,23 @@ async function getProductByID(id) {
     return ProductCollection.findOne({ _id: new ObjectId(id) });
 }
 
-async function createProduct(product, imagePath, filename) {
+async function createProduct(product, file) {
     try {
         await client.connect();
 
+        // Sube el archivo a Firebase Storage y obtén la URL de descarga
+        const { ref: fileRef, downloadURL } = await uploadFile(file);
+
+        // Crea el nuevo producto con la URL de descarga del archivo
         const newProduct = {
             ...product,
             file: {
-                data: fileBuffer, // Guardar el búfer del archivo como datos binarios
-                contentType: fileContentType,
+                data: downloadURL, // Guarda la URL de descarga del archivo
+                contentType: file.mimetype,
             },
         };
 
+        // Inserta el nuevo producto en la base de datos
         await ProductCollection.insertOne(newProduct);
         console.log('Producto creado exitosamente.');
 
@@ -87,6 +93,28 @@ async function createProduct(product, imagePath, filename) {
         throw { code: 500, msg: 'Internal Server Error' };
     }
 }
+
+// async function createProduct(product, imagePath, filename) {
+//     try {
+//         await client.connect();
+//         const {} = await uploadFile();
+//         const newProduct = {
+//             ...product,
+//             file: {
+//                 data: fileBuffer, // Guardar el búfer del archivo como datos binarios
+//                 contentType: fileContentType,
+//             },
+//         };
+
+//         await ProductCollection.insertOne(newProduct);
+//         console.log('Producto creado exitosamente.');
+
+//         return newProduct;
+//     } catch (error) {
+//         console.error('Error creando producto:', error);
+//         throw { code: 500, msg: 'Internal Server Error' };
+//     }
+// }
 
 async function updateProductImageInDatabase(idProduct, imagePath, filename) {
     try {
