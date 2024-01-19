@@ -40,8 +40,13 @@ const route = express.Router();
 // }
 
 //aca decidimos que queremos hacer:
+
+const storage = multer.memoryStorage(); // Almacena el archivo en memoria (puedes ajustar según tus necesidades)
+
+const fileUpload = multer().single('file');
+
 route.get('/products', ProductsController.getProducts);
-route.post('/products', [verifySession], ProductsController.createProduct);
+route.post('/products', fileUpload, ProductsController.createProduct);
 
 route.get('/products/:idProduct', ProductsController.getProductByID);
 route.delete('/products/:idProduct', [verifySession], ProductsController.deleteProduct);

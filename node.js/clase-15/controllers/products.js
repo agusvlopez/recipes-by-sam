@@ -9,6 +9,7 @@ import {
 import yup from 'yup';
 
 import * as ProductsService from "../services/products.js";
+import { uploadFile } from '../functions/uploadFile.js';
 
 // import ServiceProducts from "../services/products.js";
 
@@ -45,7 +46,6 @@ function getProductByID(req, res) {
 
         })
 }
-
 async function createProduct(req, res) {
     try {
         const { body, file } = req;
@@ -55,10 +55,13 @@ async function createProduct(req, res) {
             return res.status(400).json({ error: 'No image file provided' });
         }
 
-        // Llamar al servicio para crear el producto con el archivo
-        const product = await ProductsService.createProduct(body, file);
+        // Llamar al servicio para subir la imagen a Firebase Storage
+        const { downloadURL } = await uploadFile(file);
 
-        res.status(201).json(product);
+        // Llamar al servicio para crear el producto con la URL de descarga de la imagen
+        const product = await ProductsService.createProduct({ ...body, file: downloadURL });
+
+        res.status(201).json(product); // Cambiado a 201 para indicar la creación exitosa
     } catch (error) {
         console.error('Error creating product:', error);
         res.status(500).json({ error: 'Internal Server Error' });

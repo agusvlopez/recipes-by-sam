@@ -67,24 +67,21 @@ async function getProductByID(id) {
     return ProductCollection.findOne({ _id: new ObjectId(id) });
 }
 
-async function createProduct(product, file) {
+async function createProduct(product) {
     try {
-        await client.connect();
+        // Inserta el nuevo producto en la base de datos y obtén el documento insertado
+        const result = await ProductCollection.insertOne(product);
 
-        // Sube el archivo a Firebase Storage y obtén la URL de descarga
-        const { ref: fileRef, downloadURL } = await uploadFile(file);
-
-        // Crea el nuevo producto con la URL de descarga del archivo
+        // Devuelve solo la información relevante del nuevo producto
         const newProduct = {
-            ...product,
-            file: {
-                data: downloadURL, // Guarda la URL de descarga del archivo
-                contentType: file.mimetype,
-            },
+            _id: result.insertedId,
+            name: product.name,
+            description: product.description,
+            stock: product.stock,
+            price: product.price,
+            file: product.file,
         };
 
-        // Inserta el nuevo producto en la base de datos
-        await ProductCollection.insertOne(newProduct);
         console.log('Producto creado exitosamente.');
 
         return newProduct;

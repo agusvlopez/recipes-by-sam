@@ -3,17 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../../components/Title";
 
 const ProductPage = () => {
-    const URL = "https://vercel-api-ten-tau.vercel.app";
+    const URL = "http://localhost:2023";
     const [file, setFile] = useState("");
     const [productData, setProductData] = useState({
         stock: "",
         description: "",
         name: "",
         price: "",
-        file: {
-            path: "",
-            filename: "",
-        }
+        file: ""
     });
     const [keepImage, setKeepImage] = useState(true);
     const [successMessage, setSuccessMessage] = useState("");
@@ -72,7 +69,7 @@ const ProductPage = () => {
         });
     };
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         const fileInput = e.target;
         const newFile = fileInput.files[0];
 
@@ -86,7 +83,7 @@ const ProductPage = () => {
             // Handle other scenarios as needed
         }
     };
-
+    console.log(file);
     const handleDataFormSubmit = (e) => {
         e.preventDefault();
 
@@ -98,7 +95,7 @@ const ProductPage = () => {
         if (!isEditMode) {
             formData.append('file', file);
         }
-
+        console.log(formData);
         const url = isEditMode
             ? `${URL}/products/${idProduct}`
             : `${URL}/products`;

@@ -4,7 +4,7 @@ import { Title } from "../../components/Title";
 
 
 function AdminProductsPage({ }) {
-    const URL = "https://vercel-api-ten-tau.vercel.app";
+    const URL = "http://localhost:2023";
     const [products, setProducts] = useState([]);
     const [error, setError] = useState("");
 
@@ -46,7 +46,7 @@ function AdminProductsPage({ }) {
                     {products.map((product) => (
                         <Link to={`./${product._id}`} key={product._id}>
                             <div key={product._id} className="bg-white p-4 rounded-md shadow-md">
-                                <img src={`${URL}${product.file?.path}`} alt="" />
+                                <img src={`${product.file}`} alt={product.name} />
                                 {/* <img src={`../../../public/uploads/${product.file.filename}`} alt="" /> */}
                                 <h3 className="text-xl font-bold mb-2 mt-2">{product.name}</h3>
                                 <p>{product.description}</p>

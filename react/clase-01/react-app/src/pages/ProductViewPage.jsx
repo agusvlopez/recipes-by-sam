@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../components/Title";
 
 function ProductViewPage({ }) {
-    const URL = "https://vercel-api-ten-tau.vercel.app";
+    const URL = "http://localhost:2023";
     const [product, setProduct] = useState("");
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");

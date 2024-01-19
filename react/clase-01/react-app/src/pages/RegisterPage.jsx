@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
-    const URL = "https://vercel-api-ten-tau.vercel.app";
+    const URL = "http://localhost:2023";
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
