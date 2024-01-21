@@ -1,8 +1,11 @@
 //Nos brinda toda la info que tiene que ver con la carga o datos de un producto
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient } from "mongodb";
 import fs from 'fs-extra';
 import dotenv from 'dotenv'; // Agrega esta línea
 import { uploadFile } from "../functions/uploadFile.js";
+import { storage } from "../firebase/firebase.js";
+import { deleteObject, ref } from "firebase/storage";
+import { ObjectId } from "bson";
 
 // Cargar variables de entorno desde .env
 dotenv.config();
@@ -143,11 +146,23 @@ async function updateProduct(idProduct, productData) {
     try {
         await client.connect();
 
+        // Obtener el producto existente
         const oldProduct = await getProductByID(idProduct);
 
+        // Crear el objeto de producto actualizado
         const updatedProduct = {
-            ...productData,
+            _id: oldProduct._id,
+            name: productData.name || oldProduct.name,
+            description: productData.description || oldProduct.description,
+            stock: parseInt(productData.stock) || oldProduct.stock,
+            price: parseInt(productData.price) || oldProduct.price,
+            file: oldProduct.file, // Mantener la imagen existente
         };
+
+        // Si hay un nuevo archivo, actualizar la propiedad 'file' en 'updatedProduct'
+        if (productData.file) {
+            updatedProduct.file = productData.file;
+        }
 
         // Actualizar el producto en la base de datos
         const result = await ProductCollection.updateOne(
@@ -155,8 +170,12 @@ async function updateProduct(idProduct, productData) {
             { $set: updatedProduct }
         );
 
-        if (result.matchedCount === 1) {
+        console.log('Producto antiguo:', oldProduct);
+        console.log('Producto actualizado:', updatedProduct);
+        console.log('Resultado de la actualización:', result);
 
+        if (result.matchedCount === 1) {
+            console.log('Producto editado exitosamente.');
             return ProductCollection.findOne({ _id: new ObjectId(idProduct) });
         }
     } catch (error) {
@@ -165,24 +184,58 @@ async function updateProduct(idProduct, productData) {
     }
 }
 
+// async function updateProductImage(idProduct, imagePath, filename) {
+//     try {
+//         // Obtener la información del producto antes de la actualización
+//         const oldProduct = await getProductByID(idProduct);
+//         const oldImagePath = oldProduct.file.path;
+
+//         // Actualizar solo la imagen del producto en la base de datos
+//         await updateProductImageInDatabase(idProduct, imagePath, filename);
+
+//         // Elimina el archivo antiguo
+//         if (oldImagePath) {
+//             deleteImageFile(oldImagePath);
+//         }
+//     } catch (error) {
+//         console.error('Error updating product image:', error);
+//         throw { code: 500, msg: 'Internal Server Error' };
+//     }
+// }
+
 async function updateProductImage(idProduct, imagePath, filename) {
     try {
         // Obtener la información del producto antes de la actualización
         const oldProduct = await getProductByID(idProduct);
-        const oldImagePath = oldProduct.file.path;
+        const oldImagePath = oldProduct.file;
 
         // Actualizar solo la imagen del producto en la base de datos
         await updateProductImageInDatabase(idProduct, imagePath, filename);
 
-        // Elimina el archivo antiguo
+        // Elimina el archivo antiguo de Firebase Storage
         if (oldImagePath) {
-            deleteImageFile(oldImagePath);
+            await deleteImageFile(oldImagePath);
         }
     } catch (error) {
         console.error('Error updating product image:', error);
         throw { code: 500, msg: 'Internal Server Error' };
     }
 }
+
+// async function deleteImageFileFromStorage(imagePath) {
+//     try {
+//         // Obtén la referencia al archivo en Firebase Storage
+//         const fileRef = ref(storage, imagePath);
+
+//         // Elimina el archivo de Firebase Storage
+//         await deleteObject(fileRef);
+
+//         console.log('Image file deleted successfully from Firebase Storage.');
+//     } catch (err) {
+//         console.error('Error deleting image file from Firebase Storage:', err);
+//         throw err;
+//     }
+// }
 
 async function deleteProduct(idProduct) {
     try {
@@ -194,7 +247,7 @@ async function deleteProduct(idProduct) {
             return { success: false, error: 'Product not found' };
         }
 
-        const imagePath = product.file.path;
+        const imagePath = product.file;
         if (imagePath) {
             deleteImageFile(imagePath);
         }
@@ -210,12 +263,27 @@ async function deleteProductFromDatabase(idProduct) {
     return await ProductCollection.deleteOne({ _id: new ObjectId(idProduct) });
 }
 
-function deleteImageFile(imagePath) {
+// function deleteImageFile(imagePath) {
+//     try {
+//         fs.unlinkSync(imagePath);
+//         console.log('Image file deleted successfully.');
+//     } catch (err) {
+//         console.error('Error deleting image file:', err);
+//     }
+// }
+
+async function deleteImageFile(imagePath) {
     try {
-        fs.unlinkSync(imagePath);
-        console.log('Image file deleted successfully.');
+        // Obtén la referencia al archivo en Firebase Storage
+        const fileRef = ref(storage, imagePath);
+
+        // Elimina el archivo de Firebase Storage
+        await deleteObject(fileRef);
+
+        console.log('Image file deleted successfully from Firebase Storage.');
     } catch (err) {
-        console.error('Error deleting image file:', err);
+        console.error('Error deleting image file from Firebase Storage:', err);
+        throw err; // Puedes relanzar el error para manejarlo en el nivel superior si es necesario
     }
 }
 

@@ -90,12 +90,23 @@ async function deleteProduct(req, res) {
 async function updateProduct(req, res) {
     try {
         const { idProduct } = req.params;
-        const { body } = req;
+        const { body, file } = req;
+        console.log('ID del producto:', idProduct);
+        console.log('Datos del producto para actualizar:', body);
 
-        // Llama al servicio para actualizar el producto
-        const updatedProduct = await ProductsService.updateProduct(idProduct, body);
+        // Si no hay un nuevo archivo, solo actualiza la información del producto sin cargar un nuevo archivo
+        if (!file) {
+            const updatedProduct = await ProductsService.updateProduct(idProduct, body);
+            console.log(updatedProduct);
+            res.status(200).json(updatedProduct);
+            return;
+        }
 
-        // Devuelve la respuesta con el producto actualizado
+        // Si hay un nuevo archivo, carga el archivo y luego actualiza la información del producto
+        const { downloadURL } = await uploadFile(file);
+        const updatedProduct = await ProductsService.updateProduct(idProduct, { ...body, file: downloadURL });
+        console.log(updatedProduct);
+
         res.status(200).json(updatedProduct);
     } catch (error) {
         console.error('Error updating product:', error);
@@ -109,7 +120,7 @@ async function updateProductImage(req, res) {
         const { file } = req;
 
         // Verifica si se proporcionó un archivo de imagen
-        const imagePath = file ? file.path : null;
+        const imagePath = file ? file : null;
 
         // Llama al servicio para actualizar la imagen del producto
         await ProductsService.updateProductImage(idProduct, imagePath);
