@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../../components/Title";
+import { Loader } from "../../components/Loader";
 
 const ProductPage = () => {
     const URL = "http://localhost:2023";
@@ -15,6 +16,8 @@ const ProductPage = () => {
     const [keepImage, setKeepImage] = useState(true);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingNew, setIsLoadingNew] = useState(false);
 
     const navigate = useNavigate();
     const { idProduct } = useParams();
@@ -53,7 +56,10 @@ const ProductPage = () => {
                 })
                 .catch((error) => {
                     console.error(error.message);
-                });
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                })
         }
     }, [idProduct, navigate, isEditMode]);
 
@@ -83,7 +89,7 @@ const ProductPage = () => {
     console.log(file);
     const handleDataFormSubmit = (e) => {
         e.preventDefault();
-
+        setIsLoadingNew(true);
         const formData = new FormData();
         formData.append('stock', productData.stock);
         formData.append('description', productData.description);
@@ -110,13 +116,6 @@ const ProductPage = () => {
         })
             .then((response) => {
                 if (response.ok) {
-                    setSuccessMessage(isEditMode ? "Product updated successfully!" : "Product added successfully!");
-
-                    // Redirigir a otra página después de 2 segundos
-                    setTimeout(() => {
-                        navigate('/admin/products');
-                    }, 2000);
-
                     setProductData({
                         stock: "",
                         description: "",
@@ -131,12 +130,19 @@ const ProductPage = () => {
             .catch((error) => {
                 setErrorMessage(`Error ${isEditMode ? 'updating' : 'adding'} product. Please try again.`);
                 console.error(error);
+            })
+            .finally(() => {
+                setIsLoadingNew(false);
+                setSuccessMessage(isEditMode ? "Product updated successfully!" : "Product added successfully!");
+                setTimeout(() => {
+                    navigate('/admin/products');
+                }, 2000);
             });
     };
 
     return (
         <>
-            <div className="container mx-auto pt-6 mt-6">
+            <div className="container mx-auto p-4 mt-8">
                 {successMessage && (
                     <div className="bg-green-500 text-white p-4 mt-4">
                         {successMessage}
@@ -148,88 +154,92 @@ const ProductPage = () => {
                         {errorMessage}
                     </div>
                 )}
-                <div className="p-6">
+                <div className="p-2">
                     <Title>{isEditMode ? 'Edit Product' : 'Add New Product'}</Title>
-                    <form onSubmit={handleDataFormSubmit} encType="multipart/form-data">
-                        <div className="mb-4">
-                            <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
-                                Product Name:
-                            </label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                value={productData.name}
-                                onChange={handleInputChange}
-                                className="w-full p-2 border rounded-md"
-                                required
-                            />
-                        </div>
+                    {isEditMode && isLoading || isLoadingNew ? (
+                        <Loader />
+                    ) : (
+                        <form onSubmit={handleDataFormSubmit} encType="multipart/form-data">
+                            <div className="mb-4">
+                                <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                                    Product Name:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    value={productData.name}
+                                    onChange={handleInputChange}
+                                    className="w-full p-2 border rounded-md"
+                                    required
+                                />
+                            </div>
 
-                        <div className="mb-4">
-                            <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
-                                Description:
-                            </label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                value={productData.description}
-                                onChange={handleInputChange}
-                                rows="4"
-                                className="w-full p-2 border rounded-md"
-                                required
-                            ></textarea>
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="stock" className="block text-gray-700 font-bold mb-2">
-                                Stock:
-                            </label>
-                            <input
-                                type="number"
-                                id="stock"
-                                name="stock"
-                                value={productData.stock}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="price" className="block text-gray-700 font-bold mb-2">
-                                Price: $
-                            </label>
-                            <input
-                                type="number"
-                                id="price"
-                                name="price"
-                                value={productData.price}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        {/* Mostrar la sección de imagen incluso al agregar un nuevo producto */}
+                            <div className="mb-4">
+                                <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
+                                    Description:
+                                </label>
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    value={productData.description}
+                                    onChange={handleInputChange}
+                                    rows="4"
+                                    className="w-full p-2 border rounded-md"
+                                    required
+                                ></textarea>
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="stock" className="block text-gray-700 font-bold mb-2">
+                                    Stock:
+                                </label>
+                                <input
+                                    type="number"
+                                    id="stock"
+                                    name="stock"
+                                    value={productData.stock}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="price" className="block text-gray-700 font-bold mb-2">
+                                    Price: $
+                                </label>
+                                <input
+                                    type="number"
+                                    id="price"
+                                    name="price"
+                                    value={productData.price}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            {/* Mostrar la sección de imagen incluso al agregar un nuevo producto */}
 
-                        <div className="mb-4">
-                            <label htmlFor="file" className="block text-gray-700 font-bold mb-2">
-                                Image:
-                            </label>
-                            <input
-                                type="file"
-                                id="file"
-                                name="file"
-                                onChange={handleImageChange}
-                                required={!keepImage}
-                            />
-                        </div>
+                            <div className="mb-4">
+                                <label htmlFor="file" className="block text-gray-700 font-bold mb-2">
+                                    Image:
+                                </label>
+                                <input
+                                    type="file"
+                                    id="file"
+                                    name="file"
+                                    onChange={handleImageChange}
+                                    required={!keepImage}
+                                />
+                            </div>
 
-                        <div className="mb-4">
-                            <button
-                                type="submit"
-                                className="bg-indigo-500 text-white p-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:border-indigo-700"
-                            >
-                                {isEditMode ? 'Update Product Data' : 'Add Product Data'}
-                            </button>
-                        </div>
-                    </form>
+                            <div className="mb-4">
+                                <button
+                                    type="submit"
+                                    className="bg-indigo-500 text-white p-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:border-indigo-700"
+                                >
+                                    {isEditMode ? 'Update Product' : 'Add Product'}
+                                </button>
+                            </div>
+                        </form>
+                    )}
                 </div>
             </div>
         </>

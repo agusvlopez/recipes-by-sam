@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Title } from "./Title";
+import { Loader } from "./Loader";
 
 function ProductsList({ }) {
     const URL = "https://vercel-api-ten-tau.vercel.app";
     const [products, setProducts] = useState([]);
-    const [error, setError] = useState("");
-    const [product_id, setProductId] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -28,7 +28,10 @@ function ProductsList({ }) {
             })
             .then((data) => {
                 setProducts(data);
-            });
+            })
+            .finally(() => {
+                setIsLoading(false);
+            })
 
         return () => {
             console.log("se ejecuta cuando se desmonta el componente");
@@ -40,22 +43,25 @@ function ProductsList({ }) {
         <>
             <div className="container mx-auto pt-6 mt-6">
                 <Title>All Recipes</Title>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {products.map((product) => (
-                        <Link to={`/products/${product._id}`} key={product._id}>
-                            <div className="bg-white p-6 rounded-md shadow-md">
-                                <h2 className="text-xl font-bold mb-2 text-gray-600">{product.name}</h2>
-                                <p className="text-gray-500 mb-4">{product.description}</p>
-                                <img src={`${URL}/${product.file?.path}`} alt={product.name} className="w-full h-48 object-cover mb-4" />
-                                <div className="flex items-center justify-between">
-                                    <p className="text-gray-600">Price: ${product.price}</p>
-                                    <p>imagen : {`${URL}/${product.file?.path}`}</p>
+                {isLoading ? (
+                    // Mostrar indicador de carga
+                    <Loader />
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {products.map((product) => (
+                            <Link to={`/products/${product._id}`} key={product._id}>
+                                <div className="bg-white p-6 rounded-md shadow-md">
+                                    <h2 className="text-xl font-bold mb-2 text-gray-600">{product.name}</h2>
+                                    <p className="text-gray-500 mb-4">{product.description}</p>
+                                    <img src={product.file} alt={product.name} className="w-full h-48 object-cover mb-4" />
+                                    <div className="flex items-center justify-between">
+                                        <p className="text-gray-600">Price: ${product.price}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-
+                            </Link>
+                        ))}
+                    </div>
+                )}
             </div>
         </>
     )

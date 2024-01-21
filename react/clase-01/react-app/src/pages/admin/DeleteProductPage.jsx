@@ -35,19 +35,40 @@ function DetailProductPage() {
 
 
     const handleDeleteProduct = (idProduct) => {
-        // Envía la solicitud DELETE al servidor
-        navigate(`/admin/products/${idProduct}/delete`);
+        setAlertMessage(`Deleting ${product.name}`);
+
+        fetch(`${URL}/products/${idProduct}`, {
+            method: 'DELETE',
+            headers: {
+                'auth-token': localStorage.getItem('token')
+            }
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error deleting product');
+                }
+            })
+            .then((data) => {
+            })
+            .catch((error) => {
+                console.error(error.message);
+            })
+            .finally(() => {
+                setAlertMessage("Product deleted successfully");
+
+                setTimeout(() => {
+                    navigate('/admin/products');
+                }, 2000);
+            });
     };
 
-    const handleEditProduct = (idProduct) => {
-        // Redirige a la página de edición del producto
-        navigate(`/admin/products/${idProduct}/edit`);
-    };
 
     return (
         <>
             <div className="container mx-auto p-4 pt-8">
-                <Title>Product Detail</Title>
+                <Title>Delete {product.name}</Title>
                 {alertMessage && (
                     <div className="bg-red-500 text-white p-4 mt-4">
                         {alertMessage}
@@ -64,16 +85,11 @@ function DetailProductPage() {
                             <div className="flex items-center justify-between">
                                 <p className="text-gray-600">Price: ${product.price}</p>
                             </div>
-                            <div className="mt-4 flex justify-between">
-                                <button
-                                    onClick={() => handleEditProduct(product._id)}
-                                    className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700 mr-2"
-                                >
-                                    Edit Product
-                                </button>
+                            <div className="mt-4">
+                                <p className="font-semibold text-lg">Are you completly sure you want to delete this product?</p>
                                 <button
                                     onClick={() => handleDeleteProduct(product._id)}
-                                    className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:border-red-700"
+                                    className="mt-2 bg-red-500 text-white p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:border-red-700"
                                 >
                                     Delete Product
                                 </button>

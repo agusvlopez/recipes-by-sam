@@ -14,12 +14,12 @@ export default function DashboardPage() {
 
     return (
         <>
-            <div className="flex h-screen bg-gray-100">
+            <div className="flex bg-gray-100">
                 {/* Sidebar */}
                 <Sidebar activeTab={activeTab} onTabClick={handleTabClick} />
 
                 {/* Main Content */}
-                <div className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+                <div className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 h-screen">
                     <div className=''>
                         <img src={recipeDashboard} alt="" className='h-3/6' />
                     </div>

@@ -17,6 +17,7 @@ import AllProductsPage from './pages/admin/AllProductsPage';
 import DetailProductPage from './pages/admin/DetailProductPage';
 import NewProductPage from './pages/admin/NewProductPage';
 import EditProductPage from './pages/admin/EditProductPage';
+import DeleteProductPage from './pages/admin/DeleteProductPage';
 
 const route = createBrowserRouter([
   {
@@ -80,6 +81,10 @@ const route = createBrowserRouter([
                   {
                     path: 'edit',
                     element: <EditProductPage />,
+                  },
+                  {
+                    path: 'delete',
+                    element: <DeleteProductPage />,
                   }
                 ]
               },
