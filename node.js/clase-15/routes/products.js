@@ -11,11 +11,15 @@ import multer from 'multer';
 //aca creamos una ruta
 const route = express.Router();
 
+const storage = multer.memoryStorage(); // Almacena el archivo en memoria (puedes ajustar según tus necesidades)
+
+const fileUpload = multer().single('file');
+
 route.get('/products', ProductsController.getProducts);
-route.post('/products', verifySession, ProductsController.createProduct);
+route.post('/products', fileUpload, verifySession, ProductsController.createProduct);
 
 route.get('/products/:idProduct', ProductsController.getProductByID);
 route.delete('/products/:idProduct', verifySession, ProductsController.deleteProduct);
-route.put('/products/:idProduct', verifySession, ProductsController.updateProduct);
+route.put('/products/:idProduct', fileUpload, verifySession, ProductsController.updateProduct);
 
 export default route;
