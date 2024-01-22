@@ -122,7 +122,7 @@ const ProductPage = () => {
                         name: "",
                         price: "",
                     });
-                    setFile(null);  // Reset file field
+                    setFile(null);
                 } else {
                     throw new Error('Error');
                 }

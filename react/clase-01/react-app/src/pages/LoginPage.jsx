@@ -6,6 +6,7 @@ const URL = "http://localhost:2023";
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     //En los handle se podrian hacer las validaciones
@@ -23,18 +24,22 @@ function LoginPage() {
         fetch(`${URL}/api/session`, {
             method: 'POST',
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'auth-token': localStorage.getItem('token')
             },
             body: JSON.stringify({ email, password })
         })
             .then((res) => res.json())
             .then((result) => {
-                console.log(result);
                 localStorage.setItem('token', result.session.token);
                 localStorage.setItem('email', result.session.account.email);
                 localStorage.setItem('role', result.session.account.role);
                 navigate('/', { replace: true });
-                console.log(result);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                setError('Login failed. Please try again.');
+                setPassword("");
             });
     }
 
@@ -43,7 +48,9 @@ function LoginPage() {
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <form onSubmit={handleFormSubmit} className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
                     <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Iniciar sesión</h2>
-
+                    {error && (
+                        <div className="text-red-500 mb-4 text-center">{error}</div>
+                    )}
                     <label htmlFor="email" className="block text-gray-700">Email:</label>
                     <input
                         id="email"

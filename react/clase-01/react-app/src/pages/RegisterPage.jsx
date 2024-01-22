@@ -5,6 +5,7 @@ function RegisterPage() {
     const URL = "http://localhost:2023";
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     //En los handle se podrian hacer las validaciones
@@ -28,11 +29,14 @@ function RegisterPage() {
         })
             .then((res) => res.json())
             .then((result) => {
-                console.log(result);
                 localStorage.setItem('token', result.account.token);
+                localStorage.setItem('role', result.account.role);
                 localStorage.setItem('email', email);
                 navigate('/', { replace: true });
-                console.log(result);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                setError('Register failed. Please try again.');
             });
     }
 
@@ -41,7 +45,9 @@ function RegisterPage() {
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <form onSubmit={handleFormSubmit} className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
                     <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Register</h2>
-
+                    {error && (
+                        <div className="text-red-500 mb-4 text-center">{error}</div>
+                    )}
                     <label htmlFor="email" className="block text-gray-700">Email:</label>
                     <input
                         id="email"
@@ -52,7 +58,7 @@ function RegisterPage() {
                         className="mt-1 p-2 w-full border rounded-md"
                     />
 
-                    <label htmlFor="pass" className="block mt-4 text-gray-700">Password:</label>
+                    <label htmlFor="pass" className="block mt-4 text-gray-700">Password <span className="text-gray-500">(minimum 4 characters)</span>:</label>
                     <input
                         id="pass"
                         type="password"
