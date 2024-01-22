@@ -9,6 +9,7 @@ export function validateAccount(req, res, next) {
     })
         .then(async function (data) {
             req.body = data;
+            console.log(data);
             next();
         })
         .catch(function (err) {

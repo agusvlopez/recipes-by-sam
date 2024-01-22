@@ -18,14 +18,14 @@ const mongoURI = process.env.MONGODB_URI;
 const client = new MongoClient(mongoURI);
 
 const db = client.db("test");
-const AccountsCollection = db.collection('accounts');
 const TokensCollection = db.collection('tokens');
+const AccountsCollection = db.collection('accounts');
 
 async function createAccount(account) {
     await client.connect();
     const newAccount = {
         ...account,
-        role: 'admin'
+        role: 'cliente'
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -59,7 +59,7 @@ async function createToken(payload) {
     const token = jwt.sign(payload, "CLAVE SECRETA");
 
     TokensCollection.insertOne({ token, email: payload.email, role: payload.role });
-
+    console.log(token);
     return token;
 }
 

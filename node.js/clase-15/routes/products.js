@@ -11,49 +11,11 @@ import multer from 'multer';
 //aca creamos una ruta
 const route = express.Router();
 
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, './uploads');
-//     },
-//     filename: (req, file, cb) => {
-//         const ext = file.originalname.split('.').pop();
-//         const filename = `${Date.now()}.${ext}`;
-//         console.log('Generated filename:', filename); // Agrega este log
-//         cb(null, filename);
-//     },
-//     limits: {
-//         fileSize: 10 * 1024 * 1024, // Ajusta el límite de tamaño aquí (10 MB en este ejemplo)
-//     },
-// });
-
-// const fileUpload = multer({ storage }).single('file');
-
-//route.use('/products', [verifySession]);
-
-//route.all('/products', [verifySession]);
-
-// function userData(req, res, next){
-//     req.user = {
-//         name: "Ana Diaz"
-//     }
-//     next();
-// }
-
-//aca decidimos que queremos hacer:
-
-const storage = multer.memoryStorage(); // Almacena el archivo en memoria (puedes ajustar según tus necesidades)
-
-const fileUpload = multer().single('file');
-
 route.get('/products', ProductsController.getProducts);
-route.post('/products', fileUpload, ProductsController.createProduct);
+route.post('/products', verifySession, ProductsController.createProduct);
 
 route.get('/products/:idProduct', ProductsController.getProductByID);
-route.delete('/products/:idProduct', ProductsController.deleteProduct);
-route.put('/products/:idProduct', fileUpload, ProductsController.updateProduct);
-route.put('/products/:idProduct/image', fileUpload, ProductsController.updateProductImage);
+route.delete('/products/:idProduct', verifySession, ProductsController.deleteProduct);
+route.put('/products/:idProduct', verifySession, ProductsController.updateProduct);
 
-route.use('/products', ProductsReviewRoute);
-
-//exportamos la ruta
 export default route;

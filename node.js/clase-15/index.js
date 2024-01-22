@@ -15,9 +15,9 @@ app.use(ProductsRoute);
 app.use(ProductsReviews);
 app.use('/api', AccountRoute);
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 //app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
