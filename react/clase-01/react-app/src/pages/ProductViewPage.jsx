@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Title } from "../components/Title";
 import { useCreateReviewMutation, useGetProductQuery, useGetReviewsQuery } from "../features/apiSlice";
+import { Loader } from "../components/Loader";
 
 function ProductViewPage({ }) {
     const [newComment, setNewComment] = useState("");
@@ -72,7 +73,7 @@ function ProductViewPage({ }) {
                         </div>
                     </>
                 ) : (
-                    <p>Loading...</p>
+                    <Loader />
                 )}
             </div>
         </>

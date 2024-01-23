@@ -27,7 +27,7 @@ function RegisterPage() {
             localStorage.setItem('role', result.account.role);
             localStorage.setItem('email', email);
 
-            navigate('/', { replace: true });
+            navigate('/', { state: { successMessage: 'Account created successfully! Welcome.' }, replace: true });
         } catch (error) {
             console.error('Error:', error);
             setError('Login failed. Please try again.');

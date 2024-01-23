@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useCreateSessionMutation } from "../features/apiSlice";
 
 function LoginPage() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('admin@admin.com');
+    const [password, setPassword] = useState('1234');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ function LoginPage() {
             localStorage.setItem('email', result.session.account.email);
             localStorage.setItem('role', result.session.account.role);
 
-            navigate('/', { replace: true });
+            navigate('/', { state: { successMessage: 'Login successful! Welcome back.' }, replace: true });
         } catch (error) {
             console.error('Error:', error);
             setError('Login failed. Please try again.');

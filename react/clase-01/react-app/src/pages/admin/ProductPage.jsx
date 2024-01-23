@@ -162,6 +162,7 @@ const ProductPage = () => {
                                     name="stock"
                                     value={productData.stock}
                                     onChange={handleInputChange}
+                                    className="p-2 border rounded-md"
                                     required
                                 />
                             </div>
@@ -175,11 +176,10 @@ const ProductPage = () => {
                                     name="price"
                                     value={productData.price}
                                     onChange={handleInputChange}
+                                    className="p-2 border rounded-md"
                                     required
                                 />
                             </div>
-                            {/* Mostrar la sección de imagen incluso al agregar un nuevo producto */}
-
                             <div className="mb-4">
                                 <label htmlFor="file" className="block text-gray-700 font-bold mb-2">
                                     Image:
@@ -192,7 +192,6 @@ const ProductPage = () => {
                                     required={!keepImage}
                                 />
                             </div>
-
                             <div className="mb-4">
                                 <button
                                     type="submit"
