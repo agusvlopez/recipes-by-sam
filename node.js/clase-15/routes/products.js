@@ -11,7 +11,7 @@ import multer from 'multer';
 //aca creamos una ruta
 const route = express.Router();
 
-const storage = multer.memoryStorage(); // Almacena el archivo en memoria (puedes ajustar según tus necesidades)
+const storage = multer.memoryStorage();
 
 const fileUpload = multer().single('file');
 

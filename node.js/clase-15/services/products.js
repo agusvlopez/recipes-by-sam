@@ -94,27 +94,6 @@ async function createProduct(product) {
     }
 }
 
-// async function createProduct(product, imagePath, filename) {
-//     try {
-//         await client.connect();
-//         const {} = await uploadFile();
-//         const newProduct = {
-//             ...product,
-//             file: {
-//                 data: fileBuffer, // Guardar el búfer del archivo como datos binarios
-//                 contentType: fileContentType,
-//             },
-//         };
-
-//         await ProductCollection.insertOne(newProduct);
-//         console.log('Producto creado exitosamente.');
-
-//         return newProduct;
-//     } catch (error) {
-//         console.error('Error creando producto:', error);
-//         throw { code: 500, msg: 'Internal Server Error' };
-//     }
-// }
 
 async function updateProductImageInDatabase(idProduct, imagePath, filename) {
     try {
@@ -156,12 +135,16 @@ async function updateProduct(idProduct, productData) {
             description: productData.description || oldProduct.description,
             stock: parseInt(productData.stock) || oldProduct.stock,
             price: parseInt(productData.price) || oldProduct.price,
-            file: oldProduct.file, // Mantener la imagen existente
+            file: oldProduct.file,
         };
 
         // Si hay un nuevo archivo, actualizar la propiedad 'file' en 'updatedProduct'
         if (productData.file) {
             updatedProduct.file = productData.file;
+            // Eliminar la imagen anterior si existe
+            if (oldProduct.file) {
+                await deleteImageFile(oldProduct.file);
+            }
         }
 
         // Actualizar el producto en la base de datos
@@ -183,25 +166,6 @@ async function updateProduct(idProduct, productData) {
         throw { code: 500, msg: 'Internal Server Error' };
     }
 }
-
-// async function updateProductImage(idProduct, imagePath, filename) {
-//     try {
-//         // Obtener la información del producto antes de la actualización
-//         const oldProduct = await getProductByID(idProduct);
-//         const oldImagePath = oldProduct.file.path;
-
-//         // Actualizar solo la imagen del producto en la base de datos
-//         await updateProductImageInDatabase(idProduct, imagePath, filename);
-
-//         // Elimina el archivo antiguo
-//         if (oldImagePath) {
-//             deleteImageFile(oldImagePath);
-//         }
-//     } catch (error) {
-//         console.error('Error updating product image:', error);
-//         throw { code: 500, msg: 'Internal Server Error' };
-//     }
-// }
 
 async function updateProductImage(idProduct, imagePath, filename) {
     try {
@@ -263,14 +227,6 @@ async function deleteProductFromDatabase(idProduct) {
     return await ProductCollection.deleteOne({ _id: new ObjectId(idProduct) });
 }
 
-// function deleteImageFile(imagePath) {
-//     try {
-//         fs.unlinkSync(imagePath);
-//         console.log('Image file deleted successfully.');
-//     } catch (err) {
-//         console.error('Error deleting image file:', err);
-//     }
-// }
 
 async function deleteImageFile(imagePath) {
     try {

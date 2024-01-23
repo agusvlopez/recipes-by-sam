@@ -73,6 +73,28 @@ button {
   margin: 1rem;
 }
 
+.success-alert-products {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-align: center;
+  width: fit-content;
+  margin-bottom: 0.5rem;
+}
+
+.alert-products {
+  background-color: #fc4242;
+  color: #fff;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-align: center;
+  width: fit-content;
+  margin-bottom: 0.5rem;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);

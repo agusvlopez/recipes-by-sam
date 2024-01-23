@@ -16,22 +16,14 @@ function DetailProductPage() {
 
         deleteProduct(idProduct);
 
-        setAlertMessage("Product deleted successfully");
+        navigate('/admin/products', { state: { successMessage: 'Product deleted successfully' }, replace: true });
 
-        setTimeout(() => {
-            navigate('/admin/products');
-        }, 2000);
     };
 
     return (
         <>
             <div className="container mx-auto p-4 pt-8">
                 <Title>Delete {product.name}</Title>
-                {alertMessage && (
-                    <div className="bg-red-500 text-white p-4 mt-4">
-                        {alertMessage}
-                    </div>
-                )}
                 {product ? (
                     <div className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md md:flex gap-4">
                         <div>

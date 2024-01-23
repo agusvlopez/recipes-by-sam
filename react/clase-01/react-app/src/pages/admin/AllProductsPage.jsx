@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Title } from "../../components/Title";
 import { Loader } from "../../components/Loader";
 import { useGetProductsQuery } from "../../features/apiSlice";
@@ -8,6 +8,21 @@ import { useGetProductsQuery } from "../../features/apiSlice";
 function AdminProductsPage({ }) {
 
     const { data: products, isLoading } = useGetProductsQuery();
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state && location.state.successMessage) {
+            setShowSuccessMessage(true);
+
+            const timeout = setTimeout(() => {
+                setShowSuccessMessage(false);
+            }, 2000);
+
+            return () => clearTimeout(timeout);
+        }
+    }, [location.state]);
 
     const scrollToTop = () => {
         window.scrollTo({
@@ -19,6 +34,11 @@ function AdminProductsPage({ }) {
     return (
         <>
             <div className="container mx-auto mt-8 p-4">
+                {showSuccessMessage && (
+                    <div className="success-alert-products">
+                        {location.state.successMessage}
+                    </div>
+                )}
                 <Title>Products List</Title>
                 <div className="mb-6">
                     <Link to={'./newProduct'}><button className="p-2 text-white rounded">Add a product +</button></Link>

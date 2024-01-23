@@ -35,7 +35,6 @@ const ProductPage = () => {
     }, [successMessage, errorMessage]);
 
     useEffect(() => {
-        // Si está en modo de edición, cargar detalles del producto
         if (isEditMode && product) {
             setProductData(product);
             if (product.file) {
@@ -91,10 +90,8 @@ const ProductPage = () => {
                 console.log('Product added successfully:', result);
             }
 
-            setSuccessMessage(isEditMode ? 'Product updated successfully!' : 'Product added successfully!');
-            setTimeout(() => {
-                navigate('/admin/products');
-            }, 2000);
+            navigate('/admin/products', { state: { successMessage: isEditMode ? 'Product updated successfully!' : 'Product added successfully!' }, replace: true });
+
         } catch (error) {
             setErrorMessage(`Error ${isEditMode ? 'updating' : 'adding'} product. Please try again.`);
             console.error(error);
@@ -106,12 +103,6 @@ const ProductPage = () => {
     return (
         <>
             <div className="container mx-auto p-4 mt-8">
-                {successMessage && (
-                    <div className="bg-green-500 text-white p-4 mt-4">
-                        {successMessage}
-                    </div>
-                )}
-
                 {errorMessage && (
                     <div className="bg-red-500 text-white p-4 mt-4">
                         {errorMessage}
