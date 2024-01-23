@@ -2,68 +2,26 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../../components/Title";
 import { Loader } from "../../components/Loader";
+import { useDeleteProductMutation, useGetProductQuery } from "../../features/apiSlice";
 
 function DetailProductPage() {
-    const URL = "http://localhost:2023";
-
-    const [product, setProduct] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
     const { idProduct } = useParams();
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        fetch(`${URL}/products/${idProduct}`, {
-            method: 'GET',
-            headers: {
-                'auth-token': localStorage.getItem('token')
-            }
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                else if (response.status == 401) {
-                    navigate('/login', { replace: true });
-                    return {};
-                }
-            })
-            .then((data) => {
-                setProduct(data)
-            })
-    }, [idProduct])
-
+    const { data: product } = useGetProductQuery(idProduct);
+    const [deleteProduct] = useDeleteProductMutation();
 
     const handleDeleteProduct = (idProduct) => {
-        setAlertMessage(`Deleting ${product.name}`);
 
-        fetch(`${URL}/products/${idProduct}`, {
-            method: 'DELETE',
-            headers: {
-                'auth-token': localStorage.getItem('token')
-            }
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Error deleting product');
-                }
-            })
-            .then((data) => {
-            })
-            .catch((error) => {
-                console.error(error.message);
-            })
-            .finally(() => {
-                setAlertMessage("Product deleted successfully");
+        deleteProduct(idProduct);
 
-                setTimeout(() => {
-                    navigate('/admin/products');
-                }, 2000);
-            });
+        setAlertMessage("Product deleted successfully");
+
+        setTimeout(() => {
+            navigate('/admin/products');
+        }, 2000);
     };
-
 
     return (
         <>

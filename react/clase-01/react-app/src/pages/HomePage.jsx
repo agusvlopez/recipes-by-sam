@@ -1,6 +1,13 @@
+import { useGetProductsQuery } from '../features/apiSlice';
 import coverHome from '../covers/home.jpg';
+import { Link } from 'react-router-dom';
+import { Loader } from '../components/Loader';
 
 export default function HomePage() {
+
+    const { data: products, isLoading } = useGetProductsQuery();
+    const latestProducts = products ? products.slice(-4) : [];
+
     return (
         <>
             <section className="pt-12 bg-gray-100">
@@ -28,33 +35,25 @@ export default function HomePage() {
                             Explore our most popular recipes and surprise your loved ones.
                         </p>
                     </div>
-
-                    {/* Sección de Recetas Destacadas (puedes personalizar y agregar elementos según sea necesario) */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                        {/* Receta destacada 1 */}
-                        <div className="bg-white p-4 rounded-md shadow-md">
-                            {/* Contenido de la receta destacada 1 */}
-                            <h3 className="text-lg font-semibold mb-2">Nombre de la Receta</h3>
-                            {/* Otras detalles de la receta */}
-                        </div>
-                        {/* Receta destacada 2 */}
-                        <div className="bg-white p-4 rounded-md shadow-md">
-                            {/* Contenido de la receta destacada 2 */}
-                            <h3 className="text-lg font-semibold mb-2">Nombre de la Receta</h3>
-                            {/* Otras detalles de la receta */}
-                        </div>
-                        <div className="bg-white p-4 rounded-md shadow-md">
-                            {/* Contenido de la receta destacada 2 */}
-                            <h3 className="text-lg font-semibold mb-2">Nombre de la Receta</h3>
-                            {/* Otras detalles de la receta */}
-                        </div>
-                        <div className="bg-white p-4 rounded-md shadow-md">
-                            {/* Contenido de la receta destacada 2 */}
-                            <h3 className="text-lg font-semibold mb-2">Nombre de la Receta</h3>
-                            {/* Otras detalles de la receta */}
-                        </div>
-
-                    </div>
+                    {isLoading ? (
+                        <Loader />
+                    ) : (
+                        <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                                {latestProducts.map((product) => (
+                                    <div key={product.id} className="bg-white p-4 rounded-md shadow-md">
+                                        <img src={product.file} alt="" />
+                                        <h3 className="text-lg font-semibold mt-2">{product.name}</h3>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex justify-end mt-8">
+                                <Link to="./products" className="textBrown font-bold text-lg hover:underline">
+                                    See more recipes
+                                </Link>
+                            </div>
+                        </>
+                    )}
                 </div>
             </section>
         </>

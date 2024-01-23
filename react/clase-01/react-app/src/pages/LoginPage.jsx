@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const URL = "http://localhost:2023";
+import { useCreateSessionMutation } from "../features/apiSlice";
 
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
+    const [createSession] = useCreateSessionMutation();
 
     //En los handle se podrian hacer las validaciones
     const handleEmailChange = (e) => {
@@ -18,29 +19,20 @@ function LoginPage() {
         setPassword(e.target.value);
     }
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
+        try {
+            const result = await createSession({ email, password }).unwrap();
+            localStorage.setItem('token', result.session.token);
+            localStorage.setItem('email', result.session.account.email);
+            localStorage.setItem('role', result.session.account.role);
 
-        fetch(`${URL}/api/session`, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                'auth-token': localStorage.getItem('token')
-            },
-            body: JSON.stringify({ email, password })
-        })
-            .then((res) => res.json())
-            .then((result) => {
-                localStorage.setItem('token', result.session.token);
-                localStorage.setItem('email', result.session.account.email);
-                localStorage.setItem('role', result.session.account.role);
-                navigate('/', { replace: true });
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                setError('Login failed. Please try again.');
-                setPassword("");
-            });
+            navigate('/', { replace: true });
+        } catch (error) {
+            console.error('Error:', error);
+            setError('Login failed. Please try again.');
+            setPassword("");
+        }
     }
 
     return (

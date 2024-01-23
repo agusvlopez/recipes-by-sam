@@ -1,77 +1,20 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Title } from "../components/Title";
+import { useCreateReviewMutation, useGetProductQuery, useGetReviewsQuery } from "../features/apiSlice";
 
 function ProductViewPage({ }) {
-    const URL = "http://localhost:2023";
-    const [product, setProduct] = useState("");
-    const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const { idProduct } = useParams();
 
-    const navigate = useNavigate();
+    const { data: product } = useGetProductQuery(idProduct);
+    const { data: comments } = useGetReviewsQuery(idProduct);
 
-    useEffect(() => {
-        fetch(`${URL}/products/${idProduct}`, {
-            method: 'GET',
-            headers: {
-                'auth-token': localStorage.getItem('token')
-            }
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                else if (response.status == 401) {
-                    navigate('/login', { replace: true });
-                    return {};
-                }
-            })
-            .then((data) => {
-                setProduct(data)
-            })
-
-        fetch(`${URL}/products/${idProduct}/reviews`, {
-            method: 'GET',
-            headers: {
-                'auth-token': localStorage.getItem('token')
-            }
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setComments(data);
-                // setNewUser(data.user);
-                console.log(data);
-            });
-
-    }, [idProduct, comments])
-
+    const [createReview] = useCreateReviewMutation();
 
     const handleCommentSubmit = () => {
-        // Enviar el nuevo comentario al servidor
-        fetch(`${URL}/products/${idProduct}/reviews`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'auth-token': localStorage.getItem('token')
-            },
-            body: JSON.stringify({ comment: newComment, user: localStorage.getItem('email') })
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw ('Error al enviar el comentario');
-                }
-            })
-            .then((data) => {
-                console.log(data);
-                setComments(prevComments => [...prevComments, data.comment]);
-                setNewComment("");// Limpiar el campo de comentario después de enviar
-            })
-            .catch((error) => {
-                console.error(error.message);
-            });
+        createReview({ comment: newComment, user: localStorage.getItem('email'), idProduct: idProduct });
+        setNewComment("");
     };
 
     const handleNewComment = (e) => {
@@ -80,17 +23,17 @@ function ProductViewPage({ }) {
 
     return (
         <>
-            <div className="container mx-auto pt-6 mt-6">
+            <div className="container mx-auto mt-8 p-4">
                 <Title>Product Detail</Title>
                 {product ? (
                     <>
                         <div className="max-w-3xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
-                            <div className="flex gap-4">
+                            <div className="md:flex gap-4">
                                 <div>
                                     <img src={product.file} alt="" />
                                 </div>
                                 <div>
-                                    <h2 className="text-2xl font-bold mb-4">{product.name}</h2>
+                                    <h2 className="text-2xl font-bold mb-4 mt-2 md:mt-0">{product.name}</h2>
                                     <p className="text-gray-700 mb-4">{product.description}</p>
 
                                     {/* Puedes agregar más detalles del producto según sea necesario */}
@@ -103,13 +46,13 @@ function ProductViewPage({ }) {
                                 <div className="mt-8 mb-2">
                                     <h3 className="text-xl font-bold mb-4">Comments</h3>
                                     <ul>
-                                        {comments.map((comment, index) => (
+                                        {comments?.map((comment, index) => (
 
                                             <li key={index} className="mb-2 text-gray-800"><span className="block font-bold">{comment.user}</span>{comment.comment}</li>
                                         ))}
                                     </ul>
                                 </div>
-                                <div className="mb-4">
+                                <div className="mb-4 mt-4">
                                     <textarea
                                         rows="4"
                                         cols="50"

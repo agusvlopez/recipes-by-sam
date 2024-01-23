@@ -1,21 +1,18 @@
 import { Title } from "../components/Title";
-import coverContact from "../covers/contact.jpg";
 
 export default function Contact() {
     return (
         <>
             <div className="container mx-auto mt-8 p-4">
-                <h1 className="text-3xl font-bold mb-4">Contact</h1>
+                <Title>Contact</Title>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Contact Information */}
                     <div>
                         <h2 className="text-xl font-bold mb-2">Contact Information</h2>
                         <p className="text-gray-700 mb-4">
                             We are delighted to hear from you! You can reach out to us through the following means:
                         </p>
 
-                        {/* Contact Details */}
                         <ul className="list-disc ml-4">
                             <li>Email: example@example.com</li>
                             <li>Phone: (123) 456-7890</li>
@@ -23,7 +20,6 @@ export default function Contact() {
                         </ul>
                     </div>
 
-                    {/* Contact Form */}
                     <div>
                         <h2 className="text-xl font-bold mb-2">Send Us a Message</h2>
                         <form>
@@ -72,7 +68,7 @@ export default function Contact() {
                         </form>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }

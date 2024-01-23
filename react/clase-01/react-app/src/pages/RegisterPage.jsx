@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCreateAccountMutation } from "../features/apiSlice";
 
 function RegisterPage() {
     const URL = "http://localhost:2023";
@@ -8,36 +9,30 @@ function RegisterPage() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    //En los handle se podrian hacer las validaciones
+    const [createAccount] = useCreateAccountMutation();
+
     const handleEmailChange = (e) => {
-        setEmail(e.target.value); //Establece el valor del input entonces fuerza el renderizado 
+        setEmail(e.target.value);
     }
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     }
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
+        try {
+            const result = await createAccount({ email, password }).unwrap();
+            localStorage.setItem('token', result.account.token);
+            localStorage.setItem('role', result.account.role);
+            localStorage.setItem('email', email);
 
-        fetch(`${URL}/api/account`, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        })
-            .then((res) => res.json())
-            .then((result) => {
-                localStorage.setItem('token', result.account.token);
-                localStorage.setItem('role', result.account.role);
-                localStorage.setItem('email', email);
-                navigate('/', { replace: true });
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                setError('Register failed. Please try again.');
-            });
+            navigate('/', { replace: true });
+        } catch (error) {
+            console.error('Error:', error);
+            setError('Login failed. Please try again.');
+            setPassword("");
+        }
     }
 
     return (

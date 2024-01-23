@@ -58,6 +58,10 @@ button {
   border-bottom-color: #876445;
 }
 
+.textBrown {
+  color: #876445;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);

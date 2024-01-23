@@ -2,45 +2,19 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../../components/Title";
 import { Loader } from "../../components/Loader";
+import { useGetProductQuery } from "../../features/apiSlice";
 
 function DetailProductPage() {
-    const URL = "http://localhost:2023";
-
-    const [product, setProduct] = useState("");
-    const [alertMessage, setAlertMessage] = useState("");
     const { idProduct } = useParams();
-
     const navigate = useNavigate();
 
-    useEffect(() => {
-        fetch(`${URL}/products/${idProduct}`, {
-            method: 'GET',
-            headers: {
-                'auth-token': localStorage.getItem('token')
-            }
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                else if (response.status == 401) {
-                    navigate('/login', { replace: true });
-                    return {};
-                }
-            })
-            .then((data) => {
-                setProduct(data)
-            })
-    }, [idProduct])
-
+    const { data: product } = useGetProductQuery(idProduct);
 
     const handleDeleteProduct = (idProduct) => {
-        // Envía la solicitud DELETE al servidor
         navigate(`/admin/products/${idProduct}/delete`);
     };
 
     const handleEditProduct = (idProduct) => {
-        // Redirige a la página de edición del producto
         navigate(`/admin/products/${idProduct}/edit`);
     };
 
@@ -48,11 +22,6 @@ function DetailProductPage() {
         <>
             <div className="container mx-auto p-4 pt-8">
                 <Title>Product Detail</Title>
-                {alertMessage && (
-                    <div className="bg-red-500 text-white p-4 mt-4">
-                        {alertMessage}
-                    </div>
-                )}
                 {product ? (
                     <div className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md md:flex gap-4">
                         <div>

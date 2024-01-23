@@ -2,49 +2,18 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Title } from "./Title";
 import { Loader } from "./Loader";
+import { useGetProductsQuery } from "../features/apiSlice";
+
 
 function ProductsList({ }) {
-    const URL = "https://vercel-api-ten-tau.vercel.app";
-    const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
 
-    const navigate = useNavigate();
+    const { data: products, isLoading } = useGetProductsQuery();
 
-    useEffect(() => {
-        fetch(`${URL}/products`, {
-            method: 'GET',
-            headers: {
-                'auth-token': localStorage.getItem('token')
-            }
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                else if (response.status == 401) {
-                    navigate('/login', { replace: true });
-                    return {};
-                }
-            })
-            .then((data) => {
-                setProducts(data);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            })
-
-        return () => {
-            console.log("se ejecuta cuando se desmonta el componente");
-        }
-    }, []); //el array vacio significa que se ejecuta solamente cuando se monta el componente.
-    //con el useEffect() controlamos los cambios de estados y las actualizaciones..
-    console.log(products);
     return (
         <>
             <div className="container mx-auto pt-6 mt-6">
                 <Title>All Recipes</Title>
                 {isLoading ? (
-                    // Mostrar indicador de carga
                     <Loader />
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

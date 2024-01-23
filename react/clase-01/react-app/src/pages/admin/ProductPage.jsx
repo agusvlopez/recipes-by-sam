@@ -2,9 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../../components/Title";
 import { Loader } from "../../components/Loader";
+import { useCreateProductMutation, useGetProductQuery, useUpdateProductMutation } from "../../features/apiSlice";
 
 const ProductPage = () => {
-    const URL = "http://localhost:2023";
+    const navigate = useNavigate();
+    const { idProduct } = useParams();
+    const isEditMode = !!idProduct;
+    const [keepImage, setKeepImage] = useState(true);
+    const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingNew, setIsLoadingNew] = useState(false);
     const [file, setFile] = useState(null);
     const [productData, setProductData] = useState({
         stock: "",
@@ -13,55 +21,29 @@ const ProductPage = () => {
         price: "",
     });
 
-    const [keepImage, setKeepImage] = useState(true);
-    const [successMessage, setSuccessMessage] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
-    const [isLoadingNew, setIsLoadingNew] = useState(false);
+    const [createProduct] = useCreateProductMutation();
+    const { data: product } = useGetProductQuery(idProduct);
+    const [updateProduct] = useUpdateProductMutation();
 
-    const navigate = useNavigate();
-    const { idProduct } = useParams();
-    const isEditMode = !!idProduct;
-    console.log(productData);
     useEffect(() => {
-        // Limpiar mensajes después de 3 segundos
         const clearMessages = setTimeout(() => {
             setSuccessMessage("");
             setErrorMessage("");
-        }, 3000);
+        }, 2000);
 
         return () => clearTimeout(clearMessages);
     }, [successMessage, errorMessage]);
 
     useEffect(() => {
         // Si está en modo de edición, cargar detalles del producto
-        if (isEditMode) {
-            fetch(`${URL}/products/${idProduct}`, {
-                method: 'GET',
-                headers: {
-                    'auth-token': localStorage.getItem('token'),
-                },
-            })
-                .then((response) => {
-                    // ... (manejo de errores)
-
-                    return response.json();
-                })
-                .then((data) => {
-                    setProductData(data);
-                    if (data.file) {
-                        setKeepImage(true);
-                    }
-                    console.log(data);
-                })
-                .catch((error) => {
-                    console.error(error.message);
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                })
+        if (isEditMode && product) {
+            setProductData(product);
+            if (product.file) {
+                setKeepImage(true);
+            }
+            setIsLoading(false);
         }
-    }, [idProduct, navigate, isEditMode]);
+    }, [idProduct, navigate, isEditMode, product]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -86,58 +68,39 @@ const ProductPage = () => {
         }
     };
 
-    console.log(file);
-    const handleDataFormSubmit = (e) => {
+    const handleDataFormSubmit = async (e) => {
         e.preventDefault();
         setIsLoadingNew(true);
-        const formData = new FormData();
-        formData.append('stock', productData.stock);
-        formData.append('description', productData.description);
-        formData.append('name', productData.name);
-        formData.append('price', productData.price);
+
+        const formDataForUpdate = new FormData();
+        formDataForUpdate.append('stock', productData.stock);
+        formDataForUpdate.append('description', productData.description);
+        formDataForUpdate.append('name', productData.name);
+        formDataForUpdate.append('price', productData.price);
+
         if (file) {
-            // Si hay un archivo nuevo, agrégalo a la solicitud
-            formData.append('file', file);
+            formDataForUpdate.append('file', file);
         }
 
-        console.log(formData);
-        const url = isEditMode
-            ? `${URL}/products/${idProduct}`
-            : `${URL}/products`;
+        try {
+            if (isEditMode) {
+                const result = await updateProduct({ idProduct, formData: formDataForUpdate }).unwrap();
+                console.log('Product updated successfully:', result);
+            } else {
+                const result = await createProduct(formDataForUpdate).unwrap();
+                console.log('Product added successfully:', result);
+            }
 
-        const method = isEditMode ? 'PUT' : 'POST';
-
-        fetch(url, {
-            method: method,
-            headers: {
-                'auth-token': localStorage.getItem('token'),
-            },
-            body: formData,
-        })
-            .then((response) => {
-                if (response.ok) {
-                    setProductData({
-                        stock: "",
-                        description: "",
-                        name: "",
-                        price: "",
-                    });
-                    setFile(null);
-                } else {
-                    throw new Error('Error');
-                }
-            })
-            .catch((error) => {
-                setErrorMessage(`Error ${isEditMode ? 'updating' : 'adding'} product. Please try again.`);
-                console.error(error);
-            })
-            .finally(() => {
-                setIsLoadingNew(false);
-                setSuccessMessage(isEditMode ? "Product updated successfully!" : "Product added successfully!");
-                setTimeout(() => {
-                    navigate('/admin/products');
-                }, 2000);
-            });
+            setSuccessMessage(isEditMode ? 'Product updated successfully!' : 'Product added successfully!');
+            setTimeout(() => {
+                navigate('/admin/products');
+            }, 2000);
+        } catch (error) {
+            setErrorMessage(`Error ${isEditMode ? 'updating' : 'adding'} product. Please try again.`);
+            console.error(error);
+        } finally {
+            setIsLoadingNew(false);
+        }
     };
 
     return (
