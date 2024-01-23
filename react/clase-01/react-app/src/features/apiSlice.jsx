@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({
-        baseUrl: `http://localhost:2023/`
+        baseUrl: `https://api-recipes-by-sam.vercel.app/`
     }),
     endpoints: (builder) => ({
         getProducts: builder.query({
@@ -11,7 +11,8 @@ export const apiSlice = createApi({
             providesTags: ["Products"]
         }),
         getProduct: builder.query({
-            query: (idProduct) => `/products/${idProduct}`
+            query: (idProduct) => `/products/${idProduct}`,
+            providesTags: ["Product"]
         }),
         getReviews: builder.query({
             query: (idProduct) => `/products/${idProduct}/reviews`,
@@ -60,7 +61,7 @@ export const apiSlice = createApi({
                 headers: { 'auth-token': localStorage.getItem('token') },
                 body: formData
             }),
-            invalidatesTags: ["Products"]
+            invalidatesTags: ["Products", "Product"]
         }),
         deleteProduct: builder.mutation({
             query: (idProduct) => ({
