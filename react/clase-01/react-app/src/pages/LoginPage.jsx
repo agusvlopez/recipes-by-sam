@@ -12,9 +12,8 @@ function LoginPage() {
 
     const [createSession] = useCreateSessionMutation();
 
-    //En los handle se podrian hacer las validaciones
     const handleEmailChange = (e) => {
-        setEmail(e.target.value); //Establece el valor del input entonces fuerza el renderizado 
+        setEmail(e.target.value);
     }
 
     const handlePasswordChange = (e) => {
@@ -45,7 +44,7 @@ function LoginPage() {
         <>
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <form onSubmit={handleFormSubmit} className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
-                    <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Iniciar sesión</h2>
+                    <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Login</h2>
                     {error && (
                         <div className="text-red-500 mb-4 text-center">{error}</div>
                     )}
@@ -59,7 +58,7 @@ function LoginPage() {
                         className="mt-1 p-2 w-full border rounded-md"
                     />
 
-                    <label htmlFor="pass" className="block mt-4 text-gray-700">Contraseña:</label>
+                    <label htmlFor="pass" className="block mt-4 text-gray-700">Password:</label>
                     <input
                         id="pass"
                         type="password"
@@ -73,7 +72,7 @@ function LoginPage() {
                         type="submit"
                         className="mt-6 bg-indigo-500 p-2 rounded-md text-white w-full hover:bg-indigo-700 focus:outline-none focus:ring focus:border-indigo-700"
                     >
-                        {isLoading ? <Loader loaderType="loader-button" /> : "Iniciar sesión"}
+                        {isLoading ? <Loader loaderType="loader-button" /> : "Login"}
                     </button>
                 </form>
             </div>
