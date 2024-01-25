@@ -9,9 +9,9 @@ function ProductViewPage({ }) {
     const { idProduct } = useParams();
 
     const { data: product } = useGetProductQuery(idProduct);
-    const { data: comments } = useGetReviewsQuery(idProduct);
+    const { data: comments, isLoading: commentsLoading } = useGetReviewsQuery(idProduct);
 
-    const [createReview] = useCreateReviewMutation();
+    const [createReview, { isLoading: createReviewLoading }] = useCreateReviewMutation();
 
     const handleCommentSubmit = () => {
         createReview({ comment: newComment, user: localStorage.getItem('email'), idProduct: idProduct });
@@ -36,8 +36,6 @@ function ProductViewPage({ }) {
                                 <div>
                                     <h2 className="text-2xl font-bold mb-4 mt-2 md:mt-0">{product.name}</h2>
                                     <p className="text-gray-700 mb-4">{product.description}</p>
-
-                                    {/* Puedes agregar más detalles del producto según sea necesario */}
                                     <div className="flex items-center justify-between">
                                         <p className="text-gray-600">Price: ${product.price}</p>
                                     </div>
@@ -47,6 +45,9 @@ function ProductViewPage({ }) {
                                 <div className="mt-8 mb-2">
                                     <h3 className="text-xl font-bold mb-4">Comments</h3>
                                     <ul>
+                                        {commentsLoading &&
+                                            <Loader />
+                                        }
                                         {comments?.map((comment, index) => (
 
                                             <li key={index} className="mb-2 text-gray-800"><span className="block font-bold">{comment.user}</span>{comment.comment}</li>
@@ -66,7 +67,7 @@ function ProductViewPage({ }) {
                                         onClick={handleCommentSubmit}
                                         className="mt-2 bg-indigo-500 text-white p-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:border-indigo-700"
                                     >
-                                        Send Comment
+                                        {createReviewLoading ? <Loader loaderType="loader-button" /> : "Send Comment"}
                                     </button>
                                 </div>
                             </div>

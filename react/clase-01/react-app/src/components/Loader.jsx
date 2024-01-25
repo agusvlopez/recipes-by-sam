@@ -1,7 +1,11 @@
 import React from 'react';
 
-function Loader() {
-    return <div><span class="loader"></span></div>;
+function Loader({ loaderType }) {
+    const classLoader = loaderType || "loader";
+
+    return <div><span
+        className={classLoader}
+    ></span></div>;
 }
 
 export { Loader };

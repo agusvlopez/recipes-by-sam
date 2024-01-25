@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreateAccountMutation } from "../features/apiSlice";
+import { Loader } from "../components/Loader";
 
 function RegisterPage() {
     const URL = "http://localhost:2023";
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const [createAccount] = useCreateAccountMutation();
@@ -21,6 +23,8 @@ function RegisterPage() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+
         try {
             const result = await createAccount({ email, password }).unwrap();
             localStorage.setItem('token', result.account.token);
@@ -33,6 +37,8 @@ function RegisterPage() {
             setError('Login failed. Please try again.');
             setPassword("");
         }
+
+        setIsLoading(false);
     }
 
     return (
@@ -67,7 +73,7 @@ function RegisterPage() {
                         type="submit"
                         className="mt-6 bg-indigo-500 p-2 rounded-md text-white w-full hover:bg-indigo-700 focus:outline-none focus:ring focus:border-indigo-700"
                     >
-                        Register
+                        {isLoading ? <Loader loaderType="loader-button" /> : "Register"}
                     </button>
                 </form>
             </div>

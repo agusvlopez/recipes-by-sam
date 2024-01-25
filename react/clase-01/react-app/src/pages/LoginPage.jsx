@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreateSessionMutation } from "../features/apiSlice";
+import { Loader } from "../components/Loader";
 
 function LoginPage() {
     const [email, setEmail] = useState('admin@admin.com');
     const [password, setPassword] = useState('1234');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     const [createSession] = useCreateSessionMutation();
 
@@ -21,6 +23,8 @@ function LoginPage() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+
         try {
             const result = await createSession({ email, password }).unwrap();
             localStorage.setItem('token', result.session.token);
@@ -33,6 +37,8 @@ function LoginPage() {
             setError('Login failed. Please try again.');
             setPassword("");
         }
+
+        setIsLoading(false);
     }
 
     return (
@@ -67,7 +73,7 @@ function LoginPage() {
                         type="submit"
                         className="mt-6 bg-indigo-500 p-2 rounded-md text-white w-full hover:bg-indigo-700 focus:outline-none focus:ring focus:border-indigo-700"
                     >
-                        Iniciar sesión
+                        {isLoading ? <Loader loaderType="loader-button" /> : "Iniciar sesión"}
                     </button>
                 </form>
             </div>
