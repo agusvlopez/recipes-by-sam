@@ -11,8 +11,8 @@ function ProductsList({ }) {
 
     return (
         <>
-            <div className="container mx-auto pt-6 mt-6">
-                <Title>All Recipes</Title>
+            <div className="container mx-auto mt-6 p-4">
+                <Title>All Recipe Books</Title>
                 {isLoading ? (
                     <Loader />
                 ) : (

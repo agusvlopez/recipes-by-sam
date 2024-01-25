@@ -114,30 +114,4 @@ function App() {
   )
 }
 
-//Render(estados):
-// Monto el componente y se ejecuta el render
-
-//cambia el estado
-//cambia el contexto(hooks)
-//cambian las propiedades
-
-// se destruye
-
-// function Mensaje({ show = false, children }) {
-
-//   useEffect(() => {
-//     console.log("Se ejecuta cuando se monta el componente");
-
-//     return () => {
-//       console.log("Se ejecuta cuando se desmonta el componente");
-//     }
-//   }, []);
-
-//   if (show) {
-//     return <p>{children}</p>
-//   }
-
-//   return null;
-// }
-
 export default App;

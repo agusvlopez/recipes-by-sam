@@ -4,7 +4,7 @@ import coverAbout from '../covers/about.jpg';
 export default function AboutPage() {
     return (
         <>
-            <section className="flex container mx-auto mt-8 p-4 pt-6">
+            <section className="md:flex container mx-auto mt-6 p-4 pt-6">
                 <div>
                     <Title className="text-3xl font-bold mb-4">About Us</Title>
 

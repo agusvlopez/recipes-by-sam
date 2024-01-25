@@ -6,7 +6,7 @@ function Header() {
     const [links, setLinks] = useState([
         { url: '/', texto: 'Home' },
         { url: '/about', texto: 'About' },
-        { url: '/products', texto: 'Products', private: true },
+        { url: '/products', texto: 'Recipe Books', private: true },
         { url: '/contact', texto: 'Contact' },
         // { url: '/faq', texto: 'FAQ' }
     ]);

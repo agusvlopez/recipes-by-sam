@@ -52,10 +52,10 @@ export default function HomePage() {
                 <div className="container mx-auto">
                     <div className="mb-8 text-center">
                         <h2 className="text-3xl font-extrabold text-gray-900 leading-tight mb-4">
-                            Favorite Recipes
+                            Latest Recipe Books
                         </h2>
                         <p className="text-lg text-gray-600">
-                            Explore our most popular recipes and surprise your loved ones.
+                            Explore our most popular recipe books and surprise your loved ones.
                         </p>
                     </div>
                     {isLoading ? (
@@ -64,7 +64,7 @@ export default function HomePage() {
                         <>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                                 {latestProducts.map((product) => (
-                                    <div key={product.id} className="bg-white p-4 rounded-md shadow-md">
+                                    <div key={product._id} className="bg-white p-4 rounded-md shadow-md">
                                         <img src={product.file} alt="" />
                                         <h3 className="text-lg font-semibold mt-2">{product.name}</h3>
                                     </div>
@@ -72,7 +72,7 @@ export default function HomePage() {
                             </div>
                             <div className="flex justify-end mt-8">
                                 <Link to="./products" className="textBrown font-bold text-lg hover:underline">
-                                    See more recipes
+                                    See more recipe books
                                 </Link>
                             </div>
                         </>

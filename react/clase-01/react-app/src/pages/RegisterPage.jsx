@@ -4,7 +4,6 @@ import { useCreateAccountMutation } from "../features/apiSlice";
 import { Loader } from "../components/Loader";
 
 function RegisterPage() {
-    const URL = "http://localhost:2023";
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);

@@ -10,25 +10,6 @@ button {
   background-color: #789395;
 }
 
-.nav-principal {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-}
-
-.nav-principal--dark {
-  background-color: #876445;
-  color: whitesmoke;
-  display: flex;
-  flex-wrap: wrap;
-  font-weight: 600;
-}
-
-.nav-principal li {
-  list-style: none;
-}
-
 .product-list {
   display: flex;
 }
@@ -84,6 +65,10 @@ button {
   color: #876445;
 }
 
+.bgBrown {
+  background-color: #876445;
+}
+
 .success-alert {
   background-color: #876445;
   color: #fff;
@@ -125,4 +110,39 @@ button {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.nav-principal__item {
+  background-color: #876445;
+  padding: 5px 15px;
+  margin-right: 10px;
+  text-decoration: none;
+  color: #ffffff;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-principal__item:hover {
+  color: #ffffff;
+  transform: translateY(-2px)
+}
+
+@media(min-width: 768px) {
+
+  .nav-principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #876445;
+    color: whitesmoke;
+    display: flex;
+    flex-wrap: wrap;
+    font-weight: 600;
+  }
+
+  .nav-principal li {
+    list-style: none;
+  }
+
 }

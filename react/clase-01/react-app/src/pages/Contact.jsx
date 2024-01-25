@@ -3,7 +3,7 @@ import { Title } from "../components/Title";
 export default function Contact() {
     return (
         <>
-            <div className="container mx-auto mt-8 p-4">
+            <div className="container mx-auto mt-6 p-4">
                 <Title>Contact</Title>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
