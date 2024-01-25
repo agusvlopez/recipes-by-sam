@@ -5,14 +5,6 @@ function Navbar({ links }) {
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const handleLogin = () => {
-        navigate('/login');
-    };
-
-    const handleRegister = () => {
-        navigate('/register');
-    };
-
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('email');
@@ -20,9 +12,6 @@ function Navbar({ links }) {
         navigate('/login');
     };
 
-    const handleAdmin = () => {
-        navigate('/admin');
-    }
     return (
         <nav>
             <div className='bgBrown p-2 pb-1 md:p-0'>
