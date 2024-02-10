@@ -6,6 +6,7 @@ import { Loader } from "../components/Loader";
 function RegisterPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
@@ -20,9 +21,19 @@ function RegisterPage() {
         setPassword(e.target.value);
     }
 
+    const handleConfirmPasswordChange = (e) => {
+        setConfirmPassword(e.target.value);
+    }
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
+
+        if (password !== confirmPassword) {
+            setError('Passwords do not match.');
+            setIsLoading(false);
+            return;
+        }
 
         try {
             const result = await createAccount({ email, password }).unwrap();
@@ -65,6 +76,16 @@ function RegisterPage() {
                         required
                         onChange={handlePasswordChange}
                         value={password}
+                        className="mt-1 p-2 w-full border rounded-md"
+                    />
+
+                    <label htmlFor="confirmPass" className="block mt-4 text-gray-700">Confirm Password:</label>
+                    <input
+                        id="confirmPass"
+                        type="password"
+                        required
+                        onChange={handleConfirmPasswordChange}
+                        value={confirmPassword}
                         className="mt-1 p-2 w-full border rounded-md"
                     />
 
