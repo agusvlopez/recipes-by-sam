@@ -4,12 +4,9 @@ import ProductsReviewController from '../controllers/productsReview.js';
 const route = express.Router();
 
 route.route('/products/:idProduct/reviews')
-.get(ProductsReviewController.getReviews)
-.post(ProductsReviewController.createReview)
+    .get(ProductsReviewController.getReviews)
+    .post(ProductsReviewController.createReview)
 
-// route.get('/:idProduct/reviews', function(req,res){
-
-//     res.json(req.params);
-// });
+route.get('/products/reviews/stadistic', ProductsReviewController.getReviewsStadistic);
 
 export default route;

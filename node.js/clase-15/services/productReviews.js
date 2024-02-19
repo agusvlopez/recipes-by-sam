@@ -37,8 +37,26 @@ async function createReview(idProduct, review) {
     return newReview;
 }
 
+async function getReviewsStadistic() {
+    await client.connect();
+
+    const reviewsStadistics = await ProductReviewsCollection.aggregate([
+        {
+            $group: {
+                _id: "$product_id",
+                totalComments: { $sum: 1 }
+            }
+        },
+        {
+            $sort: { totalComments: -1 }
+        }
+    ]).toArray();
+
+    return reviewsStadistics;
+}
 
 export default {
     findReviews,
-    createReview
+    createReview,
+    getReviewsStadistic
 }

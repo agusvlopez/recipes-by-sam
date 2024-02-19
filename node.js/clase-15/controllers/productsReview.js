@@ -24,7 +24,18 @@ function createReview(req, res) {
         })
 }
 
+function getReviewsStadistic(req, res) {
+    ProductReviewsService.getReviewsStadistic()
+        .then(function (statistics) {
+            res.json(statistics);
+        })
+        .catch(function (err) {
+            res.status(500).json({ msg: err.msg });
+        });
+}
+
 export default {
     getReviews,
-    createReview
+    createReview,
+    getReviewsStadistic
 }
