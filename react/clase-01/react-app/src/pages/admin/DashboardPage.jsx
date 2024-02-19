@@ -3,13 +3,15 @@ import { Title } from '../../components/Title';
 import { Sidebar } from '../../components/Sidebar';
 import { Outlet } from 'react-router-dom';
 import recipeDashboard from '../../covers/dashboard.jpg';
+import { useGetProductStadisticsQuery } from '../../features/apiSlice';
+import ProductStadisticChart from '../../components/ProductStadisticChart';
 
 export default function DashboardPage() {
     const [activeTab, setActiveTab] = useState('dashboard');
+    const { data: productStadistics = [], isLoading, isError } = useGetProductStadisticsQuery();
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
-        // Add logic to handle tab change or navigation
     };
 
     return (
@@ -23,7 +25,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="container mx-auto mt-8 p-4">
                         <Title className="text-3xl font-bold mb-4">Dashboard</Title>
-                        <p>Hi! Soon you'll see all the relevant data about our sells here...</p>
+                        <ProductStadisticChart />
                     </div>
                 </div>
                 <Outlet />

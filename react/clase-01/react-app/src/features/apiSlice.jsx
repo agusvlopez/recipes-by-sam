@@ -18,6 +18,10 @@ export const apiSlice = createApi({
             query: (idProduct) => `/products/${idProduct}/reviews`,
             providesTags: ["Reviews"]
         }),
+        getProductStadistics: builder.query({
+            query: () => `/products/reviews/stadistic`,
+            providesTags: ["ProductStadistics"]
+        }),
         createProduct: builder.mutation({
             query: (newProduct) => ({
                 url: `/products`,
@@ -74,4 +78,4 @@ export const apiSlice = createApi({
     })
 });
 
-export const { useGetProductsQuery, useGetProductQuery, useGetReviewsQuery, useCreateProductMutation, useCreateReviewMutation, useCreateSessionMutation, useCreateAccountMutation, useUpdateProductMutation, useDeleteProductMutation } = apiSlice;
+export const { useGetProductsQuery, useGetProductQuery, useGetReviewsQuery, useGetProductStadisticsQuery, useCreateProductMutation, useCreateReviewMutation, useCreateSessionMutation, useCreateAccountMutation, useUpdateProductMutation, useDeleteProductMutation } = apiSlice;
