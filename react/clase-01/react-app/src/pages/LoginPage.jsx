@@ -32,8 +32,13 @@ function LoginPage() {
 
             navigate('/', { state: { successMessage: 'Login successful! Welcome back.' }, replace: true });
         } catch (error) {
-            console.error('Error:', error);
-            setError('Login failed. Please try again.');
+            console.log(error);
+            if (error.data.errors) {
+                setError(`Error! ${error.data.errors}.`);
+            } else {
+                setError(`Email and password do not match. Please try again.`);
+            }
+
             setPassword("");
         }
 
@@ -46,7 +51,10 @@ function LoginPage() {
                 <form onSubmit={handleFormSubmit} className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
                     <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Login</h2>
                     {error && (
-                        <div className="text-red-500 mb-4 text-center">{error}</div>
+                        <div className="border border-red-500 rounded-lg p-4 flex items-center justify-center gap-2 mb-4 text-sm">
+                            <span className="error-icon"></span>
+                            <p className="text-red-500">{error}</p>
+                        </div>
                     )}
                     <label htmlFor="email" className="block text-gray-700">Email:</label>
                     <input

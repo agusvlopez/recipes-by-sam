@@ -102,6 +102,16 @@ button {
   margin-bottom: 0.5rem;
 }
 
+.error-icon {
+  background-image: url('./covers/icons/error.png');
+  width: 25px;
+  height: 25px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  padding: 4px;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
