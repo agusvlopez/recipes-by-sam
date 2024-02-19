@@ -1,5 +1,6 @@
-import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import React, { useState, useEffect } from 'react';
+import { Chart as ChartJS, defaults } from 'chart.js/auto';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import { useGetProductStadisticsQuery } from '../features/apiSlice';
 
 const ProductStadisticChart = () => {
@@ -37,6 +38,13 @@ const ProductStadisticChart = () => {
                             borderWidth: 1,
                         },
                     ]
+                }}
+                options={{
+                    plugins: {
+                        title: {
+                            text: "Recipes Books Reviews",
+                        },
+                    },
                 }}
             />
         </div>
