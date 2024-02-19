@@ -24,14 +24,14 @@ function createReview(req, res) {
         })
 }
 
-function getReviewsStadistic(req, res) {
-    ProductReviewsService.getReviewsStadistic()
-        .then(function (statistics) {
-            res.json(statistics);
-        })
-        .catch(function (err) {
-            res.status(500).json({ msg: err.msg });
-        });
+async function getReviewsStadistic(req, res) {
+    try {
+        const stadistics = await ProductReviewsService.getReviewsStadistic();
+        res.json(stadistics);
+    } catch (error) {
+        console.error('Error obteniendo estadísticas de productos:', error);
+        res.status(500).json({ error: 'Error obteniendo estadísticas de productos' });
+    }
 }
 
 export default {

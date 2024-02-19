@@ -15,8 +15,8 @@ const client = new MongoClient(mongoURI);
 
 const db = client.db("test");
 const ProductReviewsCollection = db.collection('products_reviews');
-const AccountsCollection = db.collection('accounts');
-const TokensCollection = db.collection('tokens');
+const ProductCollection = db.collection('products');
+console.log("products collection:", ProductCollection);
 
 async function findReviews(idProduct) {
     await client.connect();
@@ -52,7 +52,16 @@ async function getReviewsStadistic() {
         }
     ]).toArray();
 
-    return reviewsStadistics;
+    const productStadisticsWithNames = await Promise.all(reviewsStadistics.map(async (stadistic) => {
+        const product = await ProductCollection.findOne({ _id: new ObjectId(stadistic._id) });
+        if (product) {
+            return { _id: stadistic._id, name: product.name, totalComments: stadistic.totalComments };
+        } else {
+            return { _id: stadistic._id, name: 'Producto desconocido', totalComments: stadistic.totalComments };
+        }
+    }));
+
+    return productStadisticsWithNames;
 }
 
 export default {
