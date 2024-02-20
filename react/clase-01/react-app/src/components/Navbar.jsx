@@ -41,7 +41,9 @@ function Navbar({ links }) {
             <ul
                 className={`nav-principal bgWhite pb-2 ${isMenuOpen ? 'block' : 'hidden'} sm:flex sm:items-center p-2`}
             >
-                <Link to="./" className="logo-desktop"><img src="./src/covers/logo-horizontal.png" alt="logo" /></Link>
+                <Link to="./" className="logo-desktop">
+                    <img src="./src/covers/logo-horizontal.png" alt="logo" />
+                </Link>
                 {links.map((element, index) => {
                     if (element.private && !localStorage.getItem('token')) {
                         return null;
@@ -59,7 +61,7 @@ function Navbar({ links }) {
 
                 {localStorage.getItem('token') ? (
                     <li className="pb-2 md:pb-0 nav-principal__item">
-                        <button onClick={handleLogout} className="bg-transparent">
+                        <button onClick={handleLogout} className="bg-transparent font-semibold">
                             Logout
                         </button>
                     </li>

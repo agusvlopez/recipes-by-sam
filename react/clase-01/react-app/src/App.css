@@ -51,6 +51,31 @@ button {
   animation: rotation 1s linear infinite;
 }
 
+.loader-mini {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #FFF;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loader-mini::after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  border-bottom-color: #c2b4a8;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -71,6 +96,10 @@ button {
 
 .bgWhite {
   background-color: #EAEAEA;
+}
+
+.bgDark {
+  background-color: #202020;
 }
 
 .success-alert {
@@ -129,11 +158,15 @@ button {
 .nav-principal__item {
   background-color: #EAEAEA;
   padding: 5px 15px;
-  margin-right: 10px;
+  margin-bottom: 5px;
   text-decoration: none;
   color: #876445;
   border-radius: 5px;
   transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-principal__item a {
+  font-weight: 600;
 }
 
 .nav-principal__item:hover {
@@ -143,6 +176,60 @@ button {
 
 .logo-desktop {
   display: none;
+}
+
+.linkFooter {
+  list-style: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.linkFooter:hover {
+  color: #91745c;
+}
+
+.icon-twitter {
+  background-image: url('./covers/icons/twitter.png');
+  width: 25px;
+  height: 25px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  padding: 4px;
+}
+
+.icon-twitter:hover {
+  background-image: url('./covers/icons/twitter-brown.png');
+  cursor: pointer;
+}
+
+.icon-instagram {
+  background-image: url('./covers/icons/instagram.png');
+  width: 25px;
+  height: 25px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  padding: 4px;
+}
+
+.icon-instagram:hover {
+  background-image: url('./covers/icons/instagram-brown.png');
+  cursor: pointer;
+}
+
+.icon-facebook {
+  background-image: url('./covers/icons/facebook.png');
+  width: 25px;
+  height: 25px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  padding: 4px;
+}
+
+.icon-facebook:hover {
+  background-image: url('./covers/icons/facebook-brown.png');
+  cursor: pointer;
 }
 
 @media(min-width: 768px) {
@@ -161,10 +248,6 @@ button {
 
   .nav-principal li {
     list-style: none;
-  }
-
-  .nav-principal__item {
-    margin-bottom: 10px;
   }
 
   .logo-desktop {

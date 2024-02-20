@@ -8,11 +8,10 @@ function Header() {
         { url: '/about', texto: 'About' },
         { url: '/products', texto: 'Recipe Books', private: true },
         { url: '/contact', texto: 'Contact' },
-        // { url: '/faq', texto: 'FAQ' }
     ]);
 
     const handleClick = () => {
-        setLinks([...links, { url: '#', texto: 'Nuevo' }]);
+        setLinks([...links, { url: '#', texto: 'New' }]);
     };
 
     return (

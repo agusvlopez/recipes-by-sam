@@ -36,7 +36,7 @@ export default function HomePage() {
                 )}
                 <div className="container mx-auto">
                     <div className="text-center">
-                        <h1 className="text-4xl font-extrabold text-gray-900 leading-tight mb-4">
+                        <h1 className="text-4xl font-extrabold textBrown leading-tight mb-4">
                             Welcome to Recipes by Sam
                         </h1>
                         <p className="text-xl text-gray-600">
@@ -51,7 +51,7 @@ export default function HomePage() {
             <section className="py-12">
                 <div className="container mx-auto">
                     <div className="mb-8 text-center">
-                        <h2 className="text-3xl font-extrabold text-gray-900 leading-tight mb-4">
+                        <h2 className="text-3xl font-extrabold textBrown leading-tight mb-4">
                             Latest Recipe Books
                         </h2>
                         <p className="text-lg text-gray-600">
@@ -64,10 +64,10 @@ export default function HomePage() {
                         <>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                                 {latestProducts.map((product) => (
-                                    <div key={product._id} className="bg-white p-4 rounded-md shadow-md">
+                                    <Link to={`./products/${product._id}`} key={product._id} className="bg-white p-4 rounded-md shadow-md">
                                         <img src={product.file} alt="" />
                                         <h3 className="text-lg font-semibold mt-2">{product.name}</h3>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
                             <div className="flex justify-end mt-8">
