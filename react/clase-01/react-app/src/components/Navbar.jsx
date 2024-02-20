@@ -14,13 +14,13 @@ function Navbar({ links }) {
 
     return (
         <nav>
-            <div className='bgBrown p-2 pb-1 md:p-0'>
+            <div className="bgWhite p-2 pb-2 md:p-0 flex justify-between">
                 <button
-                    className="text-white focus:outline-none bgBrown md:hidden"
+                    className="text-white focus:outline-none bgWhite md:hidden"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
                     <svg
-                        className="w-6 h-6"
+                        className="w-6 h-6 textBrown"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -34,20 +34,26 @@ function Navbar({ links }) {
                         />
                     </svg>
                 </button>
+                <Link to="./" className="logo-mobile p-1">
+                    <img src="./src/covers/logo-horizontal.png" alt="logo" />
+                </Link>
             </div>
             <ul
-                className={`nav-principal bgBrown pb-2 ${isMenuOpen ? 'block' : 'hidden'} sm:flex sm:items-center`}
+                className={`nav-principal bgWhite pb-2 ${isMenuOpen ? 'block' : 'hidden'} sm:flex sm:items-center p-2`}
             >
+                <Link to="./" className="logo-desktop"><img src="./src/covers/logo-horizontal.png" alt="logo" /></Link>
                 {links.map((element, index) => {
                     if (element.private && !localStorage.getItem('token')) {
                         return null;
                     }
                     return (
-                        <li key={index} className="pb-2 md:pb-0 nav-principal__item pl-2">
-                            <Link to={element.url}>
-                                {element.texto}
-                            </Link>
-                        </li>
+                        <>
+                            <li key={index} className="pb-2 md:pb-0 nav-principal__item pl-2">
+                                <Link to={element.url}>
+                                    {element.texto}
+                                </Link>
+                            </li>
+                        </>
                     );
                 })}
 
