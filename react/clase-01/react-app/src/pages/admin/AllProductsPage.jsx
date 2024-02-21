@@ -4,7 +4,6 @@ import { Title } from "../../components/Title";
 import { Loader } from "../../components/Loader";
 import { useGetProductsQuery } from "../../features/apiSlice";
 
-
 function AdminProductsPage({ }) {
     const { data: products, isLoading } = useGetProductsQuery();
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);

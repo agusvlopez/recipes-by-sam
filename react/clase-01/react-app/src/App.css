@@ -4,6 +4,7 @@
 
 body {
   color: #876445;
+  background-color: #F3F4F6;
 }
 
 button {
@@ -232,6 +233,72 @@ button {
   cursor: pointer;
 }
 
+.section-about {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.section-about--images {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  margin: 0 auto;
+  transition: all 1s ease;
+  width: 70%;
+  margin-bottom: 1rem;
+}
+
+.images-container img {
+  position: relative;
+  border: 2px solid rgba(128, 128, 128, 0.322);
+  box-shadow: -25px 32px 75px -33px rgb(202, 202, 202);
+  transition: 1s;
+  border-radius: 1rem;
+}
+
+.images-container .image-3 {
+  width: 25vw;
+  top: 10px;
+  transform: rotate(-8deg);
+}
+
+.images-container .image-2 {
+  width: 25vw;
+  transform: rotate(-1deg);
+}
+
+.images-container .image-1 {
+  width: 25vw;
+  top: 10px;
+  transform: rotate(8deg);
+}
+
+.images-container .image-3:hover {
+  animation: cards 1s forwards;
+  z-index: 1;
+  transform: rotate(-8deg);
+}
+
+.images-container .image-2:hover {
+  animation: cards 1s forwards;
+  z-index: 1;
+  transform: rotate(0deg);
+}
+
+.images-container .image-1:hover {
+  animation: cards 1s forwards;
+  z-index: 1;
+  transform: rotate(9deg);
+}
+
+@keyframes cards {
+  to {
+    z-index: 2s ease-in-out;
+  }
+}
+
 @media(min-width: 768px) {
 
   .nav-principal {
@@ -256,5 +323,38 @@ button {
 
   .logo-mobile {
     display: none;
+  }
+
+  .section-about {
+    flex-direction: row;
+  }
+
+  .section-about--text {
+    padding: 1rem;
+  }
+
+  .section-about--images {
+    display: block;
+    width: 100%;
+  }
+
+  .images-container {
+    position: relative;
+  }
+
+  .images-container img {
+    position: absolute;
+  }
+
+  .images-container:nth-child(1) img {
+    left: 28px;
+  }
+
+  .images-container:nth-child(2) img {
+    left: 70px;
+  }
+
+  .images-container:nth-child(3) img {
+    left: 95px;
   }
 }
