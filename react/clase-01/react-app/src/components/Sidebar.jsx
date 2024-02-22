@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import SidebarItem from './SidebarItem';
 import { Title } from './Title';
 import { useState } from 'react';
-
+import logo from '../covers/logo-horizontal.png';
 
 function Sidebar({ activeTab, onTabClick }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,7 +12,7 @@ function Sidebar({ activeTab, onTabClick }) {
             <div className={`${isMenuOpen ? 'flex flex-shrink-0 w-64 flex-col' : 'hidden'} md:flex md:flex-shrink-0 w-64 md:flex-col bg-white`}>
                 <div className="p-5 border-b">
                     <Link to="./" className="flex items-center">
-                        <img src="./src/covers/logo-horizontal.png" alt="logo" />
+                        <img src={logo} alt="logo" />
                     </Link>
                 </div>
                 <SidebarItem to="/admin" text="Dashboard" active={activeTab === 'dashboard'} onTabClick={onTabClick} />

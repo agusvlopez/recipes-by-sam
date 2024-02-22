@@ -2,6 +2,7 @@ import { Title } from "../components/Title";
 import coverAbout from '../covers/about.jpg';
 import coverAbout2 from '../covers/about-2.jpg';
 import coverAbout3 from '../covers/about-3.jpg';
+
 export default function AboutPage() {
     return (
         <>

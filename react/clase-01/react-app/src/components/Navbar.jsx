@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import logo from '../covers/logo-horizontal.png';
 
 function Navbar({ links }) {
     const navigate = useNavigate();
@@ -35,7 +36,7 @@ function Navbar({ links }) {
                     </svg>
                 </button>
                 <Link to="./" className="logo-mobile p-1">
-                    <img src="./src/covers/logo-horizontal.png" alt="logo" />
+                    <img src={logo} alt="logo" />
                 </Link>
             </div>
             <ul
@@ -52,7 +53,7 @@ function Navbar({ links }) {
                         <>
                             <li key={index} className="pb-2 md:pb-0 nav-principal__item pl-2">
                                 <Link to={element.url}>
-                                    {element.texto}
+                                    {element.text}
                                 </Link>
                             </li>
                         </>

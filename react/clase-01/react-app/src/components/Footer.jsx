@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useGetProductsQuery } from '../features/apiSlice';
 import { Loader } from './Loader';
+import logo from '../covers/logo-white.png';
 
 const Footer = () => {
     const [links, setLinks] = useState([
@@ -19,7 +20,7 @@ const Footer = () => {
             <div className="container mx-auto p-6">
                 <div className="p-2 md:flex gap-8 md:justify-around">
                     <div>
-                        <img src="./src/covers/logo-white.png" alt="Logo" />
+                        <img src={logo} alt="Logo" />
                         <p className="text-lg mt-4 font-semibold">Ready to cook?</p>
                         <Link to="./contact" className="linkFooter">Sign up for our weekly newsletters!</Link>
                     </div>

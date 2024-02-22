@@ -4,14 +4,14 @@ import { Title } from './Title';
 
 function Header() {
     const [links, setLinks] = useState([
-        { url: '/', texto: 'Home' },
-        { url: '/about', texto: 'About' },
-        { url: '/products', texto: 'Recipe Books', private: true },
-        { url: '/contact', texto: 'Contact' },
+        { url: '/', text: 'Home' },
+        { url: '/about', text: 'About' },
+        { url: '/products', text: 'Recipe Books', private: true },
+        { url: '/contact', text: 'Contact' },
     ]);
 
     const handleClick = () => {
-        setLinks([...links, { url: '#', texto: 'New' }]);
+        setLinks([...links, { url: '#', text: 'New' }]);
     };
 
     return (
