@@ -7,9 +7,17 @@ body {
   background-color: #F3F4F6;
 }
 
-button {
+button,
+button[type="submit"] {
   background-color: #789395;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
+
+button:hover,
+button[type="submit"]:hover {
+  background-color: #789395e1;
+}
+
 
 .product-list {
   display: flex;
@@ -297,6 +305,19 @@ button {
   to {
     z-index: 2s ease-in-out;
   }
+}
+
+.recipes-books--title,
+.recipes-books--price {
+  color: #876445;
+  font-weight: 700;
+}
+
+.product-detail--comment,
+.product-detail--price,
+.product-detail--title {
+  color: #876445;
+  font-weight: 700;
 }
 
 @media(min-width: 768px) {

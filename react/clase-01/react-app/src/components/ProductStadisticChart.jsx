@@ -20,21 +20,11 @@ const ProductStadisticChart = () => {
                             label: 'Total Reviews',
                             data: productStadistics.map(stadistic => stadistic.totalComments),
                             backgroundColor: [
-                                'rgba(255, 99, 132, 0.5)',
                                 'rgba(255, 159, 64, 0.5)',
-                                'rgba(255, 205, 86, 0.5)',
-                                'rgba(75, 192, 192, 0.5)',
-                                'rgba(54, 162, 235, 0.5)',
-                                'rgba(153, 102, 255, 0.5)',
-                                'rgba(201, 203, 207, 0.8)'
                             ],
-                            borderColor: ['rgba(255, 99, 132, 0.5)',
+                            borderColor: [
                                 'rgba(255, 159, 64, 0.5)',
-                                'rgba(255, 205, 86, 0.5)',
-                                'rgba(75, 192, 192, 0.5)',
-                                'rgba(54, 162, 235, 0.5)',
-                                'rgba(153, 102, 255, 0.5)',
-                                'rgba(201, 203, 207, 0.8)'],
+                            ],
                             borderWidth: 1,
                         },
                     ]

@@ -186,7 +186,7 @@ const ProductPage = () => {
                             <div className="mb-4">
                                 <button
                                     type="submit"
-                                    className="bg-indigo-500 text-white p-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:border-indigo-700"
+                                    className="text-white p-2 rounded-md focus:outline-none focus:ring"
                                 >
                                     {isEditMode ? 'Update Product' : 'Add Product'}
                                 </button>

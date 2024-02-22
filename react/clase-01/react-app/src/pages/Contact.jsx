@@ -60,8 +60,7 @@ export default function Contact() {
                             </div>
 
                             <button
-                                type="submit"
-                                className="bg-indigo-500 text-white p-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:border-indigo-700"
+                                className="mt-2 text-white p-2 rounded-md"
                             >
                                 Send Message
                             </button>

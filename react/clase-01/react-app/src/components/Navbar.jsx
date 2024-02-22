@@ -61,7 +61,7 @@ function Navbar({ links }) {
 
                 {localStorage.getItem('token') ? (
                     <li className="pb-2 md:pb-0 nav-principal__item">
-                        <button onClick={handleLogout} className="bg-transparent font-semibold">
+                        <button onClick={handleLogout} className="bg-transparent hover:bg-transparent font-semibold">
                             Logout
                         </button>
                     </li>

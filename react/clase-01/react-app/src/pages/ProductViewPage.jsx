@@ -34,10 +34,10 @@ function ProductViewPage({ }) {
                                     <img src={product.file} alt="" />
                                 </div>
                                 <div>
-                                    <h2 className="text-2xl font-bold mb-4 mt-2 md:mt-0">{product.name}</h2>
+                                    <h2 className="text-2xl product-detail--title mb-4 mt-2 md:mt-0">{product.name}</h2>
                                     <p className="text-gray-700 mb-4">{product.description}</p>
                                     <div className="flex items-center justify-between">
-                                        <p className="text-gray-600">Price: ${product.price}</p>
+                                        <p className="product-detail--price">Price: ${product.price}</p>
                                     </div>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@ function ProductViewPage({ }) {
                                         }
                                         {comments?.map((comment, index) => (
 
-                                            <li key={index} className="mb-2 text-gray-800"><span className="block font-bold">{comment.user}</span>{comment.comment}</li>
+                                            <li key={index} className="mb-2"><span className="block product-detail--comment">{comment.user}</span><span className="text-gray-500">{comment.comment}</span></li>
                                         ))}
                                     </ul>
                                 </div>
@@ -65,7 +65,7 @@ function ProductViewPage({ }) {
                                     />
                                     <button
                                         onClick={handleCommentSubmit}
-                                        className="mt-2 bg-indigo-500 text-white p-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:border-indigo-700"
+                                        className="mt-2 text-white p-2 rounded-md"
                                     >
                                         {createReviewLoading ? <Loader loaderType="loader-button" /> : "Send Comment"}
                                     </button>
