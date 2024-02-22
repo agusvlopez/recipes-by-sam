@@ -43,7 +43,7 @@ function Navbar({ links }) {
                 className={`nav-principal bgWhite pb-2 ${isMenuOpen ? 'block' : 'hidden'} sm:flex sm:items-center p-2`}
             >
                 <Link to="./" className="logo-desktop">
-                    <img src="./src/covers/logo-horizontal.png" alt="logo" />
+                    <img src={logo} alt="logo" />
                 </Link>
                 {links.map((element, index) => {
                     if (element.private && !localStorage.getItem('token')) {
