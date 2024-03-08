@@ -320,6 +320,15 @@ button[type="submit"]:hover {
   font-weight: 700;
 }
 
+.logout--section {
+  display: flex;
+  gap: 5px;
+}
+
+.logout--icon {
+  width: 25px;
+}
+
 @media(min-width: 768px) {
 
   .nav-principal {

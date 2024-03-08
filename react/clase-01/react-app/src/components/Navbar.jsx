@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../covers/logo-horizontal.png';
+import logoutIcon from "../covers/icons/logout.png";
 
 function Navbar({ links }) {
     const navigate = useNavigate();
@@ -59,11 +60,17 @@ function Navbar({ links }) {
                         </>
                     );
                 })}
-
+                {localStorage.getItem('role') == 'admin' &&
+                    <li className="pb-2 md:pb-0 nav-principal__item">
+                        <Link to="/admin">
+                            Admin
+                        </Link>
+                    </li>
+                }
                 {localStorage.getItem('token') ? (
                     <li className="pb-2 md:pb-0 nav-principal__item">
-                        <button onClick={handleLogout} className="bg-transparent hover:bg-transparent font-semibold">
-                            Logout
+                        <button onClick={handleLogout} className="bg-transparent hover:bg-transparent font-semibold logout--section">
+                            <img src={logoutIcon} alt="Logout icon" className='logout--icon' /><span>Logout</span>
                         </button>
                     </li>
                 ) : (
@@ -80,13 +87,6 @@ function Navbar({ links }) {
                         </li>
                     </>
                 )}
-                {localStorage.getItem('role') == 'admin' &&
-                    <li className="pb-2 md:pb-0 nav-principal__item">
-                        <Link to="/admin">
-                            Admin
-                        </Link>
-                    </li>
-                }
             </ul>
         </nav >
     );
