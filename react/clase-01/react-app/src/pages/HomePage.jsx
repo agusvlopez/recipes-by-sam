@@ -80,12 +80,16 @@ export default function HomePage() {
                 </div>
             </section>
             <section className="newsletter--section py-12">
-                <h2 className="newsletter--title">Get the Latest Recipe Books!</h2>
-                <p className="newsletter--description">Join our newsletter.</p>
-                <form className="newsletter--form">
-                    <input type="email" placeholder="Your Email" className="newsletter--input" />
-                    <button type="submit" className="newsletter--submit">Subscribe</button>
-                </form>
+                <div className="relative max-w-4xl mx-auto">
+                    <span className="newsletter--icon-skillet"></span>
+                    <h2 className="newsletter--title">Get the Latest Recipe Books!</h2>
+                    <p className="newsletter--description">Join our newsletter.</p>
+                    <form className="newsletter--form">
+                        <input type="email" placeholder="Your Email" className="newsletter--input" />
+                        <button type="submit" className="newsletter--submit">Subscribe</button>
+                    </form>
+                    <span className="newsletter--icon-whisk"></span>
+                </div>
             </section>
         </>
     )

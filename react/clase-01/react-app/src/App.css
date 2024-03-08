@@ -349,7 +349,7 @@ button:hover,
 }
 
 .newsletter--section {
-  background-color: #D3756B;
+  background-color: #E98580;
 }
 
 .newsletter--title {
@@ -445,5 +445,32 @@ button:hover,
 
   .images-container:nth-child(3) img {
     left: 95px;
+  }
+
+  .newsletter--icon-skillet {
+    background-image: url("./covers/icons/skillet.png");
+    display: inline-block;
+    width: 110px;
+    height: 150px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0;
+    left: 45px;
+    opacity: 70%;
+  }
+
+  .newsletter--icon-whisk {
+    background-image: url("./covers/icons/whisk.png");
+    display: inline-block;
+    width: 60px;
+    height: 150px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 85px;
+    right: 85px;
+    margin-bottom: 2rem;
+    opacity: 70%;
   }
 }
