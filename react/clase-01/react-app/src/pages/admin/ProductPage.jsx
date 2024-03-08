@@ -186,7 +186,7 @@ const ProductPage = () => {
                             <div className="mb-4">
                                 <button
                                     type="submit"
-                                    className="text-white p-2 rounded-md focus:outline-none focus:ring"
+                                    className="text-white p-2 rounded-md focus:outline-none focus:ring form-submit--button"
                                 >
                                     {isEditMode ? 'Update Product' : 'Add Product'}
                                 </button>

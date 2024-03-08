@@ -8,13 +8,13 @@ body {
 }
 
 button,
-button[type="submit"] {
+.form-submit--button {
   background-color: #789395;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button:hover,
-button[type="submit"]:hover {
+.form-submit--button:hover {
   background-color: #789395e1;
 }
 
@@ -22,14 +22,15 @@ button[type="submit"]:hover {
   display: flex;
 }
 
-.product--card {
+.product--card,
+.home--card {
   border: 1px solid #ccc;
   transition: transform;
   box-shadow: -15px 32px 75px -33px rgb(202, 202, 202);
 }
 
-.product--card:hover {
-  opacity: 90%;
+.product--card:hover,
+.home--card:hover {
   transform: scale(1.007);
   transition: all 0.5s ease;
   box-shadow: -25px 32px 75px -33px rgb(138, 138, 138);
@@ -345,6 +346,46 @@ button[type="submit"]:hover {
 
 .admin--icon {
   width: 30px;
+}
+
+.newsletter--section {
+  background-color: #D3756B;
+}
+
+.newsletter--title {
+  color: #F3F4F6;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.newsletter--description {
+  color: #F3F4F6;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.newsletter--form {
+  display: flex;
+  justify-content: center;
+  padding: 1.2rem;
+  border-radius: 1rem;
+}
+
+.newsletter--input,
+.newsletter--submit {
+  padding: 0.5rem;
+}
+
+.newsletter--submit {
+  color: #F3F4F6;
+  background-color: #202020;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.newsletter--submit:hover {
+  background-color: #202020e0;
 }
 
 @media(min-width: 768px) {

@@ -4,7 +4,6 @@ import { Title } from './Title';
 
 function Header() {
     const [links, setLinks] = useState([
-        { url: '/', text: 'Home' },
         { url: '/about', text: 'About' },
         { url: '/products', text: 'Recipe Books', private: true },
         { url: '/contact', text: 'Contact' },

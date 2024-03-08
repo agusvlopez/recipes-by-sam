@@ -64,7 +64,7 @@ export default function HomePage() {
                         <>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                                 {latestProducts.map((product) => (
-                                    <Link to={`./products/${product._id}`} key={product._id} className="bg-white p-4 rounded-md shadow-md">
+                                    <Link to={`./products/${product._id}`} key={product._id} className="bg-white p-4 rounded-md shadow-md home--card">
                                         <img src={product.file} alt="" />
                                         <h3 className="text-lg font-semibold mt-2">{product.name}</h3>
                                     </Link>
@@ -78,6 +78,14 @@ export default function HomePage() {
                         </>
                     )}
                 </div>
+            </section>
+            <section className="newsletter--section py-12">
+                <h2 className="newsletter--title">Get the Latest Recipe Books!</h2>
+                <p className="newsletter--description">Join our newsletter.</p>
+                <form className="newsletter--form">
+                    <input type="email" placeholder="Your Email" className="newsletter--input" />
+                    <button type="submit" className="newsletter--submit">Subscribe</button>
+                </form>
             </section>
         </>
     )
