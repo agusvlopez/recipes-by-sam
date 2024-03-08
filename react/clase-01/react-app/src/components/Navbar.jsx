@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../covers/logo-horizontal.png';
 import logoutIcon from "../covers/icons/logout.png";
+import adminIcon from "../covers/icons/admin.png";
 
 function Navbar({ links }) {
     const navigate = useNavigate();
@@ -62,8 +63,8 @@ function Navbar({ links }) {
                 })}
                 {localStorage.getItem('role') == 'admin' &&
                     <li className="pb-2 md:pb-0 nav-principal__item">
-                        <Link to="/admin">
-                            Admin
+                        <Link to="/admin" className='admin--section'>
+                            <img src={adminIcon} alt="Admin icon" className='admin--icon' /><span>Admin</span>
                         </Link>
                     </li>
                 }

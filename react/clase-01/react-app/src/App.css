@@ -18,9 +18,21 @@ button[type="submit"]:hover {
   background-color: #789395e1;
 }
 
-
 .product-list {
   display: flex;
+}
+
+.product--card {
+  border: 1px solid #ccc;
+  transition: transform;
+  box-shadow: -15px 32px 75px -33px rgb(202, 202, 202);
+}
+
+.product--card:hover {
+  opacity: 90%;
+  transform: scale(1.007);
+  transition: all 0.5s ease;
+  box-shadow: -25px 32px 75px -33px rgb(138, 138, 138);
 }
 
 .loader {
@@ -320,13 +332,19 @@ button[type="submit"]:hover {
   font-weight: 700;
 }
 
-.logout--section {
+.logout--section,
+.admin--section {
   display: flex;
   gap: 5px;
+  align-items: center;
 }
 
 .logout--icon {
   width: 25px;
+}
+
+.admin--icon {
+  width: 30px;
 }
 
 @media(min-width: 768px) {

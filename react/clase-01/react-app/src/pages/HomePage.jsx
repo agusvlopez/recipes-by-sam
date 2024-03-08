@@ -45,7 +45,7 @@ export default function HomePage() {
                     </div>
                 </div>
                 <div className='pt-6'>
-                    <img src={coverHome} alt="" className='h-1/4' />
+                    <img src={coverHome} alt="" className='h-1/4 mx-auto' />
                 </div>
             </section>
             <section className="py-12">
