@@ -5,7 +5,7 @@
 :root {
   --color-primary: #876445;
   --color-secondary: #ffffff;
-  --color-grey: #444036;
+  --color-gray: #444036;
   --color-black: #202020;
   --background-primary: #F3F4F6;
   --background-button: #6d795c;
@@ -21,8 +21,8 @@ button,
 .form-submit--button {
   background-color: #789395;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
+  padding: 0.5rem 2rem;
+  /* border-radius: 0.25rem; */
 }
 
 button:hover,
@@ -274,6 +274,23 @@ button:hover,
   cursor: pointer;
 }
 
+.section-home--cover {
+  background-image: url("./covers/cover.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.section-home--buttons button {
+  background-color: var(--background-button);
+  color: var(--color-secondary);
+  font-weight: 600;
+}
+
+.section-home--buttons button:hover {
+  background-color: var(--background-button-hover);
+  color: var(--color-secondary);
+}
+
 .section-about {
   display: flex;
   flex-direction: column;
@@ -282,12 +299,12 @@ button:hover,
 }
 
 .section-about--title {
-  color: var(--background-button);
-  font-weight: 600;
+  color: var(--color-gray);
+  font-weight: 700;
 }
 
 /* .section-about--subtitle {
-  color: var(--color-grey);
+  color: var(--color-gray);
 } */
 
 .section-about--images {
@@ -352,7 +369,7 @@ button:hover,
 
 .recipes-books--title,
 .recipes-books--detail {
-  color: var(--color-grey);
+  color: var(--color-gray);
   font-weight: 700;
   text-align: center;
 }
@@ -370,11 +387,37 @@ button:hover,
   box-shadow: -25px 32px 75px -33px rgb(138, 138, 138);
 }
 
-.product-detail--comment,
-.product-detail--price,
-.product-detail--title {
-  color: #876445;
+.section-product--cover {
+  background-image: url("./covers/cover-bookrecipes2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.section-product-detail--comment,
+.section-product-detail--price,
+.section-product-detail--title {
   font-weight: 700;
+}
+
+.section-product-detail--comment {
+  color: var(--color-gray);
+}
+
+.section-product-detail--title {
+  border-bottom: 1.5px var(--color-primary) solid;
+  padding-bottom: 15px;
+}
+
+.section-product-detail--price {
+  font-size: 1.3rem;
+}
+
+.section-product-detail--button {
+  background-color: var(--background-button);
+}
+
+.section-product-detail--button:hover {
+  background-color: var(--background-button-hover);
 }
 
 .logout--section,
@@ -430,6 +473,21 @@ button:hover,
 
 .newsletter--submit:hover {
   background-color: #202020e0;
+}
+
+.animated-image {
+  animation: roundAnimation 5s forwards;
+}
+
+@keyframes roundAnimation {
+  0% {
+    border-radius: 0%;
+  }
+
+  50% {
+    border-radius: 50%;
+  }
+
 }
 
 @media(min-width: 768px) {

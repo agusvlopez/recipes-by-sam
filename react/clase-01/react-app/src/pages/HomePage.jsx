@@ -1,9 +1,8 @@
 import { useGetProductsQuery } from '../features/apiSlice';
-import coverHome from '../covers/home.jpg';
+import coverHome from '../covers/cover.jpg';
 import { Link, useLocation } from 'react-router-dom';
 import { Loader } from '../components/Loader';
 import { useEffect, useState } from 'react';
-import AboutPage from './AboutPage';
 import About from '../components/About';
 
 export default function HomePage() {
@@ -30,24 +29,28 @@ export default function HomePage() {
 
     return (
         <>
-            <section className="pt-8 bg-gray-100">
+            <section className="section-home--cover bg-gray-100">
                 {showSuccessMessage && (
                     <div className="success-alert">
                         {location.state.successMessage}
                     </div>
                 )}
-                <div className="container mx-auto">
-                    <div className="text-center">
+                <div className="py-32 px-16">
+                    <div className="text-left">
                         <h1 className="text-4xl font-extrabold textBrown leading-tight mb-4">
                             Welcome to Recipes by Sam
                         </h1>
-                        <p className="text-xl text-gray-600">
+                        <p className="text-xl text-gray-600 w-[40%]">
                             Find out delicius recipes and create incredible dishes with my recipe books.
                         </p>
+                        <div className="md:flex gap-8 mt-6 section-home--buttons">
+                            <button>Read More</button>
+                            <button>Contact Us</button>
+                        </div>
+                        {/* <div className='pt-6'>
+                            <img src={coverHome} alt="" className='h-1/4 mx-auto rounded-full animated-image' />
+                        </div> */}
                     </div>
-                </div>
-                <div className='pt-6'>
-                    <img src={coverHome} alt="" className='h-1/4 mx-auto' />
                 </div>
             </section>
             <section className="py-12 container max-w-5xl mx-auto mt-6 mb-6 p-4 gap-8 h-full md:h-screen">
