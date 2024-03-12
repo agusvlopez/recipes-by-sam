@@ -60,9 +60,10 @@ export default function HomePage() {
             <section className="py-12 bg-white">
                 <div className="container mx-auto">
                     <div className="mb-8 text-center">
-                        <h2 className="text-3xl font-extrabold textBrown leading-tight mb-4">
+                        <h2 className="pt-6 uppercase section-about--title">Our Recipe Books</h2>
+                        <h3 className="text-3xl font-extrabold textBrown leading-tight mb-4">
                             Latest Recipe Books
-                        </h2>
+                        </h3>
                         <p className="text-lg text-gray-600">
                             Explore our most popular recipe books and surprise your loved ones.
                         </p>

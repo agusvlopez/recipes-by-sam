@@ -5,6 +5,8 @@
 :root {
   --color-primary: #876445;
   --color-secondary: #ffffff;
+  --color-grey: #444036;
+  --color-black: #202020;
   --background-primary: #F3F4F6;
   --background-button: #6d795c;
   --background-button-hover: #6d795ce7;
@@ -21,7 +23,6 @@ button,
   transition: background-color 0.3s ease, transform 0.3s ease;
   padding: 0.5rem;
   border-radius: 0.25rem;
-  font-size: 18px;
 }
 
 button:hover,
@@ -35,15 +36,23 @@ button:hover,
 
 .product--card,
 .home--card {
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   transition: transform;
-  box-shadow: -15px 32px 75px -33px rgb(202, 202, 202);
+  /* box-shadow: -15px 32px 75px -33px rgb(202, 202, 202); */
 }
 
 .product--card:hover,
 .home--card:hover {
   transform: scale(1.007);
   transition: all 0.5s ease;
+  /* box-shadow: -25px 32px 75px -33px rgb(138, 138, 138); */
+}
+
+.product--card-img {
+  transition: all 0.5s ease;
+}
+
+.product--card-img:hover {
   box-shadow: -25px 32px 75px -33px rgb(138, 138, 138);
 }
 
@@ -277,6 +286,10 @@ button:hover,
   font-weight: 600;
 }
 
+/* .section-about--subtitle {
+  color: var(--color-grey);
+} */
+
 .section-about--images {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -338,9 +351,23 @@ button:hover,
 }
 
 .recipes-books--title,
-.recipes-books--price {
-  color: #876445;
+.recipes-books--detail {
+  color: var(--color-grey);
   font-weight: 700;
+  text-align: center;
+}
+
+.recipes-books--detail {
+  transition: all 0.5s ease;
+  color: var(--color-primary);
+}
+
+.recipes-books--detail:hover {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  padding: 0 0.5rem;
+  opacity: 90%;
+  box-shadow: -25px 32px 75px -33px rgb(138, 138, 138);
 }
 
 .product-detail--comment,
@@ -445,6 +472,8 @@ button:hover,
     color: var(--color-secondary);
     transition: background-color 0.3s ease, transform 0.3s ease;
     font-weight: 500;
+    padding: 0.8rem;
+    border-radius: 0;
   }
 
   .section-about--button:hover {

@@ -7,7 +7,7 @@ export default function About() {
     return (
         <>
             <div id="about" className="p-2 section-about md:flex md:gap-6">
-                <div className="section-about--text">
+                <div className="section-about--text text-gray-600">
                     <p className="mb-4 pt-2">
                         Welcome to our <strong>recipe website</strong>! We are passionate about cooking and
                         sharing delicious recipes with food enthusiasts like you.
