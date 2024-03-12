@@ -2,15 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: #876445;
+  --color-secondary: #ffffff;
+  --background-primary: #F3F4F6;
+  --background-button: #6d795c;
+  --background-button-hover: #6d795ce7;
+}
+
 body {
-  color: #876445;
-  background-color: #F3F4F6;
+  color: var(--color-primary);
+  background-color: var(--background-primary);
 }
 
 button,
 .form-submit--button {
   background-color: #789395;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 18px;
 }
 
 button:hover,
@@ -261,6 +272,11 @@ button:hover,
 
 }
 
+.section-about--title {
+  color: var(--background-button);
+  font-weight: 600;
+}
+
 .section-about--images {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -281,18 +297,19 @@ button:hover,
 
 .images-container .image-3 {
   width: 25vw;
-  top: 10px;
+  top: -80px;
   transform: rotate(-8deg);
 }
 
 .images-container .image-2 {
   width: 25vw;
+  top: -75px;
   transform: rotate(-1deg);
 }
 
 .images-container .image-1 {
   width: 25vw;
-  top: 10px;
+  top: -80px;
   transform: rotate(8deg);
 }
 
@@ -349,7 +366,7 @@ button:hover,
 }
 
 .newsletter--section {
-  background-color: #E98580;
+  background-color: #808d6c;
 }
 
 .newsletter--title {
@@ -360,10 +377,10 @@ button:hover,
 }
 
 .newsletter--description {
-  color: #F3F4F6;
+  color: #ffffff;
   text-align: center;
   font-size: 1.4rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .newsletter--form {
@@ -420,6 +437,18 @@ button:hover,
 
   .section-about--text {
     padding: 1rem;
+    padding-bottom: 0;
+  }
+
+  .section-about--button {
+    background-color: var(--background-button);
+    color: var(--color-secondary);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: 500;
+  }
+
+  .section-about--button:hover {
+    background-color: var(--background-button-hover);
   }
 
   .section-about--images {

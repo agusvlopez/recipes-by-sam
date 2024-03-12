@@ -3,6 +3,8 @@ import coverHome from '../covers/home.jpg';
 import { Link, useLocation } from 'react-router-dom';
 import { Loader } from '../components/Loader';
 import { useEffect, useState } from 'react';
+import AboutPage from './AboutPage';
+import About from '../components/About';
 
 export default function HomePage() {
 
@@ -48,7 +50,14 @@ export default function HomePage() {
                     <img src={coverHome} alt="" className='h-1/4 mx-auto' />
                 </div>
             </section>
-            <section className="py-12">
+            <section className="py-12 container max-w-5xl mx-auto mt-6 mb-6 p-4 gap-8 h-full md:h-screen">
+                <div className="w-[50%]">
+                    <h2 className="pl-6 pt-6 uppercase section-about--title">About Us</h2>
+                    <h3 className="pl-6 pt-2 text-4xl font-bold section-about--subtitle ">The Beginning Of Your Healthy Lifestyle</h3>
+                </div>
+                <About />
+            </section>
+            <section className="py-12 bg-white">
                 <div className="container mx-auto">
                     <div className="mb-8 text-center">
                         <h2 className="text-3xl font-extrabold textBrown leading-tight mb-4">
@@ -72,7 +81,7 @@ export default function HomePage() {
                             </div>
                             <div className="flex justify-end mt-8">
                                 <Link to="./products" className="textBrown font-bold text-lg hover:underline">
-                                    See more recipe books
+                                    See more recipe books »
                                 </Link>
                             </div>
                         </>
@@ -83,7 +92,7 @@ export default function HomePage() {
                 <div className="relative max-w-4xl mx-auto">
                     <span className="newsletter--icon-skillet"></span>
                     <h2 className="newsletter--title">Get the Latest Recipe Books!</h2>
-                    <p className="newsletter--description">Join our newsletter.</p>
+                    <h3 className="newsletter--description">Join our newsletter.</h3>
                     <form className="newsletter--form">
                         <input type="email" placeholder="Your Email" className="newsletter--input" />
                         <button type="submit" className="newsletter--submit">Subscribe</button>
