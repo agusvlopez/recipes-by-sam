@@ -37,15 +37,15 @@ export default function HomePage() {
                 )}
                 <div className="py-32 px-16">
                     <div className="text-left">
-                        <h1 className="text-4xl font-extrabold textBrown leading-tight mb-4">
+                        <h1 className="section-home--title text-4xl font-extrabold leading-tight mb-4">
                             Welcome to Recipes by Sam
                         </h1>
                         <p className="text-xl text-gray-600 w-[40%]">
                             Find out delicius recipes and create incredible dishes with my recipe books.
                         </p>
                         <div className="md:flex gap-8 mt-6 section-home--buttons">
-                            <button>Read More</button>
-                            <button>Contact Us</button>
+                            <Link to="/about"><button>Read More</button></Link>
+                            <Link to="/contact"><button>Contact Us</button></Link>
                         </div>
                         {/* <div className='pt-6'>
                             <img src={coverHome} alt="" className='h-1/4 mx-auto rounded-full animated-image' />
@@ -53,7 +53,7 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
-            <section className="py-12 container max-w-5xl mx-auto mt-6 mb-6 p-4 gap-8 h-full md:h-screen">
+            <section id="about" className="py-12 container max-w-5xl mx-auto mt-6 p-4 gap-8 h-full md:h-screen">
                 <div className="w-[50%]">
                     <h2 className="pl-6 pt-6 uppercase section-about--title">About Us</h2>
                     <h3 className="pl-6 pt-2 text-4xl font-bold section-about--subtitle ">The Beginning Of Your Healthy Lifestyle</h3>
@@ -84,7 +84,7 @@ export default function HomePage() {
                                 ))}
                             </div>
                             <div className="flex justify-end mt-8">
-                                <Link to="./products" className="textBrown font-bold text-lg hover:underline">
+                                <Link to="/products" className="textBrown font-bold text-lg hover:underline">
                                     See more recipe books »
                                 </Link>
                             </div>

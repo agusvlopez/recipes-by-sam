@@ -60,7 +60,7 @@ export default function Contact() {
                             </div>
 
                             <button
-                                className="mt-2 text-white p-2 rounded-md"
+                                className="section-contact--button mt-2 text-white p-2 rounded-md"
                             >
                                 Send Message
                             </button>

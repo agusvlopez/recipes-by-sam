@@ -274,6 +274,10 @@ button:hover,
   cursor: pointer;
 }
 
+.section-home--title {
+  color: var(--color-gray);
+}
+
 .section-home--cover {
   background-image: url("./covers/cover.jpg");
   background-size: cover;
@@ -488,6 +492,15 @@ button:hover,
     border-radius: 50%;
   }
 
+}
+
+.section-contact--button {
+  background-color: var(--background-button);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.section-contact--button:hover {
+  background-color: var(--background-button-hover);
 }
 
 @media(min-width: 768px) {
