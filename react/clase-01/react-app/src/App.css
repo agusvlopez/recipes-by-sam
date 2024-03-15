@@ -331,19 +331,19 @@ button:hover,
 
 .images-container .image-3 {
   width: 25vw;
-  top: -80px;
+  top: 20px;
   transform: rotate(-8deg);
 }
 
 .images-container .image-2 {
   width: 25vw;
-  top: -75px;
+  top: 10px;
   transform: rotate(-1deg);
 }
 
 .images-container .image-1 {
   width: 25vw;
-  top: -80px;
+  top: 20px;
   transform: rotate(8deg);
 }
 
@@ -562,6 +562,24 @@ button:hover,
 
   .images-container img {
     position: absolute;
+  }
+
+  .images-container .image-3 {
+    width: 25vw;
+    top: -80px;
+    transform: rotate(-8deg);
+  }
+
+  .images-container .image-2 {
+    width: 25vw;
+    top: -75px;
+    transform: rotate(-1deg);
+  }
+
+  .images-container .image-1 {
+    width: 25vw;
+    top: -80px;
+    transform: rotate(8deg);
   }
 
   .images-container:nth-child(1) img {

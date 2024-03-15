@@ -35,15 +35,15 @@ export default function HomePage() {
                         {location.state.successMessage}
                     </div>
                 )}
-                <div className="py-32 px-16">
+                <div className="p-4 md:py-32 md:px-16">
                     <div className="text-left">
                         <h1 className="section-home--title text-4xl font-extrabold leading-tight mb-4">
                             Welcome to Recipes by Sam
                         </h1>
-                        <p className="text-xl text-gray-600 w-[40%]">
+                        <p className="text-xl text-gray-600 md:w-[40%]">
                             Find out delicius recipes and create incredible dishes with my recipe books.
                         </p>
-                        <div className="md:flex gap-8 mt-6 section-home--buttons">
+                        <div className="flex flex-col md:flex-row gap-4 md:gap-8 mt-6 section-home--buttons">
                             <Link to="/about"><button>Read More</button></Link>
                             <Link to="/contact"><button>Contact Us</button></Link>
                         </div>
@@ -53,14 +53,14 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
-            <section id="about" className="py-12 container max-w-5xl mx-auto mt-6 p-4 gap-8 h-full md:h-screen">
-                <div className="w-[50%]">
-                    <h2 className="pl-6 pt-6 uppercase section-about--title">About Us</h2>
-                    <h3 className="pl-6 pt-2 text-4xl font-bold section-about--subtitle ">The Beginning Of Your Healthy Lifestyle</h3>
+            <section id="about" className="py-12 container max-w-5xl mx-auto mt-6 p-4 gap-8 h-full">
+                <div className="md:w-[50%]">
+                    <h2 className="md:pl-6 pt-6 uppercase section-about--title">About Us</h2>
+                    <h3 className="md:pl-6 pt-2 text-4xl font-bold section-about--subtitle ">The Beginning Of Your Healthy Lifestyle</h3>
                 </div>
                 <About />
             </section>
-            <section className="py-12 bg-white">
+            <section className="py-12 p-4 bg-white">
                 <div className="container mx-auto">
                     <div className="mb-8 text-center">
                         <h2 className="pt-6 uppercase section-about--title">Our Recipe Books</h2>
