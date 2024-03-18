@@ -94,7 +94,6 @@ async function createProduct(product) {
     }
 }
 
-
 async function updateProductImageInDatabase(idProduct, imagePath, filename) {
     try {
         await client.connect();

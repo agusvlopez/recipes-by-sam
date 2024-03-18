@@ -3,7 +3,7 @@ import { Title } from "../components/Title";
 export default function Contact() {
     return (
         <>
-            <div className="container mx-auto mt-6 p-4">
+            <div className="container mx-auto mt-6 p-4 py-12 mb-6">
                 <Title>Contact</Title>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -60,7 +60,7 @@ export default function Contact() {
                             </div>
 
                             <button
-                                className="section-contact--button mt-2 text-white p-2 rounded-md"
+                                className="section-contact--button mt-2 text-white p-2"
                             >
                                 Send Message
                             </button>
