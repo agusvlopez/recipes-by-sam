@@ -148,11 +148,10 @@ button:hover,
   background-color: #876445;
   color: #fff;
   padding: 10px;
-  margin-top: 10px;
   border-radius: 5px;
   text-align: center;
   width: fit-content;
-  /* margin: 1rem; */
+  margin: 0 1rem;
 }
 
 .success-alert-products {

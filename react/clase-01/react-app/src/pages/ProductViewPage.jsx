@@ -68,11 +68,11 @@ function ProductViewPage({ }) {
                                         placeholder="Add a comment..."
                                         value={newComment}
                                         onChange={handleNewComment}
-                                        className="p-2 border rounded-md w-full"
+                                        className="p-2 border w-full"
                                     />
                                     <button
                                         onClick={handleCommentSubmit}
-                                        className="section-product-detail--button mt-2 text-white p-2 rounded-md"
+                                        className="section-product-detail--button mt-2 text-white p-2"
                                     >
                                         {createReviewLoading ? <Loader loaderType="loader-button" /> : "Send Comment"}
                                     </button>

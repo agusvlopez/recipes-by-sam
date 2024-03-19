@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Chart as ChartJS, defaults } from 'chart.js/auto';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { useGetProductStadisticsQuery } from '../features/apiSlice';
+import { Loader } from './Loader';
 
 const ProductStadisticChart = () => {
     const { data: productStadistics = [], isLoading, isError } = useGetProductStadisticsQuery();
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <div><Loader /></div>;
     if (isError) return <div>Error loading product statistics</div>;
 
     return (
