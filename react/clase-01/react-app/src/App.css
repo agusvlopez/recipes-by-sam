@@ -35,14 +35,16 @@ button:hover,
 }
 
 .product--card,
-.home--card {
+.home--card,
+.product-card--admin {
   /* border: 1px solid #ccc; */
   transition: transform;
   /* box-shadow: -15px 32px 75px -33px rgb(202, 202, 202); */
 }
 
 .product--card:hover,
-.home--card:hover {
+.home--card:hover,
+.product-card--admin:hover {
   transform: scale(1.007);
   transition: all 0.5s ease;
   /* box-shadow: -25px 32px 75px -33px rgb(138, 138, 138); */
