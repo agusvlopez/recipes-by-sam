@@ -1,23 +1,13 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Title } from "./Title";
+import { Link } from "react-router-dom";
 import { Loader } from "./Loader";
 import { useGetProductsQuery } from "../features/apiSlice";
-import cover from '../covers/cover.jpg';
 
 function ProductsList({ }) {
 
     const { data: products, isLoading } = useGetProductsQuery();
 
-    const truncateDescription = (description) => {
-        return description.length > 100 ? description.substring(0, 100) + "..." : description;
-    };
-
     return (
         <>
-            {/* <div className=''>
-                <img src={cover} alt="" className='h-1/4 mx-auto' />
-            </div> */}
             <div>
                 <div className="text-center mb-6 py-16 section-product--cover">
                     <h1 className="uppercase section-about--title">All Recipe Books</h1>
@@ -36,7 +26,6 @@ function ProductsList({ }) {
                                     <div className=" p-6 rounded-md product--card">
                                         <img src={product.file} alt={product.name} className="product--card-img w-full h-48 object-cover mb-4" />
                                         <h2 className="text-xl mb-2 recipes-books--title">{product.name}</h2>
-                                        {/* <p className="text-gray-500 mb-4">{truncateDescription(product.description)}</p> */}
                                         <div className="flex items-center justify-center">
                                             <p className="recipes-books--detail">See detail</p>
                                         </div>
