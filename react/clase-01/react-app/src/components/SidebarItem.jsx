@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 
 function SidebarItem({ to, text, active, onTabClick }) {
     const handleClick = () => {
-        onTabClick(text); // Pasa el nombre de la pestaña al padre cuando se hace clic
+        onTabClick(text);
     };
 
     return (
