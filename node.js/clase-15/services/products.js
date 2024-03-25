@@ -137,7 +137,6 @@ async function updateProduct(idProduct, productData) {
             file: oldProduct.file,
         };
 
-        // Si hay un nuevo archivo, actualizar la propiedad 'file' en 'updatedProduct'
         if (productData.file) {
             updatedProduct.file = productData.file;
             // Eliminar la imagen anterior si existe
